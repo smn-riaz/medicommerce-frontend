@@ -1,11 +1,13 @@
-import React from 'react';
+import UserProfile from "@/components/dashboard/user/UserProfile";
+
 
 const UserDashboardPage = () => {
-    return (
-        <div>
-            User Dashboard Page
-        </div>
-    );
+
+  return (
+    <div className="flex justify-center items-center p-10">
+      <UserProfile />
+    </div>
+  );
 };
 
 export default UserDashboardPage;

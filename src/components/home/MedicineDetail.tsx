@@ -15,6 +15,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { addItemToCart } from "@/redux/features/cartSlice";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 
 
@@ -50,20 +51,24 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           <div className="">
             <div>
-              <img
+              <Image
+              width={400}
+              height={300}
                 src={selectedImage}
                 alt={medicine.name}
-                className="w-full max-w-xs h-64 object-cover rounded-lg shadow-lg"
+                className="max-w-xs h-64 object-cover rounded-lg shadow-lg"
               />
             </div>
 
             <div className="mt-4 flex space-x-4 justify-start">
               {medicine.imageUrl.map((image, index) => (
-                <img
+                <Image
+                width={70}
+                height={70}
                   key={index}
                   src={image}
                   alt={`${medicine.name} Thumbnail ${index + 1}`}
-                  className={`w-20 h-20 object-cover rounded-lg cursor-pointer transition-transform hover:scale-105 ${
+                  className={` object-cover rounded-lg cursor-pointer transition-transform hover:scale-105 ${
                     selectedImage === image ? "border-2 border-primary" : ""
                   }`}
                   onClick={() => setSelectedImage(image)}

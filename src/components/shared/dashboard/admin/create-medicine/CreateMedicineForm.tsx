@@ -67,23 +67,24 @@ const CreateMedicineForm = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      const uploadedLinks: string[] = [
-        "https://www.shutterstock.com/image-photo/black-rowan-berries-on-branches-red-159086927",
-      ];
+      const uploadedLinks: string[] = [];
 
-      // for (let i = 0; i < imageFiles.length; i++) {
-      //   const formData = new FormData();
-      //   formData.append("image", imageFiles[i]);
+      for (let i = 0; i < imageFiles.length; i++) {
+        const formData = new FormData();
+        formData.append("image", imageFiles[i]);
 
-      //   const res = await imageToLink(formData);
-      //   if (res?.data?.url) {
-      //     uploadedLinks.push(res.data.url);
-      //   }
-      // }
+        try {
+          const res = await imageToLink(formData);
+          if (res?.data?.url) {
+            uploadedLinks.push(res.data.url); 
+          }
+        } catch (error) {
+          console.error("Error uploading image:", error);
+        }
+      }
 
-      // setImageLinks(uploadedLinks);
 
-      if (true || imageLinks.length>0) {
+      if (uploadedLinks.length===imageFiles.length) {
         const medicineData: IMedicine = {
           name: data.name,
           type: data.type,
@@ -103,15 +104,17 @@ const CreateMedicineForm = () => {
 
         if (res.success) {
           toast.success(res?.message, { duration: 1400 })
-          router.push('admin/medicines')
+          router.push('/admin/medicines')
         } else {
           toast.error(res?.message, { duration: 1400 });
         }
+      } else {
+        toast.error("Image Upload Error", { duration: 1400 });
       }
     } catch (err: any) {
       console.error("Upload error:", err);
     }
-  };
+  }
 
   return (
     <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-2xl p-5 my-5">
@@ -346,7 +349,7 @@ const CreateMedicineForm = () => {
                   <ImageUploader
                     setImageFiles={setImageFiles}
                     setImagePreview={setImagePreview}
-                    label="Upload Prescription"
+                    label="Upload Medicine Images"
                   />
                 </div>
               )}

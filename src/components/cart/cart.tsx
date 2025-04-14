@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Trash2, Plus, Minus, Image } from "lucide-react";
+import { Trash2, Plus, Minus , ImageUp, ShoppingCart} from "lucide-react";
 import {
   addOrderInfo,
   clearCart,
@@ -20,6 +20,8 @@ import ImagePreviewer from "../shared/dashboard/admin/ImageUploader/ImagePreview
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { imageToLink } from "@/services/medicine";
+import Image from "next/image";
+import { Alert, AlertDescription } from "../ui/alert";
 
 const Cart = () => {
   const router = useRouter();
@@ -98,12 +100,15 @@ const Cart = () => {
   };
 
   return (
+    <div className="flex justify-center items-center"> {cartItems.length> 0 ?
     <div className="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
       <div className="md:col-span-2 space-y-4">
         {cartItems.map((item) => (
           <Card key={item.id}>
             <CardContent className="flex items-start space-x-4 p-4">
-              <img
+              <Image
+              width={40}
+              height={40}
                 src={item.image}
                 alt={item.name}
                 className="w-24 h-24 object-cover rounded-xl"
@@ -120,7 +125,7 @@ const Cart = () => {
                   <p className="text-sm mt-3  text-red-700 flex gap-x-2">
                     {" "}
                     <span className="font-semibold">PRESCRIPTION</span>{" "}
-                    <Image />
+                    <ImageUp />
                   </p>
                 )}
               </div>
@@ -155,7 +160,7 @@ const Cart = () => {
         ))}
       </div>
 
-      <Card className="h-fit">
+    <Card className="h-fit">
         <CardContent className="p-4 space-y-4">
           <h2 className="text-lg font-semibold">Order Summary</h2>
           <ul className="space-y-1 text-sm">
@@ -236,7 +241,14 @@ const Cart = () => {
           <p className="text-yellow-600 font-medium text-center">Shipping Address Required!</p>
           }
         </CardContent>
-      </Card>
+      </Card> 
+      
+    </div> : <div className=" min-h-[50vh] flex justify-center items-center">
+    
+    <p className="text-yellow-700 font-semibold text-2xl">No Items in Cart</p>
+
+</div>}
+
     </div>
   );
 };

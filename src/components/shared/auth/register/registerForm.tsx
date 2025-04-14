@@ -51,7 +51,7 @@ export default function RegisterForm() {
       const res = await registerUser(data);
       if (res?.success) {
         toast.success(res?.message, {duration:1400});
-        // router.push("/")
+        router.push("/user")
       } else {
         toast.error(res?.message,{duration:1400});
       }

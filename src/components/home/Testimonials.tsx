@@ -3,6 +3,7 @@
 import { TReview } from '@/types';
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const Testimonials = ({reviews}:{reviews:TReview[]}) => {
     return (
@@ -17,10 +18,12 @@ const Testimonials = ({reviews}:{reviews:TReview[]}) => {
           className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition-transform h-full flex flex-col"
         >
           <div className="flex items-center gap-4 mb-4">
-            <img
+            <Image
+            width={50}
+            height={50}
               src={review.image}
               alt={review.name}
-              className="w-12 h-12 rounded-full object-cover"
+              className="rounded-full object-cover"
             />
             <div>
               <h4 className="font-semibold">{review.name}</h4>

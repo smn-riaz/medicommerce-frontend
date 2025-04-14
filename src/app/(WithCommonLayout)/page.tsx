@@ -11,8 +11,8 @@ const HomePage = async() => {
   return (
     <main className='my-16'>
       <HomeBanner />
-      <Carousel medicines={medicines.slice(0,5)}/>
-      <AllProducts medicines={medicines.slice(0,6)}/>
+      <Carousel medicines={medicines.slice(0,4)}/>
+      <AllProducts medicines={medicines.slice(1,7)}/>
       <Testimonials reviews={reviews}/>
     </main>
   );

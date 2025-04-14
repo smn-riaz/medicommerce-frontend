@@ -20,11 +20,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 
-import {useRouter } from "next/navigation";
+import {usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { loginSchema } from "./loginValidation";
 import Logo from "@/components/home/Logo";
-import { loginUser } from "@/services/auth";
+import { getCurrentUser, loginUser } from "@/services/auth";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useUser } from "@/context/UserContext";
@@ -35,7 +35,9 @@ import { useUser } from "@/context/UserContext";
 export default function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false)
-  const {setIsLoading} = useUser()
+  const {setIsLoading, setUser} = useUser()
+
+
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -48,35 +50,38 @@ export default function LoginForm() {
 
 
 
-// const searchParams = useSearchParams()
+const searchParams = useSearchParams()
 
-// const redirect = searchParams.get("redirectPath")
+const redirect = searchParams.get("redirectPath")
 
 const router = useRouter()
 
 
+const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+  try {
+    const res = await loginUser(data);
 
+    const user = await getCurrentUser()
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-  
-    try {
-      const res = await loginUser(data);
-      if (res?.success) {
-        toast.success(res?.message, {duration:1400})
-        setIsLoading(true)
-        // if(redirect){
-        //   router.push(redirect)
-        // } else {
-            router.push("/")
-        // }
+    if (res?.success) {
+      setUser(user)
+
+      toast.success(res?.message, {duration:1400})
+
+      if(redirect){
+        router.push(redirect)
       } else {
-        toast.error(res?.message,{duration:1400});
-        
+   
+        router.push(`/${user?.role}`)
       }
-    } catch (err: any) {
-      console.error(err);
+    } else {
+      toast.error(res?.message,{duration:1400});
+      
     }
+  } catch (err: any) {
+    console.error(err);
   }
+};
 
 
 

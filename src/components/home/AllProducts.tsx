@@ -12,6 +12,7 @@ import { IconRight } from "react-day-picker";
 const AllProducts =  ({ medicines }: { medicines: TMedicineResponse[] }) => {
 const pathname = usePathname()
 
+
   return (
     <section>
       <SectionHeadline headline="Everything You Need for Better Care" />
