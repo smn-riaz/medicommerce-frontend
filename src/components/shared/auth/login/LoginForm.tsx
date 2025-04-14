@@ -20,13 +20,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 
-import {useRouter,  useSearchParams } from "next/navigation";
+import {useRouter } from "next/navigation";
 
 import { loginSchema } from "./loginValidation";
 import Logo from "@/components/home/Logo";
 import { loginUser } from "@/services/auth";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useUser } from "@/context/UserContext";
 
 
 
@@ -34,6 +35,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 export default function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false)
+  const {setIsLoading} = useUser()
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -46,9 +48,9 @@ export default function LoginForm() {
 
 
 
-const searchParams = useSearchParams()
+// const searchParams = useSearchParams()
 
-const redirect = searchParams.get("redirectPath")
+// const redirect = searchParams.get("redirectPath")
 
 const router = useRouter()
 
@@ -60,12 +62,13 @@ const router = useRouter()
     try {
       const res = await loginUser(data);
       if (res?.success) {
-        toast.success(res?.message, {duration:1400});
-        if(redirect){
-          router.push(redirect)
-        } else {
-          router.push("/profile")
-        }
+        toast.success(res?.message, {duration:1400})
+        setIsLoading(true)
+        // if(redirect){
+        //   router.push(redirect)
+        // } else {
+            router.push("/")
+        // }
       } else {
         toast.error(res?.message,{duration:1400});
         
@@ -98,7 +101,7 @@ const router = useRouter()
               <FormItem>
                 <FormLabel className="mt-4">Email</FormLabel>
                 <FormControl>
-                  <Input type="email" {...field} value={field.value || ""} />
+                  <Input type="email"  {...field} value={field.value || ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

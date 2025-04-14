@@ -19,9 +19,8 @@ import {
 
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
-// import { toast } from "@/components/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon,  ImageUp } from "lucide-react";
+import { CalendarIcon, ImageUp } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 
@@ -32,7 +31,14 @@ import {
 } from "@/components/ui/popover";
 import { Checkbox } from "@/components/ui/checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createMedicineSchema } from "@/components/shared/dashboard/admin/createMedicineSchema";
+import { createMedicineSchema } from "@/components/shared/dashboard/admin/create-medicine/createMedicineSchema";
+import ImageUploader from "../ImageUploader";
+import { useState } from "react";
+import { createMedicine, imageToLink } from "@/services/medicine";
+import ImagePreviewer from "../ImageUploader/ImagePreviewer";
+import { IMedicine } from "@/types";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const medicineTypes = [
   "Tablet",
@@ -44,30 +50,67 @@ const medicineTypes = [
 ];
 
 const CreateMedicineForm = () => {
-  const form = useForm({resolver:zodResolver(createMedicineSchema)});
+  const [imageFiles, setImageFiles] = useState<File[] | []>([]);
+  const [imageLinks, setImageLinks] = useState<string[]>([]);
+  const [imagePreview, setImagePreview] = useState<string[] | []>([]);
+  const router = useRouter()
 
+  const form = useForm({
+    resolver: zodResolver(createMedicineSchema),
+    defaultValues: {
+      requiredPrescription: false,
+    },
+  });
   const {
     formState: { isSubmitting },
   } = form;
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    try {
+      const uploadedLinks: string[] = [
+        "https://www.shutterstock.com/image-photo/black-rowan-berries-on-branches-red-159086927",
+      ];
 
-console.log(data);
-    // try {
-    //   const formData = new FormData();
-    //   formData.append("data", JSON.stringify(modifiedData));
-    //   formData.append("logo", imageFiles[0] as File);
+      // for (let i = 0; i < imageFiles.length; i++) {
+      //   const formData = new FormData();
+      //   formData.append("image", imageFiles[i]);
 
-    //   const res = await createShop(formData);
+      //   const res = await imageToLink(formData);
+      //   if (res?.data?.url) {
+      //     uploadedLinks.push(res.data.url);
+      //   }
+      // }
 
-    //   console.log(res);
+      // setImageLinks(uploadedLinks);
 
-    //   if (res.success) {
-    //     toast.success(res.message);
-    //   }
-    // } catch (err: any) {
-    //   console.error(err);
-    // }
+      if (true || imageLinks.length>0) {
+        const medicineData: IMedicine = {
+          name: data.name,
+          type: data.type,
+          description: data.description,
+          price: data.price,
+          discount: data.discount,
+          manufacturer: data.manufacturer,
+          quantity: data.quantity,
+          requiredPrescription: data.requiredPrescription,
+          expireDate: data.expireDate,
+          imageUrl: uploadedLinks,
+          inStock: true,
+        };
+
+      
+        const res = await createMedicine(medicineData);
+
+        if (res.success) {
+          toast.success(res?.message, { duration: 1400 })
+          router.push('admin/medicines')
+        } else {
+          toast.error(res?.message, { duration: 1400 });
+        }
+      }
+    } catch (err: any) {
+      console.error("Upload error:", err);
+    }
   };
 
   return (
@@ -81,7 +124,6 @@ console.log(data);
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-
             <FormField
               control={form.control}
               name="name"
@@ -103,11 +145,13 @@ console.log(data);
                 <FormItem className="mb-3">
                   <FormLabel>Price</FormLabel>
                   <FormControl>
-                    <Input  type="number"
-          min={1}
-          {...field}
-          value={field.value}
-          onChange={(e) => field.onChange(Number(e.target.value))} />
+                    <Input
+                      type="number"
+                      min={1}
+                      {...field}
+                      value={field.value}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -121,11 +165,13 @@ console.log(data);
                 <FormItem className="mb-3">
                   <FormLabel>Discount</FormLabel>
                   <FormControl>
-                    <Input  type="number"
-          min={0}
-          {...field}
-          value={field.value}
-          onChange={(e) => field.onChange(Number(e.target.value))} />
+                    <Input
+                      type="number"
+                      min={0}
+                      {...field}
+                      value={field.value}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -153,11 +199,13 @@ console.log(data);
                 <FormItem className="mb-3">
                   <FormLabel>Quantity</FormLabel>
                   <FormControl>
-                    <Input  type="number"
-          min={1}
-          {...field}
-          value={field.value}
-          onChange={(e) => field.onChange(Number(e.target.value))} />
+                    <Input
+                      type="number"
+                      min={1}
+                      {...field}
+                      value={field.value}
+                      onChange={(e) => field.onChange(Number(e.target.value))}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -168,22 +216,24 @@ console.log(data);
               control={form.control}
               name="requiredPrescription"
               render={({ field }) => (
-                <FormItem >
-                   <FormLabel >Prescrption</FormLabel>
+                <FormItem>
+                  <FormLabel>Prescription</FormLabel>
                   <span className="flex flex-row items-start space-x-3 space-y-0">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel className="text-sm font-normal">
-                    {field.value ? (
-                      <span className="text-green-700 flex gap-3">PRESCRIPTION <ImageUp size={20}/></span>
-                    ) : (
-                      <del>PRESCRIPTION</del>
-                    )}
-                  </FormLabel>
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel className="text-sm font-normal">
+                      {field.value ? (
+                        <span className="text-green-700 flex gap-3">
+                          PRESCRIPTION <ImageUp size={20} />
+                        </span>
+                      ) : (
+                        <del>PRESCRIPTION</del>
+                      )}
+                    </FormLabel>
                   </span>
                   <FormMessage />
                 </FormItem>
@@ -247,8 +297,17 @@ console.log(data);
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
+                        selected={
+                          field.value ? new Date(field.value) : undefined
+                        }
+                        onSelect={(date) => {
+                          if (date) {
+                            const formattedDate = date
+                              .toISOString()
+                              .split("T")[0]
+                            field.onChange(formattedDate);
+                          }
+                        }}
                         disabled={(date) => date < new Date()}
                         initialFocus
                       />
@@ -281,22 +340,31 @@ console.log(data);
               />
             </div>
 
-            {/* {imagePreview.length > 0 ? (
-                <ImagePreviewer
-                  setImageFiles={setImageFiles}
-                  imagePreview={imagePreview}
-                  setImagePreview={setImagePreview}
-                  className="mt-8"
-                />
-              ) : (
-                <div className="mt-8">
-                  <NMImageUploader
+            <div className="">
+              {imageFiles.length < 3 && imagePreview.length < 3 && (
+                <div className="mt-6">
+                  <ImageUploader
                     setImageFiles={setImageFiles}
                     setImagePreview={setImagePreview}
-                    label="Upload Logo"
+                    label="Upload Prescription"
                   />
                 </div>
-              )} */}
+              )}
+              {(imageFiles.length === 3 || imagePreview.length === 3) && (
+                <p className="text-red-500 text-sm font-semibold">
+                  Maximum Image Selected!
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="my-2 mt-8">
+            <ImagePreviewer
+              className="sm:flex justify-center items-center gap-4"
+              setImageFiles={setImageFiles}
+              imagePreview={imagePreview}
+              setImagePreview={setImagePreview}
+            />
           </div>
 
           <Button type="submit" className="mt-5 w-full">

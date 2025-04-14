@@ -56,6 +56,19 @@ const ManageUser = ({ data }: { data: IUser[] }) => {
     {
       accessorKey: "role",
       header: "Role",
+      cell: ({ row }) => (
+        <div>
+          {row.original.role === "user" ? (
+            <p className="text-green-500 border bg-green-100 w-14 text-center font-semibold px-1 rounded">
+              {row.original.role}
+            </p>
+          ) : (
+            <p className="text-blue-500 border bg-red-100 w-14 text-center font-semibold px-1 rounded">
+                {row.original.role} 
+            </p>
+          )}
+        </div>
+      ),
     },
     
     {
@@ -70,13 +83,17 @@ const ManageUser = ({ data }: { data: IUser[] }) => {
       accessorKey: "action",
       header: () => <div>Action</div>,
       cell: ({ row }) => (
-        <button
-          className="text-red-500"
+        <>
+        { row.original.role === "user" &&
+          <button
+          className="text-red-500 cursor-pointer"
           title="Delete"
           onClick={() => handleDelete(row.original)}
         >
           <Trash className="w-5 h-5" />
         </button>
+        }
+        </>
       ),
     },
     

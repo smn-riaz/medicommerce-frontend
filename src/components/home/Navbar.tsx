@@ -2,18 +2,34 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Menu, X, ShoppingCart } from 'lucide-react'
+import { Menu, X, ShoppingCart, BellRing } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import logo from "../../assets/logo.png"
 import { usePathname } from 'next/navigation'
 import Logo from './Logo'
+import { useUser } from '@/context/UserContext'
+import { logout } from '@/services/auth'
+import { Badge } from '../ui/badge'
+import { Skeleton } from '../ui/skeleton'
+import { useAppSelector } from '@/redux/hooks'
+import { totalQuantitySelector } from '@/redux/features/cartSlice'
+import { NotificationPopover } from './NotificationPopup'
 
 export default function Navbar() {
+
+  const totalQuantity = useAppSelector(totalQuantitySelector)
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const pathname = usePathname()
-  console.log(pathname);
+ 
+  const {user, setIsLoading, isLoading} = useUser()
+
+ const handleLogOut = () => {
+  logout()
+  setIsLoading(true)
+ }
 
   return (
     <nav className="w-full bg-white border-b shadow-sm fixed top-0 left-0 z-50 mb-20">
@@ -31,16 +47,30 @@ export default function Navbar() {
           <Link href="/about"  className={`hover:text-primary transition ${pathname === "/about" ? "text-primary font-semibold":""}`}>About</Link>
           <Link href="/shop" className={`hover:text-primary transition ${pathname === "/shop" ? "text-primary font-semibold":""}`}>Medicines</Link>
           <Link href="/admin/medicines" className="hover:text-primary transition">Dashboard</Link>
+          {
+  user?.name && <div className='hidden md:flex items-center'>
+  <Badge>{user.name.toUpperCase()}</Badge>
+  </div>
+}
         </div>
 
-       
         <div className="hidden md:flex items-center gap-4">
           <Link href="/cart" className={`flex justify-center items-center ${pathname === "/cart" ? "text-primary font-semibold":""}`}>
-            <ShoppingCart className="w-6 h-6 hover:text-primary transition" /> <sup className=''><Button className="rounded-full bg-accent-content text-white cursor-pointer w-[30px] h-[30px]">{5}</Button></sup>
+            <ShoppingCart className="w-6 h-6 hover:text-primary transition" /> {totalQuantity>0 && <sup className=''><Button className="rounded-full bg-accent-content text-white cursor-pointer w-[30px] h-[30px]">{totalQuantity}</Button></sup>}
           </Link>
-          <Link href="/login">
-            <Button >Login</Button>
-          </Link>
+          {
+            (isLoading && !user?.email) ? <Skeleton className="w-[70px] h-[40px] rounded-md bg-[#f2eded]" /> : 
+            <>
+             {
+            (user?.email) ? (<Button onClick={handleLogOut} className='bg-amber-600 hover:bg-amber-600 cursor-pointer'>Logout</Button>) : (<Link href="/login">
+              <Button >Login</Button>
+            </Link>)
+          }
+            </>
+          }
+         
+         
+         <NotificationPopover />
         </div>
 
        

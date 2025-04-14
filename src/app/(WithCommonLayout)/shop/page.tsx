@@ -5,7 +5,7 @@ import React from 'react';
 const AllMedicinesPage = async() => {
     const {data:medicines} = await getAllMedicine()
     return (
-        <div>
+        <div className='my-18 pt-10'>
             <AllProducts medicines={medicines}/>
         </div>
     );

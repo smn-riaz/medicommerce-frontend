@@ -1,16 +1,134 @@
-import { createSlice } from "@reduxjs/toolkit";
 
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 
-const initialState = {}
+interface ICartItem {
+  id: string;
+  name: string;
+  description:string;
+  quantity: number;
+  price: number;
+  image:string
+  type:string
+  prescription:boolean
+}
+
+interface ICartState {
+  items: ICartItem[];
+  totalQuantity: number;
+  totalPrice: number;
+  shippingInfo:{
+    shippingAddress:string
+    shippingCity:string
+  }
+  prescriptionImage?:string
+  shippingCost?:number
+}
+
+const initialState: ICartState = {
+  items: [],
+  totalQuantity: 0,
+  totalPrice: 0,
+  shippingInfo:{
+    shippingAddress:"",
+    shippingCity:""
+  },
+  prescriptionImage:"",
+  shippingCost:60
+};
 
 const cartSlice = createSlice({
-    name:"cart",
-    initialState,
-    reducers:{
-        addToCart: (state, action) => {
+  name: 'cart',
+  initialState,
+  reducers: {
+    addItemToCart: (state, action: PayloadAction<ICartItem>) => {
+      const item = action.payload;
+      const existingItem = state.items.find((i) => i.id === item.id);
 
+      if (existingItem) {
+        existingItem.quantity += item.quantity;
+      } else {
+        state.items.push(item);
+      }
+
+      state.totalQuantity += item.quantity;
+      state.totalPrice += item.price * item.quantity;
+    },
+
+    increaseQuanity:(state,action: PayloadAction<string> ) => {
+        const itemId = action.payload
+        const itemToIncrease = state.items.find((item) => item.id === itemId)
+
+        if(itemToIncrease){
+            itemToIncrease.quantity +=1
+            state.totalQuantity +=1
+            state.totalPrice += itemToIncrease.price
         }
-    }
-})
+        return
 
-export default cartSlice.reducer
+    },
+
+    decreaseQuanity:(state,action: PayloadAction<string> ) => {
+        const itemId = action.payload
+        const itemToIncrease = state.items.find((item) => item.id === itemId)
+
+        if(itemToIncrease){
+            itemToIncrease.quantity -=1
+            state.totalQuantity -=1
+            state.totalPrice -= itemToIncrease.price
+        }
+        return
+
+    },
+
+    removeItemFromCart: (state, action: PayloadAction<string>) => {
+      const itemId = action.payload;
+      const itemToRemove = state.items.find((item) => item.id === itemId);
+
+      if (itemToRemove) {
+        state.items = state.items.filter((item) => item.id !== itemId);
+        state.totalQuantity -= itemToRemove.quantity;
+        state.totalPrice -= itemToRemove.price * itemToRemove.quantity;
+      }
+    },
+
+    clearCart: (state) => {
+      state.items = [];
+      state.totalQuantity = 0;
+      state.totalPrice = 0;
+    },
+
+    addOrderInfo : (state, action) => {
+      state.prescriptionImage = action.payload.prescription,
+      state.shippingInfo = action.payload.shippingInfo
+    }
+  },
+});
+
+
+export const totalQuantitySelector = (state:RootState) => {
+    return state.cart.totalQuantity
+}
+
+
+export const orderSelector = (state: RootState) => {
+
+  return {
+     products:  state.cart.items.map(product => ({
+      productId: product.id,
+      quantity:product.quantity,
+      name:product.name,
+      price:product.price
+     })),
+    shippingInfo:state.cart.shippingInfo,
+    shippingCost:state.cart.shippingCost,
+    totalPrice:state.cart.totalPrice,
+    prescription:state.cart.prescriptionImage
+
+
+  }
+}
+
+export const { addItemToCart, removeItemFromCart, clearCart,increaseQuanity,decreaseQuanity, addOrderInfo } = cartSlice.actions;
+
+export default cartSlice.reducer;

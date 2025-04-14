@@ -6,12 +6,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
-import { TMedicine } from '@/types';
+import { TMedicineResponse } from '@/types';
 import Link from 'next/link';
 
 
 
-export default function MedicineCard({ medicine }: { medicine: TMedicine }) {
+export default function MedicineCard({ medicine }: { medicine: TMedicineResponse }) {
   const { name, description, price, discount, imageUrl, _id} = medicine;
 
   return (

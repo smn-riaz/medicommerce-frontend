@@ -2,21 +2,21 @@
 
 import React from "react";
 import MedicineCard from "./MedicineCard";
-import { TMedicine } from "@/types";
+import { TMedicineResponse } from "@/types";
 import SectionHeadline from "../shared/home/sectionHeadline";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { IconRight } from "react-day-picker";
 
-const AllProducts =  ({ medicines }: { medicines: TMedicine[] }) => {
+const AllProducts =  ({ medicines }: { medicines: TMedicineResponse[] }) => {
 const pathname = usePathname()
 
   return (
     <section>
       <SectionHeadline headline="Everything You Need for Better Care" />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-6 m-6">
-        {medicines.map((medicine: TMedicine, index) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 p-6 ">
+        {medicines.map((medicine: TMedicineResponse, index) => (
           <MedicineCard key={index} medicine={medicine} />
         ))}
       </div>

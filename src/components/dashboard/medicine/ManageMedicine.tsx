@@ -2,23 +2,24 @@
 import DeleteConfirmationModal from "@/components/shared/dashboard/MMModal";
 import { MMTable } from "@/components/shared/dashboard/MMTable";
 import { Button } from "@/components/ui/button";
-import { TMedicine } from "@/types";
+import { TMedicineResponse } from "@/types";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Trash } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 
 
 
-const ManageMedicine = ({ data }: { data: TMedicine[] }) => {
+const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
-  const handleDelete = (data: TMedicine) => {
+  const handleDelete = (data: TMedicineResponse) => {
     setSelectedId(data?._id);
     setSelectedItem(data?.name);
     setModalOpen(true);
@@ -41,7 +42,7 @@ const ManageMedicine = ({ data }: { data: TMedicine[] }) => {
     }
   };
 
-  const columns: ColumnDef<TMedicine>[] = [
+  const columns: ColumnDef<TMedicineResponse>[] = [
     {
       accessorKey: "name",
       header: "Name",
@@ -142,7 +143,7 @@ const ManageMedicine = ({ data }: { data: TMedicine[] }) => {
   return (
     <div>
       <div className="flex items-center justify-end my-4">
-        <Button>Create Medicine</Button>
+        <Link href="/admin/create-medicine"><Button>Create Medicine</Button></Link>
       </div>
       <div className="flex items-center justify-between">
         <MMTable data={data} columns={columns} />

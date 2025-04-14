@@ -8,7 +8,7 @@ export const createMedicineSchema = z.object({
     discount: z.number().min(0).max(100).default(0),
     manufacturer: z.string().min(1, "Manufacturer is required"),
     quantity: z.number().min(0, "Quantity cannot be negative"),
-    expireDate: z.date(), 
-    // inStock: z.boolean().default(true),    
+    expireDate: z.string(), 
+    inStock: z.boolean().default(true).optional(),    
     requiredPrescription: z.boolean(),    
 })

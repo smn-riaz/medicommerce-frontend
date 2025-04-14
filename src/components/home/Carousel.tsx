@@ -7,12 +7,12 @@ import "swiper/css/pagination";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { TMedicine } from "@/types";
+import { TMedicineResponse } from "@/types";
 import SectionHeadline from "../shared/home/sectionHeadline";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Carousel({ medicines }: { medicines: TMedicine[] }) {
+export default function Carousel({ medicines }: { medicines: TMedicineResponse[] }) {
   return (
     <div className="p-8 min-h-screen">
       <SectionHeadline headline="Popular Medicines" />

@@ -1,22 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
+import { IMedicine } from "@/types"
 import { revalidateTag } from "next/cache"
 
-export const createMedicine = async(data:FormData) => {
+export const createMedicine = async(medicineData:IMedicine) => {
     try {
        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/product/create-product`, {
         method:"POST",
         headers:{
-            Authorization: ""
+            Authorization: "",
+            "content-Type":'application/json'
         },
-        body:data
+        body:JSON.stringify(medicineData)
        })
 
        revalidateTag("MEDICINE")
 
        return res.json()
-
         
     } catch (error:any) {
         return Error(error)
@@ -78,3 +79,19 @@ export const getSingleMedicine = async (medicineId: string) => {
       return Error(error.message);
     }
   };
+
+
+  export const imageToLink = async(image:FormData) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_IMGBB_API_LINK}?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`, {
+        method: 'POST',
+        body: image,
+      });
+
+      return await res.json();
+
+    } catch (error:any) {
+      return Error(error)
+    }
+  
+  }
