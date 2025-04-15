@@ -1,12 +1,12 @@
 "use server"
 
-export const makeOrder = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/payment/make-payment`, {
+export const makeOrder = async (orderInfo:any) => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/create-order`, {
         method:"POST",
         headers:{
             'Content-type':"application/json"
         },
-        body:JSON.stringify({totalAmount:50, name:"user", email:'user@yahoo.com', shippingAddress:"banianagar", shippingCity:'Dhaka'})
+        body:JSON.stringify(orderInfo)
     })
 
     const result = res.json()

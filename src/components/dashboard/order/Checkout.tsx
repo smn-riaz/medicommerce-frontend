@@ -28,8 +28,8 @@ const Checkout = () => {
   const { user, setIsLoading, isLoading } = useUser();
 
   const handleOrder = async() => {
-    const res = await makeOrder()
-    router.push(res.data)
+    // const res = await makeOrder()
+    // router.push(res.data)
   }
 
   return (

@@ -18,7 +18,6 @@ import {
   ShoppingCart,
 } from "lucide-react"
 import { useUser } from "@/context/UserContext"
-import { getCurrentUser } from "@/services/auth"
 
 const UserProfile =  () => {
   const { user } = useUser()

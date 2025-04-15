@@ -1,3 +1,7 @@
+"use server"
+import { revalidateTag } from "next/cache";
+
+
 export const getAllUser = async() => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user`, {
@@ -15,16 +19,20 @@ export const getAllUser = async() => {
 
 
 
-  export const deleteSingleUser = async (medicineId: string) => {
+  export const deleteSingleUser = async (userId: string) => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API}/product/${medicineId}`,
+        `${process.env.NEXT_PUBLIC_BASE_API}/user/${userId}`,
+        
         {
-          next: {
-            tags: ["MEDICINE"],
+          headers:{
+            Authorization:""
           },
+          method:"DELETE"
         }
-      );
+      )
+      revalidateTag("MEDICINE")
+
       const data = await res.json();
       return data;
       

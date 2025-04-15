@@ -2,6 +2,7 @@
 import DeleteConfirmationModal from "@/components/shared/dashboard/MMModal";
 import { MMTable } from "@/components/shared/dashboard/MMTable";
 import { Button } from "@/components/ui/button";
+import { deleteSingleUser } from "@/services/user";
 import { IUser } from "@/types";
 
 import { ColumnDef } from "@tanstack/react-table";
@@ -9,6 +10,7 @@ import { Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 
 
@@ -27,16 +29,16 @@ const ManageUser = ({ data }: { data: IUser[] }) => {
 
   const handleDeleteConfirm = async () => {
     try {
-      //   if (selectedId) {
-      //     const res = await deleteCategory(selectedId);
-      //     console.log(res);
-      //     if (res.success) {
-      //       toast.success(res.message);
-      //       setModalOpen(false);
-      //     } else {
-      //       toast.error(res.message);
-      //     }
-      //   }
+        if (selectedId) {
+          const res = await deleteSingleUser(selectedId);
+          
+          if (res.success) {
+            toast.success(res.message);
+            setModalOpen(false);
+          } else {
+            toast.error(res.message);
+          }
+        }
     } catch (err: any) {
       console.error(err?.message);
     }
