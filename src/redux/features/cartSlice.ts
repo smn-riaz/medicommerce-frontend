@@ -99,11 +99,14 @@ const cartSlice = createSlice({
     },
 
     addOrderInfo : (state, action) => {
-      state.prescriptionImage = action.payload.prescription,
       state.shippingInfo = action.payload.shippingInfo
+    },
+    addPrescription: (state, action) => {
+      state.prescriptionImage = action.payload
     }
   },
 });
+
 
 
 export const totalQuantitySelector = (state:RootState) => {
@@ -125,10 +128,9 @@ export const orderSelector = (state: RootState) => {
     totalPrice:state.cart.totalPrice,
     prescription:state.cart.prescriptionImage
 
-
   }
 }
 
-export const { addItemToCart, removeItemFromCart, clearCart,increaseQuanity,decreaseQuanity, addOrderInfo } = cartSlice.actions;
+export const { addItemToCart, removeItemFromCart,addPrescription, clearCart,increaseQuanity,decreaseQuanity, addOrderInfo } = cartSlice.actions;
 
 export default cartSlice.reducer;

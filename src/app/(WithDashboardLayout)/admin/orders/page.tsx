@@ -1,10 +1,14 @@
+import ManageOrders from '@/components/dashboard/admin/orders/ManageOrders';
+import { getAllOrder } from '@/services/order';
 import React from 'react';
 
-const OrdersPage = () => {
+const OrdersPage = async () => {
+    const {data} =  await getAllOrder()
+
     return (
-        <div>
-            Orders Page
-        </div>
+        <div className='overflow-x-auto w-full'>
+        <ManageOrders data={data}/>
+      </div>
     );
 };
 

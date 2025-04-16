@@ -12,7 +12,7 @@ import { useUser } from "@/context/UserContext";
 import { Badge } from "@/components/ui/badge";
 import { BadgeDollarSign } from "lucide-react";
 import Image from "next/image";
-import { createOrderWithPrescription, makeOrder } from "@/services/order";
+import { createOrderWithPrescription } from "@/services/order";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -24,6 +24,7 @@ const Checkout = () => {
   const { shippingInfo, shippingCost, totalPrice, prescription, products } =
     orderInfo;
 
+    console.log(orderInfo);
 
 
   const { user, setIsLoading, isLoading } = useUser();
@@ -48,7 +49,7 @@ const Checkout = () => {
   
       if (res?.success) {
 
-        toast.success(res?.message, {duration:3000})
+        toast.success("Order is created successfully!", {duration:3000})
         
       } else {
         toast.error(res?.message,{duration:1400});

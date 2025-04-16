@@ -37,10 +37,10 @@ export function AppSidebar({items}:{items:TItem[]}) {
               {items.map((item:TItem) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url} className={`${pathname === item.url ? "text-primary font-semibold": ""}`}>
+                    <Link href={item.url} className={`${pathname === item.url ? "text-primary font-semibold": ""}`}>
                       <item.icon />
                       <span >{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

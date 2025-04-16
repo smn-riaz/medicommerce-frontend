@@ -6,9 +6,11 @@ import { Separator } from "@/components/ui/separator";
 import { Trash2, Plus, Minus , ImageUp, ShoppingCart} from "lucide-react";
 import {
   addOrderInfo,
+  addPrescription,
   clearCart,
   decreaseQuanity,
   increaseQuanity,
+  orderSelector,
   removeItemFromCart,
 } from "@/redux/features/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -24,21 +26,33 @@ import Image from "next/image";
 import { Alert, AlertDescription } from "../ui/alert";
 
 const Cart = () => {
-  const router = useRouter();
+  const router = useRouter()
+
+  const orderInfo = useAppSelector(orderSelector);
+
+
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
 
-  const [imagePreview, setImagePreview] = useState<string[] | []>([]);
+ const [imagePreview, setImagePreview] = useState<string[]>(
+  orderInfo?.prescription ? [orderInfo.prescription] : []
+)
 
-  const [prescription, setPrescription] = useState("");
+  const [prescription, setPrescription] = useState<string>("");
+
+
 
   useEffect(() => {
     const uploadImage = async () => {
       const formData = new FormData();
       formData.append("image", imageFiles[0]);
 
-      const res = await imageToLink(formData);
-      if (res?.data?.url) {
-        setPrescription(res.data.url);
+      const res = await imageToLink(formData)
+
+      const imgUrl = res?.data?.url
+
+      if (imgUrl) {
+        setPrescription(imgUrl)
+        dispatch(addPrescription(imgUrl))
       }
     };
 
@@ -47,14 +61,17 @@ const Cart = () => {
     }
   }, [imageFiles]);
 
-  const [shippingInfo, setShippingInfo] = useState({
-    shippingAddress: "",
-    shippingCity: "",
-  });
+  const [shippingInfo, setShippingInfo] = useState(orderInfo.shippingInfo);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setShippingInfo((prev) => ({ ...prev, [name]: value }));
+    setShippingInfo((prev) => ({ ...prev, [name]: value }))
+    if(shippingInfo){
+      dispatch(
+        addOrderInfo({
+          shippingInfo
+        }))
+    }
   };
 
   const { items: cartItems, totalPrice } = useAppSelector(
@@ -84,16 +101,29 @@ const Cart = () => {
     dispatch(clearCart());
   };
 
+
   const handleSubmit = () => {
     if (cartItems.length>0) {
-      dispatch(
-        addOrderInfo({
-          prescription: prescription,
-          shippingInfo,
-        })
-      )
-
-      router.push("/user/checkout");
+      if(cartItems.some((cart) => cart.prescription) && prescription){
+     
+        dispatch(
+          addOrderInfo({
+            shippingInfo
+          })
+        )
+  
+        router.push("/user/checkout");
+      } else if((cartItems.some((cart) => cart.prescription)) && !prescription) {
+        toast.warning("Image Upload Error")
+      } else {
+       
+        dispatch(
+          addOrderInfo({
+            shippingInfo
+          })
+        )
+        router.push("/user/checkout");
+      }
     } else {
       toast.warning("No Product in CART😔")
     }
@@ -214,6 +244,7 @@ const Cart = () => {
                     imagePreview={imagePreview}
                     setImagePreview={setImagePreview}
                   />
+                  {prescription && <p className="text-center font-semibold text-sm text-green-600">Image uploaded successfully</p>}
                 </div>
               ) : (
                 <div className="mt-8">
@@ -224,6 +255,7 @@ const Cart = () => {
                   />
                 </div>
               )}
+              
             </div>
           )}
 
@@ -232,7 +264,7 @@ const Cart = () => {
             onClick={handleSubmit}
             disabled={
               cartItems.some((cart) => cart.prescription) &&
-              imageFiles.length < 1
+              !prescription
             }
             className="w-full bg-yellow-500 hover:bg-yellow-600 text-white"
           >

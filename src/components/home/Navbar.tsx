@@ -55,7 +55,7 @@ export default function Navbar() {
           <Link href="/" className="hover:text-primary transition">Home</Link>
           <Link href="/about"  className={`hover:text-primary transition ${pathname === "/about" ? "text-primary font-semibold":""}`}>About</Link>
           <Link href="/shop" className={`hover:text-primary transition ${pathname === "/shop" ? "text-primary font-semibold":""}`}>Medicines</Link>
-          <Link href={`/${user?.role}`} className="hover:text-primary transition">Dashboard</Link>
+          {user?.role && <Link href={`/${user?.role}`} className="hover:text-primary transition">Dashboard</Link>}
           {
   user?.name && <div className='hidden md:flex items-center'>
   <Badge>{user.name.toUpperCase()}</Badge>
