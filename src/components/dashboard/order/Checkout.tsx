@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useAppSelector } from "@/redux/hooks";
-import { orderSelector } from "@/redux/features/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { clearCart, orderSelector } from "@/redux/features/cartSlice";
 
 import { useUser } from "@/context/UserContext";
 import { Badge } from "@/components/ui/badge";
@@ -21,10 +21,10 @@ const Checkout = () => {
   const orderInfo = useAppSelector(orderSelector);
   const router = useRouter()
 
+  const dispatch = useAppDispatch()
+
   const { shippingInfo, shippingCost, totalPrice, prescription, products } =
     orderInfo;
-
-    console.log(orderInfo);
 
 
   const { user, setIsLoading, isLoading } = useUser();
@@ -40,19 +40,28 @@ const Checkout = () => {
       shippingCost,
       totalPrice: Number(totalPrice + (shippingCost ?? 60)),
       prescriptionReviewStatus:"pending",
-      status:"pending"
+      orderStatus:"pending",
+      paymentStatus:false
     }
 
+   
   
     if(prescription){
       const res = await createOrderWithPrescription(orderedProductInfo);
+
+
   
       if (res?.success) {
 
         toast.success("Order is created successfully!", {duration:3000})
+
+        dispatch(clearCart())
+
+        router.push("/user/orders")
         
       } else {
         toast.error(res?.message,{duration:1400});
+       
       }
     }
 

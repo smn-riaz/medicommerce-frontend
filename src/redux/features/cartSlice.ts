@@ -96,6 +96,7 @@ const cartSlice = createSlice({
       state.items = [];
       state.totalQuantity = 0;
       state.totalPrice = 0;
+      state.prescriptionImage = ""
     },
 
     addOrderInfo : (state, action) => {

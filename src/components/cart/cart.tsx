@@ -37,7 +37,9 @@ const Cart = () => {
   orderInfo?.prescription ? [orderInfo.prescription] : []
 )
 
-  const [prescription, setPrescription] = useState<string>("");
+  const [prescription, setPrescription] = useState<string>(
+    orderInfo?.prescription? orderInfo.prescription : ""
+  );
 
 
 
