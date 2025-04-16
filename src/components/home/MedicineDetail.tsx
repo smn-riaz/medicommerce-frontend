@@ -23,6 +23,8 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
 
   const router = useRouter()
 
+  
+
   const [selectedImage, setSelectedImage] = useState(medicine.imageUrl[0]);
 
   const dispatch = useAppDispatch()

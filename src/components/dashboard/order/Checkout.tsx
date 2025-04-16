@@ -12,8 +12,9 @@ import { useUser } from "@/context/UserContext";
 import { Badge } from "@/components/ui/badge";
 import { BadgeDollarSign } from "lucide-react";
 import Image from "next/image";
-import { makeOrder } from "@/services/order";
+import { createOrderWithPrescription, makeOrder } from "@/services/order";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 
 const Checkout = () => {
@@ -26,10 +27,40 @@ const Checkout = () => {
 
 
   const { user, setIsLoading, isLoading } = useUser();
+  
 
   const handleOrder = async() => {
-    // const res = await makeOrder()
-    // router.push(res.data)
+    try {
+    const orderedProductInfo = {
+      userId:user?.id,
+      products,
+      prescription,
+      shippingInfo,
+      shippingCost,
+      totalPrice: Number(totalPrice + (shippingCost ?? 60)),
+      prescriptionReviewStatus:"pending",
+      status:"pending"
+    }
+
+  
+    if(prescription){
+      const res = await createOrderWithPrescription(orderedProductInfo);
+  
+      if (res?.success) {
+
+        toast.success(res?.message, {duration:3000})
+        
+      } else {
+        toast.error(res?.message,{duration:1400});
+      }
+    }
+
+   
+    } catch (err: any) {
+      console.error(err);
+    }
+
+    
   }
 
   return (

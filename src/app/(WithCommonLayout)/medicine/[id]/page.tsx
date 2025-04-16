@@ -25,6 +25,7 @@ export const generateMetadata = async({params}:{params:Promise<{id:string}>}) =>
 const MedicineDetailPage = async({params}:{params:Promise<{id:string}>}) => {
     const medicineId = (await params).id
     const {data:medicine} = await getSingleMedicine(medicineId)
+ 
     return (
         <div className='my-16'>
             <MedicineDetail medicine={medicine}/>
