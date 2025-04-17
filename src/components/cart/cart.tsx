@@ -238,16 +238,18 @@ const Cart = () => {
             <span>৳ {(totalPrice + 60).toFixed(2)}</span>
           </div>
           {cartItems.some((cart) => cart.prescription) && (
-            <div className=" flex justify-center">
+            <div className=" flex justify-center items-center">
               {imagePreview.length > 0 ? (
+               <>
                 <div className="mt-8">
                   <ImagePreviewer
                     setImageFiles={setImageFiles}
                     imagePreview={imagePreview}
                     setImagePreview={setImagePreview}
                   />
-                  {prescription && <p className="text-center font-semibold text-sm text-green-600">Image uploaded successfully</p>}
                 </div>
+                <div className="bg-yellow-50 rounded-md m-1 p-2">{prescription && <p className="text-center font-semibold text-sm text-green-600">Image uploaded successfully</p>}</div>
+               </>
               ) : (
                 <div className="mt-8">
                   <ImageUploader

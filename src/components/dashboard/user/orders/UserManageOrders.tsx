@@ -50,7 +50,7 @@ interface ManageOrdersProps {
   data: IOrderResponse[];
 }
 
-const ManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
+const UserManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
 
   const handleOrderStatusChange = async (orderId: string, newStatus: string) => {
     try {
@@ -71,19 +71,19 @@ const ManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
       header: "Prescription",
       cell: ({ row }) => (
         <div className="w-20 h-20 overflow-hidden rounded-md border">
-          <Image
+          {row.original.prescription ? <Image
             src={row.original.prescription}
             alt="Prescription"
             width={80}
             height={80}
             className="object-cover"
-          />
+          /> : <p>N/A</p>}
         </div>
       ),
     },
     {
       accessorKey: "prescriptionReviewStatus",
-      header: "Review Status",
+      header: "Prescription Review",
       cell: ({ row }) => {
         const status = row.original.prescriptionReviewStatus;
         const color =
@@ -94,9 +94,13 @@ const ManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
             : "yellow";
 
         return (
+          <>
+          {row.original.prescription ?
           <Badge className={`bg-${color}-100 text-${color}-600 border border-${color}-300`}>
             {status.toUpperCase()}
-          </Badge>
+          </Badge> : <p>N/A</p>
+      }
+          </>
         );
       },
     },
@@ -104,22 +108,7 @@ const ManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
       accessorKey: "orderStatus",
       header: "Order Status",
       cell: ({ row }) => (
-        <Select
-          defaultValue={row.original.orderStatus}
-          onValueChange={(value) =>
-            handleOrderStatusChange(row.original._id, value)
-          }
-        >
-          <SelectTrigger className="w-[130px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="shipped">Shipped</SelectItem>
-            <SelectItem value="delivered">Delivered</SelectItem>
-            <SelectItem value="cancelled">Cancelled</SelectItem>
-          </SelectContent>
-        </Select>
+        <p>{row.original.orderStatus}</p>
       ),
     },
     {
@@ -183,4 +172,4 @@ const ManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
   );
 };
 
-export default ManageOrders;
+export default UserManageOrders;

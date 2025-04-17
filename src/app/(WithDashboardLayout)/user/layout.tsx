@@ -1,7 +1,7 @@
 "use client"
 import { AppSidebar } from "@/components/ui/app-sidebar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { Home, ContactRound, ShoppingBag } from "lucide-react"
+import { Home, ContactRound, ShoppingBag, Book } from "lucide-react"
 const items = [
     {
       title: "Home",
@@ -17,6 +17,11 @@ const items = [
       title: "Orders",
       url: "/user/orders",
       icon: ShoppingBag,
+    },
+    {
+      title: "Prescription Orders",
+      url: "/user/prescription-orders",
+      icon: Book,
     },
 
     

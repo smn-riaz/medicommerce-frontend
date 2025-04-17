@@ -1,4 +1,4 @@
-import ManageOrders from '@/components/dashboard/admin/orders/ManageOrders';
+import AdminManageOrders from '@/components/dashboard/admin/orders/AdminManageOrders';
 import { getAllOrder } from '@/services/order';
 import React from 'react';
 
@@ -7,7 +7,7 @@ const OrdersPage = async () => {
 
     return (
         <div className='overflow-x-auto w-full'>
-        <ManageOrders data={data}/>
+        <AdminManageOrders data={data}/>
       </div>
     );
 };

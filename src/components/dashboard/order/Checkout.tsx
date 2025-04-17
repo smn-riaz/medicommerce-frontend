@@ -112,7 +112,7 @@ const Checkout = () => {
         </Card>
       </div>
 
-      {/* User Info */}
+     
       <div className="grid  grid-cols-3 gap-6">
         <Card>
           <CardHeader>
@@ -130,7 +130,7 @@ const Checkout = () => {
           </CardContent>
         </Card>
 
-        {/* Shipping Info */}
+       
         <Card>
           <CardHeader>
             <CardTitle>Shipping Information</CardTitle>
@@ -164,7 +164,9 @@ const Checkout = () => {
 
         <Card onClick={handleOrder} className="bg-accent flex justify-center items-center text-white hover:bg-accent cursor-pointer">
           <CardContent className="space-y-2 flex gap-2 font-semibold text-xl justify-center items-center">
-            <BadgeDollarSign /> Pay Now
+            {
+              prescription ? <>Review Prescription</> : <><BadgeDollarSign /> Pay Now</>
+            }
           </CardContent>
         </Card>
       </div>
