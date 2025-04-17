@@ -52,3 +52,49 @@ export const getAllOrder = async() => {
       throw Error(error)
     }
   }
+
+
+
+export const getUserOrders = async(id:string) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/user-order/${id}`, {
+        next:{
+          tags:['ORDER']
+        }
+      })
+      return await res.json()
+  
+    } catch (error:any) {
+      throw Error(error)
+    }
+  }
+
+
+export const getSpecificOrder = async(id:string) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/${id}`, {
+        next:{
+          tags:['ORDER']
+        }
+      })
+      return await res.json()
+  
+    } catch (error:any) {
+      throw Error(error)
+    }
+  }
+
+
+  export const paymentPrescriptionOrder = async(id:string) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/payment/${id}`, {
+        next:{
+          // tags:['ORDER']
+        }
+      })
+      return await res.json()
+  
+    } catch (error:any) {
+      throw Error(error)
+    }
+  }

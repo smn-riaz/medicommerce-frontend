@@ -18,11 +18,7 @@ const items = [
       url: "/user/orders",
       icon: ShoppingBag,
     },
-    {
-      title: "Prescription Orders",
-      url: "/user/prescription-orders",
-      icon: Book,
-    },
+
 
     
   ]

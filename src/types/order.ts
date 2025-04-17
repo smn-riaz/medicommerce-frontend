@@ -14,6 +14,7 @@ interface IShippingInfo {
     _id: string;
     userId: string;
     createdAt: string;
+    prescription?:string
     updatedAt: string;
     prescriptionReviewStatus:"pending" | "ok" | "cancelled"
     orderStatus: "pending" | "shipped" | "delivered" | "cancelled"

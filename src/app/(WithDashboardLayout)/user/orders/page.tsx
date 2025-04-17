@@ -1,10 +1,16 @@
 import UserManageOrders from '@/components/dashboard/user/orders/UserManageOrders';
-import { getAllOrder } from '@/services/order';
+import { useUser } from '@/context/UserContext';
+import { getCurrentUser } from '@/services/auth';
+import { getAllOrder, getUserOrders } from '@/services/order';
 import React from 'react';
 
 const OrdersPage = async() => {
 
-     const {data} =  await getAllOrder()
+
+    const {id} = await getCurrentUser()
+
+     const {data} =  await getUserOrders(id)
+     
     return (
         <div>
             <UserManageOrders data={data} />

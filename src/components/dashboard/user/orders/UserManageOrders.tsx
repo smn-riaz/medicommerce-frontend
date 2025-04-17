@@ -14,8 +14,9 @@ import {
 import { MMTable } from "@/components/shared/dashboard/MMTable";
 import { updateOrderStatus } from "@/services/order";
 import { toast } from "sonner";
-
-
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface IShippingInfo {
   shippingAddress: string;
@@ -51,17 +52,25 @@ interface ManageOrdersProps {
 }
 
 const UserManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
+  const router = useRouter();
 
-  const handleOrderStatusChange = async (orderId: string, newStatus: string) => {
+  const handlePayment = (id: string) => {
+    router.push(`/user/orders/${id}`);
+  };
+
+  const handleOrderStatusChange = async (
+    orderId: string,
+    newStatus: string
+  ) => {
     try {
-  const res =  await updateOrderStatus(orderId, newStatus);
-   if(res.success){
-    toast("Order status updated", {duration:1200});
-   } else{
-    toast(res.message, {duration:1200});
-   }
+      const res = await updateOrderStatus(orderId, newStatus);
+      if (res.success) {
+        toast("Order status updated", { duration: 1200 });
+      } else {
+        toast(res.message, { duration: 1200 });
+      }
     } catch (err) {
-      toast("Failed to update order status",{duration:1200} );
+      toast("Failed to update order status", { duration: 1200 });
     }
   };
 
@@ -70,14 +79,20 @@ const UserManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
       accessorKey: "prescription",
       header: "Prescription",
       cell: ({ row }) => (
-        <div className="w-20 h-20 overflow-hidden rounded-md border">
-          {row.original.prescription ? <Image
-            src={row.original.prescription}
-            alt="Prescription"
-            width={80}
-            height={80}
-            className="object-cover"
-          /> : <p>N/A</p>}
+        <div
+          className={`w-20 h-20 overflow-hidden rounded-md ${
+            row.original.prescription ? "border" : ""
+          }`}
+        >
+          {row.original.prescription && (
+            <Image
+              src={row.original.prescription}
+              alt="Prescription"
+              width={80}
+              height={80}
+              className="object-cover"
+            />
+          )}
         </div>
       ),
     },
@@ -87,19 +102,33 @@ const UserManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
       cell: ({ row }) => {
         const status = row.original.prescriptionReviewStatus;
         const color =
-          status === "ok"
-            ? "green"
-            : status === "cancelled"
-            ? "red"
-            : "yellow";
+          status === "ok" ? "green" : status === "cancelled" ? "red" : "yellow";
 
         return (
           <>
-          {row.original.prescription ?
-          <Badge className={`bg-${color}-100 text-${color}-600 border border-${color}-300`}>
-            {status.toUpperCase()}
-          </Badge> : <p>N/A</p>
-      }
+            {row.original.prescription && (
+              <>
+                {row.original.prescriptionReviewStatus === "ok" &&
+                !row.original.paymentStatus ? (
+                  <div className="text-center flex justify-center items-center gap-1">
+                  <Badge
+                  className={`bg-${color}-100 text-${color}-600 border border-${color}-300`}> {status.toUpperCase()}</Badge> <br />
+                  <Button
+                    className="px-1 bg-green-700 hover:bg-green-700 cursor-pointer"
+                    onClick={() => handlePayment(row.original._id)}
+                  >
+                    Make Payment
+                  </Button>
+                  </div>
+                ) : (
+                  <Badge
+                    className={`bg-${color}-100 text-${color}-600 border border-${color}-300`}
+                  >
+                    {status.toUpperCase()}
+                  </Badge>
+                )}
+              </>
+            )}
           </>
         );
       },
@@ -107,9 +136,7 @@ const UserManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
     {
       accessorKey: "orderStatus",
       header: "Order Status",
-      cell: ({ row }) => (
-        <p>{row.original.orderStatus}</p>
-      ),
+      cell: ({ row }) => <p>{row.original.orderStatus}</p>,
     },
     {
       accessorKey: "paymentStatus",
