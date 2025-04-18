@@ -1,161 +1,176 @@
 "use client";
-import DeleteConfirmationModal from "@/components/shared/dashboard/MMModal";
-import { MMTable } from "@/components/shared/dashboard/MMTable";
-import { Button } from "@/components/ui/button";
-import { TMedicineResponse } from "@/types";
 
-import { ColumnDef } from "@tanstack/react-table";
-import { Trash } from "lucide-react";
+import React from "react";
 import Image from "next/image";
-import Link from "next/link";
-import React, { useState } from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { MMTable } from "@/components/shared/dashboard/MMTable";
+import { updateOrderStatus, updatePrescriptionReviewStatus } from "@/services/order";
+import { toast } from "sonner";
+
+interface IShippingInfo {
+  shippingAddress: string;
+  shippingCity: string;
+}
+
+interface IProduct {
+  productId: string;
+  name: string;
+  quantity: number;
+  price: number;
+}
+
+export interface IOrderResponse {
+  _id: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+  prescription: string;
+  prescriptionReviewStatus: "pending" | "ok" | "cancelled";
+  orderStatus: "pending" | "shipped" | "delivered" | "cancelled";
+  paymentStatus: boolean;
+  products: IProduct[];
+  shippingCost: number;
+  shippingInfo: IShippingInfo;
+  status: "pending" | "completed" | "cancelled";
+  totalPrice: number;
+  __v: number;
+}
+
+interface ManageOrdersProps {
+  data: IOrderResponse[];
+}
+
+const ManagePrescriptionReview: React.FC<ManageOrdersProps> = ({ data }) => {
 
 
 
-const ManagePrescriptionsReview = ({ data }: { data: TMedicineResponse[] }) => {
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
-
-  const handleDelete = (data: TMedicineResponse) => {
-    setSelectedId(data?._id);
-    setSelectedItem(data?.name);
-    setModalOpen(true);
-  };
-
-  const handleDeleteConfirm = async () => {
+  const handlePrescriptionStatusChange = async (orderId: string, newStatus: string) => {
     try {
-      //   if (selectedId) {
-      //     const res = await deleteCategory(selectedId);
-      //     console.log(res);
-      //     if (res.success) {
-      //       toast.success(res.message);
-      //       setModalOpen(false);
-      //     } else {
-      //       toast.error(res.message);
-      //     }
-      //   }
-    } catch (err: any) {
-      console.error(err?.message);
+
+      const res = await updatePrescriptionReviewStatus(orderId, newStatus);
+
+      if (res.success) {
+        toast.success("Prescription review status updated", { duration: 1200 });
+      } else {
+        toast.error(res.message, { duration: 1200 });
+      }
+    } 
+    catch (err) {
+      toast.error("Failed to update prescription status", { duration: 1200 });
     }
   };
 
-  const columns: ColumnDef<TMedicineResponse>[] = [
+  const columns: ColumnDef<IOrderResponse>[] = [
     {
-      accessorKey: "name",
-      header: "Name",
-    },
-    {
-      accessorKey: "imageUrl",
-      header: () => <div>Image</div>,
+      accessorKey: "prescription",
+      header: "Prescription",
       cell: ({ row }) => (
-        <div className="flex items-center space-x-3">
+        <div className="w-20 h-20 overflow-hidden rounded-md border">
           <Image
-            src={row.original.imageUrl[0]}
-            alt={row.original.name}
+            src={row.original.prescription}
+            alt="Prescription"
             width={80}
             height={80}
-            className="w-8 h-8 rounded-full"
+            className="object-cover"
           />
         </div>
       ),
     },
     {
-      accessorKey: "type",
-      header: "Type",
-    },
-    {
-      accessorKey: "manufacturer",
-      header: "Menufacturer",
-    },
-    {
-      accessorKey: "price",
-      header: "Price",
-    },
-    {
-      accessorKey: "quantity",
-      header: "Quantity",
-    },
-    {
-      accessorKey: "inStock",
-      header: () => <div>Stock</div>,
+      accessorKey: "prescriptionReviewStatus",
+      header: "Review Status",
       cell: ({ row }) => (
-        <div>
-          {row.original.inStock ? (
-            <p className="text-green-500 border bg-green-100 w-14 text-center px-1 rounded">
-              True
-            </p>
-          ) : (
-            <p className="text-red-500 border bg-red-100 w-14 text-center px-1 rounded">
-              False
-            </p>
-          )}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "discount",
-      header: "Discount",
-      cell: ({ row }) => (
-        <div>
-          <p>{row.original.discount}%</p>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "expireDate",
-      header: "Expire",
-    },
-    {
-      accessorKey: "action",
-      header: () => <div>Action</div>,
-      cell: ({ row }) => (
-        <button
-          className="text-red-500"
-          title="Delete"
-          onClick={() => handleDelete(row.original)}
+        <Select
+          defaultValue={row.original.prescriptionReviewStatus}
+          onValueChange={(value) =>
+            handlePrescriptionStatusChange(row.original._id, value)
+          }
         >
-          <Trash className="w-5 h-5" />
-        </button>
+          <SelectTrigger className="w-[130px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="ok">OK</SelectItem>
+            <SelectItem value="cancelled">Cancelled</SelectItem>
+          </SelectContent>
+        </Select>
       ),
     },
     {
-      accessorKey: "requiredPrescription",
-      header: () => <div>Prescription</div>,
+      accessorKey: "orderStatus",
+      header: "Order Status",
+      cell: ({ row }) => (
+        <Badge variant="default">{row.original.orderStatus}</Badge>
+      ),
+    },
+    {
+      accessorKey: "paymentStatus",
+      header: "Payment",
+      cell: ({ row }) =>
+        row.original.paymentStatus ? (
+          <Badge variant="default">Paid</Badge>
+        ) : (
+          <Badge variant="destructive">Unpaid</Badge>
+        ),
+    },
+    {
+      accessorKey: "shippingCost",
+      header: "Shipping Cost",
+      cell: ({ row }) => <span>৳{row.original.shippingCost}</span>,
+    },
+    {
+      accessorKey: "totalPrice",
+      header: "Total Price",
+      cell: ({ row }) => <span>৳{row.original.totalPrice}</span>,
+    },
+    {
+      accessorKey: "shippingInfo",
+      header: "Shipping Address",
       cell: ({ row }) => (
         <div>
-          {row.original.requiredPrescription ? (
-            <p className="text-green-500 border bg-green-100 w-14 text-center px-1 rounded">
-              True
-            </p>
-          ) : (
-            <p className="text-red-500 border bg-red-100 w-14 text-center px-1 rounded">
-              False
-            </p>
-          )}
+          <p>{row.original.shippingInfo.shippingAddress}</p>
+          <p className="text-muted-foreground text-sm">
+            {row.original.shippingInfo.shippingCity}
+          </p>
+        </div>
+      ),
+    },
+    {
+      accessorKey: "products",
+      header: "Products",
+      cell: ({ row }) => (
+        <div className="space-y-1">
+          {row.original.products.map((product, index) => (
+            <div
+              key={index}
+              className="text-sm p-1 rounded bg-muted border border-border"
+            >
+              <p>
+                <span className="font-medium">{product.name}</span> — Qty:{" "}
+                {product.quantity}, ৳{product.price}
+              </p>
+            </div>
+          ))}
         </div>
       ),
     },
   ];
 
   return (
-    <div>
-      <div className="flex items-center justify-end my-4">
-        <Link href="/admin/create-medicine"><Button>Create Medicine</Button></Link>
-      </div>
-      <div className="flex items-center justify-between">
-        <MMTable data={data} columns={columns} />
-        <DeleteConfirmationModal
-          name={selectedItem}
-          isOpen={isModalOpen}
-          onOpenChange={setModalOpen}
-          onConfirm={handleDeleteConfirm}
-        />
-      </div>
+    <div className="p-4">
+      <h2 className="text-2xl font-semibold mb-4">Order - Prescription Review</h2>
+      <MMTable data={data} columns={columns} />
     </div>
   );
 };
 
-export default ManagePrescriptionsReview;
+export default ManagePrescriptionReview;

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,12 +11,13 @@ import { useUser } from "@/context/UserContext";
 import { Badge } from "@/components/ui/badge";
 import { BadgeDollarSign } from "lucide-react";
 import Image from "next/image";
-import { createOrderWithPrescription } from "@/services/order";
+import { createOrderWithOutPrescription, createOrderWithPrescription } from "@/services/order";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 
 const Checkout = () => {
+
   const orderInfo = useAppSelector(orderSelector);
   const router = useRouter()
 
@@ -31,6 +31,7 @@ const Checkout = () => {
   
 
   const handleOrder = async() => {
+
     try {
     const orderedProductInfo = {
       userId:user?.id,
@@ -48,12 +49,28 @@ const Checkout = () => {
   
     if(prescription){
       const res = await createOrderWithPrescription(orderedProductInfo);
-
-
   
       if (res?.success) {
 
-        toast.success("Order is created successfully!", {duration:3000})
+        toast.success(res.message, {duration:3000})
+
+        dispatch(clearCart())
+
+        router.push("/user/orders")
+        
+      } else {
+        toast.error(res?.message,{duration:1400});
+       
+      }
+    } else {
+
+
+
+      const res = await createOrderWithOutPrescription(orderedProductInfo);
+  
+      if (res?.success) {
+
+        toast.success(res.message, {duration:3000})
 
         dispatch(clearCart())
 

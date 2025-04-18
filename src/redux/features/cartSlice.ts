@@ -122,7 +122,8 @@ export const orderSelector = (state: RootState) => {
       productId: product.id,
       quantity:product.quantity,
       name:product.name,
-      price:product.price
+      price:product.price,
+      requiredPrescription:product.prescription
      })),
     shippingInfo:state.cart.shippingInfo,
     shippingCost:state.cart.shippingCost,

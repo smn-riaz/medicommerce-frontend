@@ -1,10 +1,16 @@
+import ManagePrescriptionReview from '@/components/dashboard/admin/prescription/ManagePrescriptionsReview';
+import { getAllOrder } from '@/services/order';
 import React from 'react';
 
-const PrescriptionsReviewPage = () => {
+const PrescriptionsReviewPage = async() => {
+    const {data} =  await getAllOrder()
+
+    const orders = data.filter((order:IOrderResponse) => order.prescription)
+
     return (
-        <div>
-            
-        </div>
+        <div className='overflow-x-auto w-full'>
+        <ManagePrescriptionReview data={orders}/>
+      </div>
     );
 };
 

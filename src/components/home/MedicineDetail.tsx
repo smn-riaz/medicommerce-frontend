@@ -16,6 +16,8 @@ import { addItemToCart } from "@/redux/features/cartSlice";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { getCurrentUser } from "@/services/auth";
+import { useUser } from "@/context/UserContext";
 
 
 
@@ -23,7 +25,7 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
 
   const router = useRouter()
 
-  
+  const {user} = useUser()
 
   const [selectedImage, setSelectedImage] = useState(medicine.imageUrl[0]);
 
@@ -147,7 +149,7 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
                 <Button 
                 onClick={handleAddToCart}
                   size="lg"
-                  disabled={!medicine.inStock}
+                  disabled={!medicine.inStock || user?.role==="admin"}
                   className="w-full"
                 >
                   {medicine.inStock ? "Add to Cart" : "Out of Stock"}

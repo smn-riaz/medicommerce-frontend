@@ -136,7 +136,7 @@ const UserManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
     {
       accessorKey: "orderStatus",
       header: "Order Status",
-      cell: ({ row }) => <p>{row.original.orderStatus}</p>,
+      cell: ({ row }) => <Badge>{row.original.orderStatus.toUpperCase()}</Badge>,
     },
     {
       accessorKey: "paymentStatus",

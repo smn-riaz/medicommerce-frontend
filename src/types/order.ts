@@ -8,6 +8,7 @@ interface IShippingInfo {
     name: string;
     quantity: number;
     price: number;
+    requiredPrescription:boolean
   }
   
   interface IOrderResponse {

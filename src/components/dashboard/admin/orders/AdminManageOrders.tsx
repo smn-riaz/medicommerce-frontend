@@ -55,12 +55,14 @@ const AdminManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
   const handleOrderStatusChange = async (orderId: string, newStatus: string) => {
     try {
   const res =  await updateOrderStatus(orderId, newStatus);
+
    if(res.success){
-    toast("Order status updated", {duration:1200});
+    toast.success("Order status updated", {duration:1200});
    } else{
-    toast(res.message, {duration:1200});
+    toast.error(res.message, {duration:1200});
    }
-    } catch (err) {
+    } 
+    catch (err) {
       toast("Failed to update order status",{duration:1200} );
     }
   };
