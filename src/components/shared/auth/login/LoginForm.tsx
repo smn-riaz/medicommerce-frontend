@@ -16,7 +16,6 @@ import Link from "next/link";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-// import { loginUser, reCaptchaTokenVerification, registerUser } from "@/services/AuthServices";
 import { toast } from "sonner";
 
 
@@ -34,6 +33,12 @@ import { useUser } from "@/context/UserContext";
 
 export default function LoginForm() {
 
+  const searchParams = useSearchParams()
+
+const redirect = searchParams.get("redirectPath")
+
+const router = useRouter()
+
   const [showPassword, setShowPassword] = useState(false)
   const {setIsLoading, setUser} = useUser()
 
@@ -50,11 +55,7 @@ export default function LoginForm() {
 
 
 
-const searchParams = useSearchParams()
 
-const redirect = searchParams.get("redirectPath")
-
-const router = useRouter()
 
 
 const onSubmit: SubmitHandler<FieldValues> = async (data) => {

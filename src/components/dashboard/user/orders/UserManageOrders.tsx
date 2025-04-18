@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { HoverPrescription } from "@/components/shared/dashboard/admin/hoverPrescription/HoverCard";
 
 interface IShippingInfo {
   shippingAddress: string;
@@ -85,13 +86,11 @@ const UserManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
           }`}
         >
           {row.original.prescription && (
-            <Image
-              src={row.original.prescription}
-              alt="Prescription"
-              width={80}
-              height={80}
-              className="object-cover"
-            />
+            <div className="w-20 h-20 overflow-hidden rounded-md border">
+                      <HoverPrescription prescription={row.original.prescription} products={row.original.products}>
+                      
+                      </HoverPrescription>
+                    </div>
           )}
         </div>
       ),

@@ -40,7 +40,7 @@ const Cart = () => {
   const [prescription, setPrescription] = useState<string>(
     orderInfo?.prescription? orderInfo.prescription : ""
   );
-
+  const [showMessage, setShowMessage] = useState(false);
 
 
   useEffect(() => {
@@ -103,6 +103,16 @@ const Cart = () => {
     dispatch(clearCart());
   };
 
+  useEffect(() => {
+    if (prescription) {
+      setShowMessage(true);
+      const timer = setTimeout(() => {
+        setShowMessage(false);
+      }, 10000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [prescription]);
 
   const handleSubmit = () => {
     if (cartItems.length>0) {
@@ -248,7 +258,7 @@ const Cart = () => {
                     setImagePreview={setImagePreview}
                   />
                 </div>
-                <div className="bg-yellow-50 rounded-md m-1 p-2">{prescription && <p className="text-center font-semibold text-sm text-green-600">Image uploaded successfully</p>}</div>
+                
                </>
               ) : (
                 <div className="mt-8">
@@ -262,6 +272,11 @@ const Cart = () => {
               
             </div>
           )}
+<div className="m-1">{ (
+          <small className={`text-center font-semibold text-sm text-green-600 ${!showMessage ? "hidden" :""}`}>
+            Image uploaded successfully
+          </small>
+        )}</div>
 
           {shippingInfo.shippingAddress && shippingInfo.shippingCity ?
             <Button

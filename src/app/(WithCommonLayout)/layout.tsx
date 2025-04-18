@@ -2,7 +2,7 @@
 import Footer from '@/components/home/Footer';
 import Navbar from '@/components/home/Navbar';
 import PreLoading from '@/components/home/PreLoading';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const CommonLayout = ({children}:{children:React.ReactNode}) => {
     const [showPreloader, setShowPreloader] = useState(true)

@@ -14,6 +14,7 @@ import {
 import { MMTable } from "@/components/shared/dashboard/MMTable";
 import { updateOrderStatus, updatePrescriptionReviewStatus } from "@/services/order";
 import { toast } from "sonner";
+import { HoverPrescription } from "@/components/shared/dashboard/admin/hoverPrescription/HoverCard";
 
 interface IShippingInfo {
   shippingAddress: string;
@@ -74,13 +75,9 @@ const ManagePrescriptionReview: React.FC<ManageOrdersProps> = ({ data }) => {
       header: "Prescription",
       cell: ({ row }) => (
         <div className="w-20 h-20 overflow-hidden rounded-md border">
-          <Image
-            src={row.original.prescription}
-            alt="Prescription"
-            width={80}
-            height={80}
-            className="object-cover"
-          />
+          <HoverPrescription prescription={row.original.prescription} products={row.original.products}>
+          
+          </HoverPrescription>
         </div>
       ),
     },

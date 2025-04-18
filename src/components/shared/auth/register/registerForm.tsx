@@ -14,9 +14,8 @@ import { Input } from "@/components/ui/input";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import { registerUser } from "@/services/AuthServices";
 import { toast } from "sonner";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 import Logo from "@/components/home/Logo";
 import { registrationSchema } from "./registerValidation";
 import { useState } from "react";
@@ -51,28 +50,24 @@ export default function RegisterForm() {
   const passwordConfirm = form.watch("passwordConfirm");
  
 
-  const searchParams = useSearchParams()
-  
-  const redirect = searchParams.get("redirectPath")
+
 
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      const res = await registerUser(data);
 
-       const user = await getCurrentUser()
+
+      const [user, res] = await Promise.all([
+        getCurrentUser(),
+        registerUser(data),
+      ])
   
       if (res?.success) {
         setUser(user)
 
-        toast.success(res?.message, {duration:1400});
-
-        if(redirect){
-          router.push(redirect)
-        } else {
+        toast.success(res?.message, {duration:1400})
      
           router.push(`/${user.role}`)
-        }
         
       } else {
         toast.error(res?.message,{duration:1400});

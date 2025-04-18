@@ -1,5 +1,7 @@
 "use server"
 
+import { IOrderResponse } from "@/types"
+
 export const createOrderWithPrescription = async (orderInfo:any) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/create-order-prescription`, {
         method:"POST",
@@ -15,19 +17,24 @@ export const createOrderWithPrescription = async (orderInfo:any) => {
 }
 
 
-export const createOrderWithOutPrescription = async (orderInfo:any) => {
+export const createOrderWithOutPrescription = async (orderInfo: any) => {
+  try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/create-order-payment`, {
-        method:"POST",
-        headers:{
-            'Content-type':"application/json"
-        },
-        body:JSON.stringify(orderInfo)
-    })
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderInfo),
+    });
 
-    const result = res.json()
+    const result = await res.json();
 
-    return result
-}
+    return result;
+  } catch (error: any) {
+    throw new Error(error.message || "Something went wrong");
+  }
+};
+
 
 
 

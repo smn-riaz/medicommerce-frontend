@@ -35,6 +35,8 @@ const Checkout = () => {
     try {
     const orderedProductInfo = {
       userId:user?.id,
+      name:user?.name, 
+      email:user?.email,
       products,
       prescription,
       shippingInfo,
@@ -65,8 +67,7 @@ const Checkout = () => {
     } else {
 
 
-
-      const res = await createOrderWithOutPrescription(orderedProductInfo);
+      const res = await createOrderWithOutPrescription(orderedProductInfo)
   
       if (res?.success) {
 
@@ -74,7 +75,7 @@ const Checkout = () => {
 
         dispatch(clearCart())
 
-        router.push("/user/orders")
+        router.push(res?.data)
         
       } else {
         toast.error(res?.message,{duration:1400});

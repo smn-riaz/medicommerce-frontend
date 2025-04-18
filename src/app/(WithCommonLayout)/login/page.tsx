@@ -1,3 +1,5 @@
+"use server"
+
 import LoginForm from '@/components/shared/auth/login/LoginForm';
 
 

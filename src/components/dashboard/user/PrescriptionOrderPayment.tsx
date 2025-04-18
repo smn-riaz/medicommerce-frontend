@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getCurrentUser } from "@/services/auth";
 import { getSpecificOrder, paymentPrescriptionOrder } from "@/services/order";
+import { IOrderResponse, IProduct } from "@/types";
 import { BadgeDollarSign } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";

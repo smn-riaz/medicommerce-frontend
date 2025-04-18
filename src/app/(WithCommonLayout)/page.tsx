@@ -1,3 +1,5 @@
+"use server"
+
 import AllProducts from '@/components/home/AllProducts';
 import Carousel from '@/components/home/Carousel';
 import HomeBanner from '@/components/home/HomeBanner';

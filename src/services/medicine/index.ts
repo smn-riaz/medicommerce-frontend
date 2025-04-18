@@ -25,20 +25,25 @@ export const createMedicine = async(medicineData:IMedicine) => {
 }
 
 
-export const getAllMedicine = async() => {
+export const getAllMedicine = async (params?: Record<string, string>) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/product`, {
-      next:{
-        tags:['MEDICINE']
-      },
-      cache:'force-cache'
-    })
-    return await res.json()
+    const query = new URLSearchParams(params).toString(); // Build query string
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/product${query ? `?${query}` : ""}`,
+      {
+        next: {
+          tags: ['MEDICINE']
+        },
+        cache: 'force-cache',
+      }
+    );
 
-  } catch (error:any) {
-    throw Error(error)
+    return await res.json();
+  } catch (error: any) {
+    throw new Error(error);
   }
 }
+
 
 
 

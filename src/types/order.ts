@@ -1,9 +1,9 @@
-interface IShippingInfo {
+export interface IShippingInfo {
     shippingAddress: string;
     shippingCity: string;
   }
   
-  interface IProduct {
+  export interface IProduct {
     productId: string;
     name: string;
     quantity: number;
@@ -11,7 +11,7 @@ interface IShippingInfo {
     requiredPrescription:boolean
   }
   
-  interface IOrderResponse {
+  export interface IOrderResponse {
     _id: string;
     userId: string;
     createdAt: string;

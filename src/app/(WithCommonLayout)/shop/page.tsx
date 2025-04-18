@@ -1,15 +1,13 @@
+"use server"
+
 import AllProducts from "@/components/home/AllProducts";
 import { getAllMedicine } from "@/services/medicine";
-import { useSearchParams } from "next/navigation";
+
 import React from "react";
 
-const AllMedicinesPage = async () => {
-  const { data: medicines } = await getAllMedicine()
+const AllMedicinesPage = async ({searchParams}:{searchParams:Promise<{searchItem:string}>}) => {
 
-  const searchParams = useSearchParams();
-  const searchItem = searchParams.get("searchItem") || "";
-  const manufacturer = searchParams.get("manufacturer") || "";
-  const type = searchParams.get("type") || "";
+  const { data: medicines } = await getAllMedicine(await searchParams)
 
   
   return (

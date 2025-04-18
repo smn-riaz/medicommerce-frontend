@@ -22,7 +22,7 @@ const ManageUser = ({ data }: { data: IUser[] }) => {
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   const handleDelete = (data: IUser) => {
-    setSelectedId(data?._id);
+    setSelectedId(data?.id);
     setSelectedItem(data?.name);
     setModalOpen(true);
   };

@@ -14,6 +14,7 @@ import {
 import { MMTable } from "@/components/shared/dashboard/MMTable";
 import { updateOrderStatus } from "@/services/order";
 import { toast } from "sonner";
+import { IOrderResponse } from "@/types";
 
 
 
@@ -29,22 +30,7 @@ interface IProduct {
   price: number;
 }
 
-export interface IOrderResponse {
-  _id: string;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
-  prescription: string;
-  prescriptionReviewStatus: "pending" | "ok" | "cancelled";
-  orderStatus: "pending" | "shipped" | "delivered" | "cancelled";
-  paymentStatus: boolean;
-  products: IProduct[];
-  shippingCost: number;
-  shippingInfo: IShippingInfo;
-  status: "pending" | "completed" | "cancelled";
-  totalPrice: number;
-  __v: number;
-}
+
 
 interface ManageOrdersProps {
   data: IOrderResponse[];
@@ -74,7 +60,7 @@ const AdminManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
       cell: ({ row }) => (
         <div className="w-20 h-20 overflow-hidden rounded-md border">
           <Image
-            src={row.original.prescription}
+            src={row.original.prescription as string}
             alt="Prescription"
             width={80}
             height={80}

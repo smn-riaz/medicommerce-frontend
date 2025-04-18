@@ -1,5 +1,6 @@
 import ManagePrescriptionReview from '@/components/dashboard/admin/prescription/ManagePrescriptionsReview';
 import { getAllOrder } from '@/services/order';
+import { IOrderResponse } from '@/types';
 import React from 'react';
 
 const PrescriptionsReviewPage = async() => {

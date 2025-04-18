@@ -1,5 +1,7 @@
+"use server"
+
 import RegisterForm from '@/components/shared/auth/register/registerForm';
-import React from 'react';
+
 
 const RegisterPage = () => {
     return (
