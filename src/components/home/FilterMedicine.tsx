@@ -81,13 +81,13 @@ export default function FilterMedicine({
       </div>
 
       <div>
-        <Button
+      <Button
           variant="ghost"
-          size="icon"
+         
           onClick={() =>  router.push(`${pathname}`)}
-          className="text-red-500 font-semibold bg-gray-200 text-2xl  rounded-full  hover:bg-gray-300 hover:text-red-500 cursor-pointer"
+          className="flex justify-end items-center pl-2 pr-0 text-red-500 font-semibold bg-gray-200 rounded-2xl hover:bg-gray-200 hover:text-red-500 cursor-pointer"
         >
-          <X className="w-4 h-4" />
+          <span>Reset</span><Button variant="ghost" className="text-red-500 font-semibold bg-gray-300 rounded-full  hover:bg-gray-300 hover:text-red-500 cursor-pointer"  size="icon"><X className="w-4 h-4" /></Button>
         </Button>
       </div>
     </div>

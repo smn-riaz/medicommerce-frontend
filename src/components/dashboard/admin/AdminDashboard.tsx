@@ -9,18 +9,20 @@ import {
   Truck,
   CheckCircle2,
   XCircle,
+  Briefcase,
 } from 'lucide-react';
+import { IOrderResponse, IProduct, IUser } from '@/types';
 
-const AdminDashboard = () => {
-  const [totalOrders, setTotalOrders] = useState(120);
-  const [totalRevenue, setTotalRevenue] = useState(5000);
-  const [totalUsers, setTotalUsers] = useState(150);
-  const [orderStatuses, setOrderStatuses] = useState({
-    pending: 20,
-    shipped: 50,
-    delivered: 40,
-    cancelled: 10,
-  });
+const AdminDashboard = ({orders, users, products}:{orders:IOrderResponse[], users:IUser[], products:IProduct[]}) => {
+
+  const totalRevenue = orders?.filter(order => order.paymentStatus).reduce((sum,order) => order.totalPrice + sum ,0)
+
+  const pendingOrders = orders?.filter(order => order.orderStatus === 'pending')
+  const shippedOrders = orders?.filter(order => order.orderStatus === 'shipped')
+  const deliveredOrders = orders?.filter(order => order.orderStatus === 'delivered')
+  const cancelledOrders = orders?.filter(order => order.orderStatus === 'cancelled')
+  const prescriptionReviews =  orders?.filter(order => !order.paymentStatus && order.prescription)
+
   const [duePayments, setDuePayments] = useState(2000);
 
 
@@ -30,18 +32,28 @@ const AdminDashboard = () => {
       <h1 className="text-3xl font-semibold text-center mb-8">Admin Dashboard</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Total Orders */}
+      
         <Card className="p-4 shadow-lg rounded-lg bg-white">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold">Total Orders</h3>
-              <p className="text-2xl">{totalOrders}</p>
+              <h3 className="text-lg font-semibold">Total Products</h3>
+              <p className="text-2xl">{products?.length}</p>
             </div>
-            <ShoppingCart className="text-blue-600 w-8 h-8" />
+            <Briefcase className="text-blue-600 w-8 h-8" />
           </div>
         </Card>
 
-        {/* Total Revenue */}
+       
+        <Card className="p-4 shadow-lg rounded-lg bg-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold">Total Users</h3>
+              <p className="text-2xl">{users.length}</p>
+            </div>
+            <Users className="text-purple-600 w-8 h-8" />
+          </div>
+        </Card>
+      
         <Card className="p-4 shadow-lg rounded-lg bg-white">
           <div className="flex items-center justify-between">
             <div>
@@ -52,24 +64,23 @@ const AdminDashboard = () => {
           </div>
         </Card>
 
-        {/* Total Users */}
         <Card className="p-4 shadow-lg rounded-lg bg-white">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold">Total Users</h3>
-              <p className="text-2xl">{totalUsers}</p>
+              <h3 className="text-lg font-semibold">Total Orders</h3>
+              <p className="text-2xl">{orders?.length}</p>
             </div>
-            <Users className="text-purple-600 w-8 h-8" />
+            <ShoppingCart className="text-blue-600 w-8 h-8" />
           </div>
-        </Card>
+        </Card> 
 
-        {/* Order Statuses */}
+        
         <div className="sm:col-span-2 lg:col-span-3 grid grid-cols-2 sm:grid-cols-4 gap-6">
           <Card className="p-4 shadow-lg rounded-lg bg-white">
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-semibold">Pending</h3>
-                <p className="text-2xl">{orderStatuses.pending}</p>
+                <p className="text-2xl">{pendingOrders?.length}</p>
               </div>
               <Clock className="text-yellow-500 w-8 h-8" />
             </div>
@@ -79,7 +90,7 @@ const AdminDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-semibold">Shipped</h3>
-                <p className="text-2xl">{orderStatuses.shipped}</p>
+                <p className="text-2xl">{shippedOrders?.length}</p>
               </div>
               <Truck className="text-blue-400 w-8 h-8" />
             </div>
@@ -89,7 +100,7 @@ const AdminDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-semibold">Delivered</h3>
-                <p className="text-2xl">{orderStatuses.delivered}</p>
+                <p className="text-2xl">{deliveredOrders?.length}</p>
               </div>
               <CheckCircle2 className="text-green-600 w-8 h-8" />
             </div>
@@ -99,7 +110,7 @@ const AdminDashboard = () => {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-semibold">Cancelled</h3>
-                <p className="text-2xl">{orderStatuses.cancelled}</p>
+                <p className="text-2xl">{cancelledOrders?.length}</p>
               </div>
               <XCircle className="text-red-500 w-8 h-8" />
             </div>
@@ -109,10 +120,10 @@ const AdminDashboard = () => {
         <Card className="p-4 shadow-lg rounded-lg bg-white">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold">Pending Payments</h3>
-                <p className="text-2xl">10</p>
+                <h3 className="text-lg font-semibold">Due Payment</h3>
+                <p className="text-2xl">{prescriptionReviews?.length}</p>
               </div>
-              <DollarSign className="text-red-500 w-8 h-8" />
+              
             </div>
           </Card>
       

@@ -12,7 +12,7 @@ const AllMedicinesPage = async ({searchParams}:{searchParams:Promise<{searchItem
   
   return (
     <div className="my-18 pt-10">
-      <AllProducts medicines={medicines} />
+      <AllProducts medicines={medicines} filterOption={true} />
     </div>
   );
 };

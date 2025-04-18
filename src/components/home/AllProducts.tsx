@@ -11,17 +11,14 @@ import { IconRight } from "react-day-picker";
 import FilterMedicine from "./FilterMedicine";
 
 
-const AllProducts =  ({ medicines }: { medicines: TMedicineResponse[] }) => {
+const AllProducts =  ({ medicines, filterOption }: { medicines: TMedicineResponse[], filterOption:boolean }) => {
 
 const pathname = usePathname()
 
-
-
-
   return (
     <section>
-      <SectionHeadline headline="Everything You Need for Better Care" />
-      <FilterMedicine medicines={medicines}/>
+      <SectionHeadline headline="Everything You Need for Better Care" /> 
+      {filterOption && <FilterMedicine medicines={medicines}/> }
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 p-6">
         {medicines.map((medicine: TMedicineResponse, index) => (
           <MedicineCard key={index} medicine={medicine} />

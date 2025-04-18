@@ -2,12 +2,17 @@
 
 import { AppSidebar } from "@/components/ui/app-sidebar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { Home, Pill,Pen, ShoppingBag, Users, Book } from "lucide-react"
+import { Home, Pill,Pen, ShoppingBag, Users, Book, BookCopy } from "lucide-react"
 const items = [
     {
       title: "Home",
       url: "/",
       icon: Home,
+    },
+    {
+      title: "Dashboard",
+      url: "/admin/dashboard",
+      icon: BookCopy,
     },
     {
       title: "Medicines",

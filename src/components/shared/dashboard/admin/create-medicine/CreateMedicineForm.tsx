@@ -20,9 +20,8 @@ import {
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { CalendarIcon, ImageUp } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
+
 
 import {
   Popover,
@@ -33,7 +32,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createMedicineSchema } from "@/components/shared/dashboard/admin/create-medicine/createMedicineSchema";
 import ImageUploader from "../ImageUploader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createMedicine, imageToLink } from "@/services/medicine";
 import ImagePreviewer from "../ImageUploader/ImagePreviewer";
 import { IMedicine } from "@/types";
@@ -51,9 +50,12 @@ const medicineTypes = [
 
 const CreateMedicineForm = () => {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
-  const [imageLinks, setImageLinks] = useState<string[]>([]);
+ 
   const [imagePreview, setImagePreview] = useState<string[] | []>([]);
+
   const router = useRouter()
+
+
 
   const form = useForm({
     resolver: zodResolver(createMedicineSchema),
@@ -77,6 +79,7 @@ const CreateMedicineForm = () => {
           const res = await imageToLink(formData);
           if (res?.data?.url) {
             uploadedLinks.push(res.data.url); 
+
           }
         } catch (error) {
           console.error("Error uploading image:", error);
@@ -115,6 +118,8 @@ const CreateMedicineForm = () => {
       console.error("Upload error:", err);
     }
   }
+
+
 
   return (
     <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-2xl p-5 my-5">
@@ -231,7 +236,7 @@ const CreateMedicineForm = () => {
                     <FormLabel className="text-sm font-normal">
                       {field.value ? (
                         <span className="text-green-700 flex gap-3">
-                          PRESCRIPTION <ImageUp size={20} />
+                          PRESCRIPTION 
                         </span>
                       ) : (
                         <del>PRESCRIPTION</del>
@@ -272,54 +277,56 @@ const CreateMedicineForm = () => {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="expireDate"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Expire Date</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={"outline"}
-                          className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={
-                          field.value ? new Date(field.value) : undefined
-                        }
-                        onSelect={(date) => {
-                          if (date) {
-                            const formattedDate = date
-                              .toISOString()
-                              .split("T")[0]
-                            field.onChange(formattedDate);
-                          }
-                        }}
-                        disabled={(date) => date < new Date()}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
+            
+<FormField
+  control={form.control}
+  name="expireDate"
+  render={({ field }) => (
+    <FormItem className="flex flex-col">
+      <FormLabel>Expire Date</FormLabel>
+      <Popover>
+        <PopoverTrigger asChild>
+          <FormControl>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-[240px] pl-3 text-left font-normal",
+                !field.value && "text-muted-foreground"
               )}
-            />
+            >
+              {field.value ? (
+                new Date(field.value).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+              ) : (
+                <span>Pick a date</span>
+              )}
+            </Button>
+          </FormControl>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={field.value ? new Date(field.value) : undefined}
+            onSelect={(date) => {
+              if (date) {
+                const formattedDate = date.toISOString().split("T")[0];
+                field.onChange(formattedDate);
+              }
+            }}
+            disabled={(date) => date < new Date()}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4 items-center">

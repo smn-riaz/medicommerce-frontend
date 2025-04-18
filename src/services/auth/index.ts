@@ -38,7 +38,7 @@ export const registerUser = async(userData: FieldValues) => {
 
 
 export const loginUser = async(userData:FieldValues) => {
-    console.log(userData);
+
 
     try {  
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/login`, {
