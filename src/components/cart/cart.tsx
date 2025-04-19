@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Trash2, Plus, Minus , ImageUp, ShoppingCart} from "lucide-react";
+import { Trash2, Plus, Minus , ImageUp} from "lucide-react";
 import {
   addOrderInfo,
   addPrescription,
@@ -12,6 +12,7 @@ import {
   increaseQuanity,
   orderSelector,
   removeItemFromCart,
+  specificProductQuantitySelector,
 } from "@/redux/features/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
@@ -20,12 +21,13 @@ import ImageUploader from "../shared/dashboard/admin/ImageUploader";
 import { useEffect, useState } from "react";
 import ImagePreviewer from "../shared/dashboard/admin/ImageUploader/ImagePreviewer";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+
 import { imageToLink } from "@/services/medicine";
 import Image from "next/image";
-import { Alert, AlertDescription } from "../ui/alert";
 
-const Cart = () => {
+import {  TMedicineResponse } from "@/types";
+
+const Cart = ({medicines}:{medicines:TMedicineResponse[]}) => {
   const router = useRouter()
 
   const orderInfo = useAppSelector(orderSelector);
@@ -81,9 +83,25 @@ const Cart = () => {
   );
   const dispatch = useAppDispatch();
 
+
+
   const handleIncreaseQuantity = (id: string) => {
-    dispatch(increaseQuanity(id));
-  };
+    const specificMedicine = medicines?.find((medicine) => medicine._id === id);
+
+    if (!specificMedicine) {
+      toast.error("Medicine not found");
+      return;
+    }
+
+    const cartedProductQuantity = cartItems.find(cartItem => cartItem.id === id)?.quantity as number
+
+    if (cartedProductQuantity >= specificMedicine.quantity) {
+      toast.error("Maximum amount carted");
+    } else {
+      dispatch(increaseQuanity(id));
+    }
+  }
+
 
   const handleDecreaseQuantity = (id: string) => {
     const item = cartItems.find((item) => item.id === id);

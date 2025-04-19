@@ -1,7 +1,6 @@
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-"use server"
 
+"use server"
 
 import { cookies } from "next/headers"
 

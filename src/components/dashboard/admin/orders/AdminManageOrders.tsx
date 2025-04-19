@@ -55,18 +55,26 @@ const AdminManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
 
   const columns: ColumnDef<IOrderResponse>[] = [
     {
+      accessorKey: "name",
+      header: "Customer info",
+      cell: ({ row }) => <div>
+        <p className="px-1">{row.original.name}</p>
+        <p className="bg-gray-200 px-1">{row.original.email}</p>
+      </div>,
+    },
+    {
       accessorKey: "prescription",
       header: "Prescription",
       cell: ({ row }) => (
-        <div className="w-20 h-20 overflow-hidden rounded-md border">
-          <Image
-            src={row.original.prescription as string}
-            alt="Prescription"
-            width={80}
-            height={80}
-            className="object-cover"
-          />
-        </div>
+        row.original.prescription ? <div className="w-20 h-20 overflow-hidden rounded-md border">
+        <Image
+          src={row.original.prescription as string}
+          alt="Prescription"
+          width={80}
+          height={80}
+          className="object-cover"
+        />
+      </div> : <p className="text-center">N/A</p>
       ),
     },
     {
@@ -82,9 +90,11 @@ const AdminManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
             : "yellow";
 
         return (
+          row.original.prescription ? (
           <Badge className={`bg-${color}-100 text-${color}-600 border border-${color}-300`}>
             {status.toUpperCase()}
           </Badge>
+          ) : <p className="text-center">N/A</p>
         );
       },
     },
@@ -164,7 +174,7 @@ const AdminManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
   ];
 
   return (
-    <div className="p-4">
+    <div className="p-4 ">
       <h2 className="text-2xl font-semibold mb-4">Manage Orders</h2>
       <MMTable data={data} columns={columns} />
     </div>

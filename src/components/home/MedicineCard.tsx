@@ -12,7 +12,7 @@ import Link from 'next/link';
 
 
 export default function MedicineCard({ medicine }: { medicine: TMedicineResponse }) {
-  const { name, description, price, discount, imageUrl, _id} = medicine;
+  const { name, description, price, discount,quantity, imageUrl, _id} = medicine;
 
   return (
     <motion.div
@@ -30,7 +30,7 @@ export default function MedicineCard({ medicine }: { medicine: TMedicineResponse
       <CardContent className="space-y-3 p-4 flex flex-col flex-grow">
         <div className="flex justify-between items-start">
           <h3 className="text-lg font-semibold">{name}</h3>
-          {discount > 0 && <Badge variant="destructive">-{discount}%</Badge>}
+         {quantity>0?<Badge className='bg-green-800 text-sm py-0'>{quantity}</Badge>:<Badge className='bg-red-800 text-sm py-0'>Out of stock</Badge>}
         </div>
   
         <p className="text-sm text-muted-foreground line-clamp-2 flex-grow">

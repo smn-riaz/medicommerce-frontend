@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,21 +9,23 @@ import { useState as reactUseState } from "react";
 
 export default function PaymentSuccessPage() {
   const router = useRouter();
-  const [isPageReady, setIsPageReady] = useState(false);
+
+  const searchParams = useSearchParams();
+
+
+
+  const redirectPath = searchParams.get('redirectPath');
 
   useEffect(() => {
-    if (router) {
-      setIsPageReady(true);
-    }
-  }, [router]);
+    if (redirectPath) {
+      const timer = setTimeout(() => {
+        router.push("/success");
+      }, 2000); 
 
-  if (!isPageReady) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-gray-500 text-lg">Loading payment status...</p>
-      </div>
-    );
-  }
+      return () => clearTimeout(timer)
+    }
+  }, [redirectPath]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <Card className="max-w-md w-full shadow-xl rounded-2xl p-4">

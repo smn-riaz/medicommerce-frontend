@@ -13,7 +13,7 @@ const HomePage = async() => {
   return (
     <main className='my-16'>
       <HomeBanner />
-      <Carousel medicines={medicines.slice(0,4)}/>
+      <Carousel medicines={medicines.slice(0,4) || []}/>
       <AllProducts medicines={medicines.slice(1,7)} filterOption={false}/>
       <Testimonials reviews={reviews}/>
     </main>

@@ -11,8 +11,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { TMedicineResponse } from "@/types";
 import { useState } from "react";
-import { useAppDispatch } from "@/redux/hooks";
-import { addItemToCart } from "@/redux/features/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addItemToCart, specificProductQuantitySelector } from "@/redux/features/cartSlice";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -30,6 +30,10 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
   const [selectedImage, setSelectedImage] = useState(medicine.imageUrl[0]);
 
   const dispatch = useAppDispatch()
+
+  const {cartedProductQuantity} = useAppSelector((state) => specificProductQuantitySelector(state, { id: medicine._id }))
+
+
 
   const handleAddToCart = () => {
     dispatch(addItemToCart({
@@ -149,7 +153,7 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
                 <Button 
                 onClick={handleAddToCart}
                   size="lg"
-                  disabled={!medicine.inStock || user?.role==="admin"}
+                  disabled={!medicine.inStock || user?.role==="admin" || cartedProductQuantity>=medicine.quantity}
                   className="w-full"
                 >
                   {medicine.inStock ? "Add to Cart" : "Out of Stock"}

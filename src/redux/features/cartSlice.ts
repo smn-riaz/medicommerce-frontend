@@ -133,6 +133,14 @@ export const orderSelector = (state: RootState) => {
   }
 }
 
+
+export const specificProductQuantitySelector = (state: RootState, payload: { id: string }) => {
+  const cartedProductQuantity = state.cart.items.find(p => p.id === payload.id)?.quantity || 0;
+  return {
+    cartedProductQuantity
+  }
+}
+
 export const { addItemToCart, removeItemFromCart,addPrescription, clearCart,increaseQuanity,decreaseQuanity, addOrderInfo } = cartSlice.actions;
 
 export default cartSlice.reducer;

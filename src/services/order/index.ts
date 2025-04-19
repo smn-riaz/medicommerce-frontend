@@ -1,13 +1,15 @@
 "use server"
 
 import { IOrderResponse } from "@/types"
+import { cookies } from "next/headers"
 
 export const createOrderWithPrescription = async (orderInfo:any) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/create-order-prescription`, {
         method:"POST",
-        headers:{
-            'Content-type':"application/json"
-        },
+         headers: {
+                 Authorization:(await cookies()).get("accessToken")!.value,
+                 "Content-Type": "application/json"
+             },
         body:JSON.stringify(orderInfo)
     })
 
@@ -22,8 +24,9 @@ export const createOrderWithOutPrescription = async (orderInfo: any) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/create-order-payment`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-      },
+        Authorization:(await cookies()).get("accessToken")!.value,
+        "Content-Type": "application/json"
+    },
       body: JSON.stringify(orderInfo),
     });
 
@@ -44,8 +47,9 @@ export const updateOrderStatus = async (orderId: string, newStatus: string) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/${orderId}`, {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json",
-      },
+        Authorization:(await cookies()).get("accessToken")!.value,
+        "Content-Type": "application/json"
+    },
       body: JSON.stringify({ orderStatus: newStatus }),
       next: {
         tags: ['ORDER'], 
@@ -65,8 +69,9 @@ export const updatePrescriptionReviewStatus = async (orderId: string, newStatus:
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/prescription/${orderId}`, {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json",
-      },
+        Authorization:(await cookies()).get("accessToken")!.value,
+        "Content-Type": "application/json"
+    },
       body: JSON.stringify({prescriptionReviewStatus: newStatus }),
       next: {
         tags: ['ORDER'], 
@@ -86,7 +91,11 @@ export const getAllOrder = async() => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order`, {
         next:{
           tags:['ORDER']
-        }
+        },
+        headers: {
+          Authorization:(await cookies()).get("accessToken")!.value,
+          "Content-Type": "application/json"
+      },
       })
       return await res.json()
   
@@ -102,7 +111,11 @@ export const getUserOrders = async(id:string) => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/user-order/${id}`, {
         next:{
           tags:['ORDER']
-        }
+        },
+        headers: {
+          Authorization:(await cookies()).get("accessToken")!.value,
+          "Content-Type": "application/json"
+      },
       })
       return await res.json()
   
@@ -117,7 +130,11 @@ export const getSpecificOrder = async(id:string) => {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/${id}`, {
         next:{
           tags:['ORDER']
-        }
+        },
+        headers: {
+          Authorization:(await cookies()).get("accessToken")!.value,
+          "Content-Type": "application/json"
+      },
       })
       return await res.json()
   
@@ -135,8 +152,9 @@ export const getSpecificOrder = async(id:string) => {
         },
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-        },
+          Authorization:(await cookies()).get("accessToken")!.value,
+          "Content-Type": "application/json"
+      },
         body: JSON.stringify(paymentInfo),
       })
       return await res.json()

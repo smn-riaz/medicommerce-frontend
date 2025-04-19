@@ -14,6 +14,8 @@ export interface IShippingInfo {
   export interface IOrderResponse {
     _id: string;
     userId: string;
+    name:string
+    email:string
     createdAt: string;
     prescription?:string
     updatedAt: string;

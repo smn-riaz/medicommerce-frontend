@@ -85,7 +85,7 @@ const UserManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
             row.original.prescription ? "border" : ""
           }`}
         >
-          {row.original.prescription && (
+          {row.original.prescription &&  (
             <div className="w-20 h-20 overflow-hidden rounded-md border">
                       <HoverPrescription prescription={row.original.prescription} products={row.original.products}>
                       

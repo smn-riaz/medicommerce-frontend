@@ -57,20 +57,20 @@ export default function RegisterForm() {
     try {
 
 
-      const [user, res] = await Promise.all([
-        getCurrentUser(),
-        registerUser(data),
-      ])
-  
-      if (res?.success) {
-        setUser(user)
+      const res = await registerUser(data);
 
-        toast.success(res?.message, {duration:1400})
-     
-          router.push(`/${user.role}`)
+      if (res?.success) {
+        const user = await getCurrentUser(); 
+      
+        setUser(user);
         
+        toast.success(res?.message, { duration: 1400 });
+      
+       if(user?.role){
+        router.push(`/${user?.role}`);
+       } else {router.push('/')}
       } else {
-        toast.error(res?.message,{duration:1400});
+        toast.error(res?.message, { duration: 1400 });
       }
     } catch (err: any) {
       console.error(err);

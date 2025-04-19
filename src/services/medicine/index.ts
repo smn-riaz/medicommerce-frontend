@@ -3,15 +3,17 @@
 
 import { IMedicine } from "@/types"
 import { revalidateTag } from "next/cache"
+import { cookies } from "next/headers"
 
 export const createMedicine = async(medicineData:IMedicine) => {
+  
     try {
        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/product/create-product`, {
         method:"POST",
-        headers:{
-            Authorization: "",
-            "content-Type":'application/json'
-        },
+        headers: {
+          Authorization:(await cookies()).get("accessToken")!.value,
+          "Content-Type": "application/json"
+      },
         body:JSON.stringify(medicineData)
        })
 
@@ -25,47 +27,34 @@ export const createMedicine = async(medicineData:IMedicine) => {
 }
 
 
+
+
 export const getAllMedicine = async (params?: Record<string, string>) => {
   try {
-    const query = new URLSearchParams(params).toString(); // Build query string
+    const query = new URLSearchParams(params).toString();
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/product${query ? `?${query}` : ""}`,
       {
         next: {
-          tags: ['MEDICINE']
+          tags: ['MEDICINE'],
+          revalidate: 5
         },
-        cache: 'force-cache',
+        
       }
     );
 
+    if (!res.ok) {
+      const text = await res.text(); // get full message
+      console.error('Fetch error:', res.status, text);
+      throw new Error(`Failed to fetch medicines: ${res.status}`);
+    }
+
     return await res.json();
   } catch (error: any) {
-    throw new Error(error);
+    console.error("getAllMedicine error:", error);
+    throw new Error(error.message || 'Something went wrong');
   }
 }
-
-
-
-
-// export const updateMedicine = async(MedicineInfo, medicineId):Promise<any> => {
-
-//     try {
-//         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/medicine/update-medicine`, {
-//             method:"PATCH",
-//             headers:{
-//                 Authorization:""
-//             },
-//             body:MedicineInfo
-//         })
-
-//         revalidateTag("MEDICINE")
-
-//         return await res.json()
-
-//     } catch (error:any) {
-//         throw Error(error)
-//     }
-// }
 
 
 export const getSingleMedicine = async (medicineId: string) => {

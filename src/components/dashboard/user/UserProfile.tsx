@@ -1,4 +1,3 @@
-"use client"
 
 import {
   Card,
@@ -18,10 +17,10 @@ import {
   ShoppingCart,
 } from "lucide-react"
 import { useUser } from "@/context/UserContext"
+import { getUserOrders } from "@/services/order"
+import { IOrderResponse, IUser } from "@/types"
 
-const UserProfile =  () => {
-  const { user } = useUser()
- 
+const UserProfile =  async({user,orders}:{user:IUser, orders:IOrderResponse[]}) => {
 
   return (
     <div className="w-full px-4 py-6">
@@ -41,7 +40,7 @@ const UserProfile =  () => {
         <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-base px-4 pb-6">
           <InfoItem icon={<BadgeCheck size={18} />} label="Role" value={user?.role} />
           <InfoItem icon={<Mail size={18} />} label="Email" value={user?.email} />
-          <InfoItem icon={<ShoppingCart size={18} />} label="Total Orders" value={10} />
+          <InfoItem icon={<ShoppingCart size={18} />} label="Total Orders" value={orders?.length} />
         </CardContent>
       </Card>
     </div>

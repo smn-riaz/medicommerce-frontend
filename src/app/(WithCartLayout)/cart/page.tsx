@@ -1,10 +1,13 @@
 import Cart from '@/components/cart/cart';
+import { getAllMedicine } from '@/services/medicine';
 import React from 'react';
 
-const CartPage = () => {
+const CartPage =async () => {
+
+    const {data} = await getAllMedicine()
     return (
         <div className='my-18 py-10'>
-            <Cart />
+            <Cart medicines = {data}/>
         </div>
     );
 };

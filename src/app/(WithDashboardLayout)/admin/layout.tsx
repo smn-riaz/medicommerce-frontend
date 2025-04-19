@@ -47,7 +47,7 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
   return (
     <SidebarProvider>
       <AppSidebar items={items}/>
-      <main>
+      <main className="bg-[#FFFFFF]">
         <SidebarTrigger />
         <div className="p-4 pt-0 min-h-screen ">{children}</div>
       </main>
