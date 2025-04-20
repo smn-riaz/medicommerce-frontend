@@ -98,22 +98,21 @@ export const getAllMedicine = async (params?: Record<string, string>) => {
 
 
 export const getSingleMedicine = async (medicineId: string) => {
-    try {
-      const res = await fetch(
-        `${process.env.BASE_API}/product/${medicineId}`,
-        {
-          next: {
-            tags: ["MEDICINE"],
-          },
-        }
-      );
-      const data = await res.json();
-      return data;
-      
-    } catch (error: any) {
-      return Error(error.message);
-    }
-  };
+  try {
+    const res = await fetch(`${process.env.BASE_API}/product/${medicineId}`, {
+      next: { tags: ['MEDICINE'] },
+    });
+
+    if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
+    
+    const data = await res.json();
+    return data;
+  } catch (error: any) {
+    console.error('Fetch error:', error.message);
+    return { data: null };
+  }
+};
+
 
 
   export const imageToLink = async(image:FormData) => {
