@@ -106,9 +106,9 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  {medicine.discount > 0 && (
+                  {/* {medicine.discount > 0 && (
                     <Badge variant="destructive">-{medicine.discount}%</Badge>
-                  )}
+                  )} */}
                   <span className="text-xl font-semibold">
                     ৳
                     {(medicine.price * (1 - medicine.discount / 100)).toFixed(
@@ -122,15 +122,15 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
                   )}
                 </div>
 
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <div>
+                <div className="sm:flex items-center justify-between gap-6 text-sm text-muted-foreground">
+                <div className="pb-4 sm:pb-0">
           {medicine.inStock ? (
-            <p className="text-green-500 border bg-green-100  text-center font-semibold px-1 rounded">
+            <p className="text-green-500 border bg-green-100 w-1/2 sm:w-full text-center font-semibold px-1 rounded">
              In Stock
             </p>
           ) : (
-            <p className="text-red-500 border bg-red-100  text-center font-semibold px-1 rounded">
-                Ou
+            <p className="text-red-500 border bg-red-100 w-1/2 sm:w-full text-center font-semibold px-1 rounded">
+                Out of stock
             </p>
           )}
         </div>

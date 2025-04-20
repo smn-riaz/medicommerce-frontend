@@ -27,9 +27,9 @@ export default function UserDashboardLayout({ children }: { children: React.Reac
   return (
     <SidebarProvider>
       <AppSidebar items={items}/>
-      <main>
+      <main className="bg-[#FFFFFF]  min-h-screen">
         <SidebarTrigger />
-        {children}
+        <div className="p-4 pt-0 ">{children}</div>
       </main>
     </SidebarProvider>
   )

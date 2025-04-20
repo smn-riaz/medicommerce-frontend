@@ -23,8 +23,8 @@ import { IOrderResponse, IUser } from "@/types"
 const UserProfile =  async({user,orders}:{user:IUser, orders:IOrderResponse[]}) => {
 
   return (
-    <div className="w-full px-4 py-6">
-      <Card className="max-w-2xl mx-auto shadow-xl border-none rounded-2xl bg-gradient-to-br from-white via-slate-50 to-slate-100">
+    <div className="w-full px-2 py-6">
+      <Card className="max-w-2xl px-6  border-none rounded-2xl">
         <CardHeader className="flex items-center flex-col space-y-4">
           <Avatar className="w-20 h-20 border shadow">
             <AvatarImage  alt={user?.name} />
@@ -32,16 +32,18 @@ const UserProfile =  async({user,orders}:{user:IUser, orders:IOrderResponse[]}) 
               {"@Me"}
             </AvatarFallback>
           </Avatar>
-          <CardTitle className="text-2xl font-bold text-slate-800">
+          <CardTitle className="text-2xl font-bold ">
             {user?.name.toUpperCase()}
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-base px-4 pb-6">
-          <InfoItem icon={<BadgeCheck size={18} />} label="Role" value={user?.role} />
-          <InfoItem icon={<Mail size={18} />} label="Email" value={user?.email} />
-          <InfoItem icon={<ShoppingCart size={18} />} label="Total Orders" value={orders?.length} />
-        </CardContent>
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-base px-2 pb-6 w-full">
+  <InfoItem icon={<BadgeCheck size={18} />} label="Role" value={user?.role} />
+  <InfoItem icon={<Mail size={18} />} label="Email" value={user?.email} />
+  <InfoItem icon={<ShoppingCart size={18} />} label="Total Orders" value={orders?.length} />
+</CardContent>
+
+
       </Card>
     </div>
   )

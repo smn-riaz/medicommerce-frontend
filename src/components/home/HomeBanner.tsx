@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 export default function HomeBanner() {
   return (
-    <section className="relative min-h-screen bg-gradient-to-r from-blue-100 via-white to-green-100 py-16 px-6 md:px-16 overflow-hidden  shadow-lg mb-12">
+    <section className="relative lg:min-h-screen bg-gradient-to-r from-blue-100 via-white to-green-100 py-16 px-6 md:px-16 overflow-hidden  shadow-lg mb-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         
         <motion.div
@@ -31,7 +31,7 @@ export default function HomeBanner() {
           </Button></Link>
         </motion.div>
 
-        {/* Banner Image */}
+       
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}

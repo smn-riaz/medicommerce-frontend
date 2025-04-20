@@ -93,102 +93,112 @@ const Checkout = () => {
 
   return (
     <div className="max-w-5xl mx-auto p-4 space-y-6">
-      <h1 className="text-3xl font-bold mb-6">Checkout</h1>
+  <h1 className="text-3xl font-bold mb-6">Checkout</h1>
 
-      <div className="grid  grid-cols-3">
-        <Card>
-          <CardHeader>
-            <CardTitle>Order Summary</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {products?.map((product) => (
-              <div
-                key={product.productId}
-                className="border-b  bg-blue-50 p-2 rounded-md"
-              >
-                <p className="font-medium">{product.name}</p>
-                <p className="text-sm text-muted-foreground">
-                  Quantity: {product.quantity}
-                </p>
-                <p className="text-sm">Price: ৳{product.price}</p>
-                <p className="text-sm font-semibold">
-                  Total: ৳{product.price * product.quantity}
-                </p>
-              </div>
-            ))}
-            <div></div>
-            <div className="pt-4 border-t space-y-2">
-              <p>
-                <strong>Shipping Cost:</strong> ৳{shippingCost}
-              </p>
-              <p>
-                <strong>Total:</strong> ৳
-                {Number(totalPrice) + Number(shippingCost)}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+  {/* Order Summary */}
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <Card className="col-span-1 lg:col-span-3">
+      <CardHeader>
+        <CardTitle>Order Summary</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {products?.map((product) => (
+          <div
+            key={product.productId}
+            className="border-b bg-blue-50 p-2 rounded-md"
+          >
+            <p className="font-medium">{product.name}</p>
+            <p className="text-sm text-muted-foreground">
+              Quantity: {product.quantity}
+            </p>
+            <p className="text-sm">Price: ৳{product.price}</p>
+            <p className="text-sm font-semibold">
+              Total: ৳{product.price * product.quantity}
+            </p>
+          </div>
+        ))}
+        <div className="pt-4 border-t space-y-2">
+          <p>
+            <strong>Shipping Cost:</strong> ৳{shippingCost}
+          </p>
+          <p>
+            <strong>Total:</strong> ৳
+            {Number(totalPrice) + Number(shippingCost)}
+          </p>
+        </div>
+      </CardContent>
+    </Card>
+  </div>
 
-     
-      <div className="grid  grid-cols-3 gap-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>User Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <p>
-              <strong>Name:</strong>
-              <Badge>{user?.name.toUpperCase()}</Badge>
-            </p>
-            <p>
-              <strong>Email:</strong>
-              <Badge className="bg-primary text-sm">{user?.email}</Badge>
-            </p>
-          </CardContent>
-        </Card>
+  {/* User, Shipping, Prescription */}
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <Card>
+      <CardHeader>
+        <CardTitle>User Information</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <p>
+          <strong>Name:</strong>
+          <Badge>{user?.name?.toUpperCase()}</Badge>
+        </p>
+        <p>
+          <strong>Email:</strong>
+          <Badge className="bg-primary text-sm">{user?.email}</Badge>
+        </p>
+      </CardContent>
+    </Card>
 
-       
-        <Card>
-          <CardHeader>
-            <CardTitle>Shipping Information</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <p>
-              <strong>Address:</strong> {shippingInfo?.shippingAddress}
-            </p>
-            <p>
-              <strong>City:</strong> {shippingInfo?.shippingAddress}
-            </p>
-          </CardContent>
-        </Card>
+    <Card>
+      <CardHeader>
+        <CardTitle>Shipping Information</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <p>
+          <strong>Address:</strong> {shippingInfo?.shippingAddress}
+        </p>
+        <p>
+          <strong>City:</strong> {shippingInfo?.shippingCity}
+        </p>
+      </CardContent>
+    </Card>
 
-        {prescription && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Prescription</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Image
-                width={500}
-                height={500}
-                src={prescription}
-                alt="Prescription"
-                className="w-full max-w-sm rounded shadow"
-              />
-            </CardContent>
-          </Card>
+    {prescription && (
+      <Card>
+        <CardHeader>
+          <CardTitle>Prescription</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Image
+            width={500}
+            height={500}
+            src={prescription}
+            alt="Prescription"
+            className="w-full max-w-sm mx-auto rounded shadow"
+          />
+        </CardContent>
+      </Card>
+    )}
+  </div>
+
+  {/* Pay Now Button */}
+  <div className="mt-4">
+    <Card
+      onClick={handleOrder}
+      className="bg-accent text-white hover:bg-accent cursor-pointer"
+    >
+      <CardContent className="py-6 text-center font-semibold text-xl flex justify-center items-center gap-2">
+        {prescription ? (
+          <>Review Prescription</>
+        ) : (
+          <>
+            <BadgeDollarSign /> Pay Now
+          </>
         )}
+      </CardContent>
+    </Card>
+  </div>
+</div>
 
-        <Card onClick={handleOrder} className="bg-accent flex justify-center items-center text-white hover:bg-accent cursor-pointer">
-          <CardContent className="space-y-2 flex gap-2 font-semibold text-xl justify-center items-center">
-            {
-              prescription ? <>Review Prescription</> : <><BadgeDollarSign /> Pay Now</>
-            }
-          </CardContent>
-        </Card>
-      </div>
-    </div>
   );
 };
 
