@@ -2,9 +2,11 @@ import UpdateMedicineForm from "@/components/shared/dashboard/admin/update-medic
 import { getSingleMedicine } from "@/services/medicine";
 
 
-const UpdateMedicinePage = async({params}:{params:{id:string}}) => {
+const UpdateMedicinePage = async({params}:{params:Promise<{id:string}>}) => {
 
-  const {data:medicine} = await getSingleMedicine(params.id)
+  const medicineId = (await params).id
+
+  const {data:medicine} = await getSingleMedicine(medicineId)
 
 
   return (

@@ -30,13 +30,14 @@ export const getAllUser = async() => {
         `${process.env.NEXT_PUBLIC_BASE_API}/user/${userId}`,
         
         {
-          headers:{
-            Authorization:""
-          },
+          headers: {
+            Authorization:(await cookies()).get("accessToken")!.value,
+            "Content-Type": "application/json"
+        },
           method:"DELETE"
         }
       )
-      revalidateTag("MEDICINE")
+      revalidateTag("USER")
 
       const data = await res.json();
       return data;
