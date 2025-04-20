@@ -2,18 +2,18 @@
 import Footer from '@/components/home/Footer';
 import Navbar from '@/components/home/Navbar';
 import PreLoading from '@/components/home/PreLoading';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const CommonLayout = ({children}:{children:React.ReactNode}) => {
     const [showPreloader, setShowPreloader] = useState(true)
 
-    // useEffect(() => {
-    //     const timer = setTimeout(() => {
-    //       setShowPreloader(false)
-    //     }, 3000) 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+          setShowPreloader(false)
+        }, 3000) 
     
-    //     return () => clearTimeout(timer)
-    //   }, [])
+        return () => clearTimeout(timer)
+      }, [])
     
     if (showPreloader) {
         return (
@@ -28,9 +28,9 @@ const CommonLayout = ({children}:{children:React.ReactNode}) => {
             </main>
         )
     }
-    // else {
-    //     return <PreLoading />
-    // }
+    else {
+        return <PreLoading />
+    }
     
 };
 
