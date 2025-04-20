@@ -132,17 +132,38 @@ const UserManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
         );
       },
     },
+    
+
     {
       accessorKey: "orderStatus",
       header: "Order Status",
-      cell: ({ row }) => <Badge>{row.original.orderStatus.toUpperCase()}</Badge>,
-    },
+      cell: ({ row }) => {
+        const status = row.original.orderStatus;
+    
+        const colorMap: Record<string, string> = {
+          pending: "bg-orange-500 text-white",
+          shipped: "bg-blue-600 text-white",
+          delivered: "bg-green-600 text-white",
+          cancelled: "bg-red-600 text-white",
+        };
+    
+        const colorClass = colorMap[status] || "bg-gray-500 text-white";
+    
+        return (
+          <Badge className={colorClass}>
+            {status?.toUpperCase()}
+          </Badge>
+        );
+      },
+    }
+    
+,    
     {
       accessorKey: "paymentStatus",
       header: "Payment",
       cell: ({ row }) =>
         row.original.paymentStatus ? (
-          <Badge variant="default">Paid</Badge>
+          <Badge variant="default" className="bg-green-600">Paid</Badge>
         ) : (
           <Badge variant="destructive">Unpaid</Badge>
         ),

@@ -29,3 +29,5 @@ export interface IMedicine {
   inStock: boolean
   requiredPrescription:boolean
 }
+
+export type IMedicineWithId = IMedicine & { _id: string };

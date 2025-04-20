@@ -27,12 +27,12 @@ const items = [
     },
     
     {
-      title: "Orders",
+      title: "Manage Orders",
       url: "/admin/orders",
       icon: ShoppingBag,
     },
     {
-      title: "Users",
+      title: "Manage Users",
       url: "/admin/users",
       icon: Users
     },

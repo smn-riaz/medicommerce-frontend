@@ -2,18 +2,23 @@
 import DeleteConfirmationModal from "@/components/shared/dashboard/MMModal";
 import { MMTable } from "@/components/shared/dashboard/MMTable";
 import { Button } from "@/components/ui/button";
+import { deleteMedicine } from "@/services/medicine";
 import { TMedicineResponse } from "@/types";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { Trash } from "lucide-react";
+import { Pen, Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "sonner";
 
 
 
 const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const router = useRouter()
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -25,22 +30,26 @@ const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
     setModalOpen(true);
   };
 
-  const handleDeleteConfirm = async () => {
+  const handleDeleteConfirm = async (id:string) => {
     try {
-      //   if (selectedId) {
-      //     const res = await deleteCategory(selectedId);
+        if (id) {
+          const res = await deleteMedicine(id)
      
-      //     if (res.success) {
-      //       toast.success(res.message);
-      //       setModalOpen(false);
-      //     } else {
-      //       toast.error(res.message);
-      //     }
-      //   }
+          if (res.success) {
+            toast.success(res.message);
+            setModalOpen(false);
+          } else {
+            toast.error(res.message);
+          }
+        }
     } catch (err: any) {
       console.error(err?.message);
     }
   };
+
+  const handleUpdate = (id:string)=>{
+    router.push(`/admin/medicines/update-medicine/${id}`)
+  }
 
   const columns: ColumnDef<TMedicineResponse>[] = [
     {
@@ -73,10 +82,16 @@ const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
     {
       accessorKey: "price",
       header: "Price",
+      cell: ({ row }) => (
+        <p className="text-center">{row.original.price}</p>
+      )
     },
     {
       accessorKey: "quantity",
       header: "Quantity",
+      cell: ({ row }) => (
+        <p className="text-center">{row.original.quantity}</p>
+      )
     },
     {
       accessorKey: "inStock",
@@ -95,37 +110,39 @@ const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
         </div>
       ),
     },
-    {
-      accessorKey: "discount",
-      header: "Discount",
-      cell: ({ row }) => (
-        <div>
-          <p>{row.original.discount}%</p>
-        </div>
-      ),
-    },
+    // {
+    //   accessorKey: "discount",
+    //   header: "Discount",
+    //   cell: ({ row }) => (
+    //     <div>
+    //       <p className="text-center">{row.original.discount}%</p>
+    //     </div>
+    //   ),
+    // },
     {
       accessorKey: "expireDate",
       header: "Expire",
     },
     {
-      accessorKey: "action",
-      header: () => <div>Action</div>,
+      accessorKey: "delete",
+      header: () => <div>Delete</div>,
       cell: ({ row }) => (
-        <button
-          className="text-red-500"
+        <div className="flex justify-center items-center">
+          <button
+          className="text-red-500 cursor-pointer"
           title="Delete"
           onClick={() => handleDelete(row.original)}
         >
-          <Trash className="w-5 h-5" />
+         <Trash className="w-5 h-5" />
         </button>
+        </div>
       ),
     },
     {
       accessorKey: "requiredPrescription",
       header: () => <div>Prescription</div>,
       cell: ({ row }) => (
-        <div>
+        <div className="text-center flex justify-center items-center">
           {row.original.requiredPrescription ? (
             <p className="text-green-500 border bg-green-100 w-14 text-center px-1 rounded">
               True
@@ -136,6 +153,20 @@ const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
             </p>
           )}
         </div>
+      ),
+    },
+
+    {
+      accessorKey: "update",
+      header: () => <div>Update</div>,
+      cell: ({ row }) => (
+        <div className="flex justify-center items-center"><button
+        className="text-blue-500 cursor-pointer"
+        title="Update"
+        onClick={() => handleUpdate(row.original._id)}
+      >
+       <Pen className="w-5 h-5" />
+      </button></div>
       ),
     },
   ];
@@ -151,7 +182,7 @@ const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
           name={selectedItem}
           isOpen={isModalOpen}
           onOpenChange={setModalOpen}
-          onConfirm={handleDeleteConfirm}
+          onConfirm={() => selectedId && handleDeleteConfirm(selectedId)}
         />
       </div>
     </div>

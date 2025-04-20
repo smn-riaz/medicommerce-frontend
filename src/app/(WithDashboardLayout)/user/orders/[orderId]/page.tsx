@@ -8,12 +8,10 @@ const PrescriptionOrderPaymentPage = async ({ params}: { params: Promise<{ order
   
     const { data: order } = await getSpecificOrder(orderId)
 
-    const user = await getCurrentUser()
-
     
     return (
         <div>
-            <PrescriptionOrderPayment order={order} user={user}/>
+            <PrescriptionOrderPayment order={order}/>
         </div>
     );
 };

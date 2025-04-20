@@ -130,7 +130,7 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
             </p>
           ) : (
             <p className="text-red-500 border bg-red-100  text-center font-semibold px-1 rounded">
-                Out Of Stock 
+                Ou
             </p>
           )}
         </div>

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
-import { IMedicine } from "@/types"
+import { IMedicine, IMedicineWithId } from "@/types"
 import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 
@@ -15,6 +15,51 @@ export const createMedicine = async(medicineData:IMedicine) => {
           "Content-Type": "application/json"
       },
         body:JSON.stringify(medicineData)
+       })
+
+       revalidateTag("MEDICINE")
+
+       return res.json()
+        
+    } catch (error:any) {
+        return Error(error)
+    }
+}
+
+
+
+
+export const updateMedicine = async(medicineData:IMedicineWithId) => {
+  
+    try {
+       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/product/${medicineData._id}`, {
+        method:"PATCH",
+        headers: {
+          Authorization:(await cookies()).get("accessToken")!.value,
+          "Content-Type": "application/json"
+      },
+        body:JSON.stringify(medicineData)
+       })
+
+       revalidateTag("MEDICINE")
+
+       return res.json()
+        
+    } catch (error:any) {
+        return Error(error)
+    }
+}
+
+
+export const deleteMedicine = async(id:string) => {
+
+    try {
+       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/product/${id}`, {
+        method:"DELETE",
+        headers: {
+          Authorization:(await cookies()).get("accessToken")!.value,
+          "Content-Type": "application/json"
+      }
        })
 
        revalidateTag("MEDICINE")

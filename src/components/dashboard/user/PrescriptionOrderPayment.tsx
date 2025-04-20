@@ -9,15 +9,17 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-const PrescriptionOrderPayment = ({ order, user }: { order: IOrderResponse, user:any }) => {
-  const { shippingInfo, shippingCost, totalPrice, products, paymentStatus, prescription } = order;
+const PrescriptionOrderPayment = ({ order }: { order: IOrderResponse }) => {
+  const { shippingInfo, shippingCost, totalPrice, products, paymentStatus, prescription, name, email } = order;
+
+  
+
 
   const router = useRouter()
   
 
   const handlePayment = async() => {
-    const paymentInfo = {...order, name:user.name.toUpperCase(), email:user.email}
-   
+    const paymentInfo = {...order}
  try {
   
   const res = await paymentPrescriptionOrder(paymentInfo)
@@ -35,6 +37,7 @@ const PrescriptionOrderPayment = ({ order, user }: { order: IOrderResponse, user
   };
 
   return (
+
    <> 
    {
     !paymentStatus &&  <div className="max-w-5xl mx-auto p-4 space-y-6">
@@ -76,7 +79,25 @@ const PrescriptionOrderPayment = ({ order, user }: { order: IOrderResponse, user
     </div>
 
 
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+    
+      <Card>
+        <CardHeader>
+          <CardTitle>User Information</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <p>
+            <strong>Name:</strong> {name}
+          </p>
+          <p>
+            <strong>Email:</strong> {email}
+          </p>
+        </CardContent>
+      </Card>
+
+      </div>
+      
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
     
       <Card>
         <CardHeader>
