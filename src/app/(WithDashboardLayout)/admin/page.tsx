@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import AdminDashboard from "@/components/dashboard/admin/AdminDashboard";
 import { getAllMedicine } from "@/services/medicine";
 import { getAllOrder } from "@/services/order";

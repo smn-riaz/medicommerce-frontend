@@ -1,4 +1,5 @@
-"use server"
+export const dynamic = "force-dynamic";
+
 import MedicineDetail from '@/components/home/MedicineDetail';
 import { getSingleMedicine } from '@/services/medicine';
 import React from 'react';

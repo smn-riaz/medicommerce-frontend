@@ -11,7 +11,7 @@ import { FieldValues } from "react-hook-form"
 export const registerUser = async(userData: FieldValues) => {
     try {
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user/create-user`, {
+        const res = await fetch(`${process.env.BASE_API}/user/create-user`, {
             method:'POST',
             headers:{
                 "Content-type":"application/json"
@@ -40,7 +40,7 @@ export const loginUser = async(userData:FieldValues) => {
 
 
     try {  
-        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/auth/login`, {
+        const res = await fetch(`${process.env.BASE_API}/auth/login`, {
             method:'POST',
             headers:{
                 "Content-type":"application/json"

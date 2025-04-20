@@ -4,7 +4,7 @@ import { IOrderResponse } from "@/types"
 import { cookies } from "next/headers"
 
 export const createOrderWithPrescription = async (orderInfo:any) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/create-order-prescription`, {
+    const res = await fetch(`${process.env.BASE_API}/order/create-order-prescription`, {
         method:"POST",
          headers: {
                  Authorization:(await cookies()).get("accessToken")!.value,
@@ -21,7 +21,7 @@ export const createOrderWithPrescription = async (orderInfo:any) => {
 
 export const createOrderWithOutPrescription = async (orderInfo: any) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/create-order-payment`, {
+    const res = await fetch(`${process.env.BASE_API}/order/create-order-payment`, {
       method: "POST",
       headers: {
         Authorization:(await cookies()).get("accessToken")!.value,
@@ -44,7 +44,7 @@ export const createOrderWithOutPrescription = async (orderInfo: any) => {
 
 export const updateOrderStatus = async (orderId: string, newStatus: string) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/${orderId}`, {
+    const res = await fetch(`${process.env.BASE_API}/order/${orderId}`, {
       method: "PATCH",
       headers: {
         Authorization:(await cookies()).get("accessToken")!.value,
@@ -66,7 +66,7 @@ export const updateOrderStatus = async (orderId: string, newStatus: string) => {
 
 export const updatePrescriptionReviewStatus = async (orderId: string, newStatus: string) => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/prescription/${orderId}`, {
+    const res = await fetch(`${process.env.BASE_API}/order/prescription/${orderId}`, {
       method: "PATCH",
       headers: {
         Authorization:(await cookies()).get("accessToken")!.value,
@@ -88,7 +88,7 @@ export const updatePrescriptionReviewStatus = async (orderId: string, newStatus:
 
 export const getAllOrder = async() => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order`, {
+      const res = await fetch(`${process.env.BASE_API}/order`, {
         next:{
           tags:['ORDER']
         },
@@ -108,7 +108,7 @@ export const getAllOrder = async() => {
 
 export const getUserOrders = async(id:string) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/user-order/${id}`, {
+      const res = await fetch(`${process.env.BASE_API}/order/user-order/${id}`, {
         next:{
           tags:['ORDER']
         },
@@ -127,7 +127,7 @@ export const getUserOrders = async(id:string) => {
 
 export const getSpecificOrder = async(id:string) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/order/${id}`, {
+      const res = await fetch(`${process.env.BASE_API}/order/${id}`, {
         next:{
           tags:['ORDER']
         },
@@ -146,7 +146,7 @@ export const getSpecificOrder = async(id:string) => {
 
   export const paymentPrescriptionOrder = async(paymentInfo:IOrderResponse) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/payment/${paymentInfo._id}`, {
+      const res = await fetch(`${process.env.BASE_API}/payment/${paymentInfo._id}`, {
         next:{
           // tags:['ORDER']
         },

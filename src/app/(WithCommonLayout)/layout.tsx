@@ -7,13 +7,13 @@ import React, { useEffect, useState } from 'react';
 const CommonLayout = ({children}:{children:React.ReactNode}) => {
     const [showPreloader, setShowPreloader] = useState(true)
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-          setShowPreloader(false)
-        }, 3000) 
+    // useEffect(() => {
+    //     const timer = setTimeout(() => {
+    //       setShowPreloader(false)
+    //     }, 3000) 
     
-        return () => clearTimeout(timer)
-      }, [])
+    //     return () => clearTimeout(timer)
+    //   }, [])
     
     if (showPreloader) {
         return (

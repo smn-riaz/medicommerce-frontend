@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Cart from '@/components/cart/cart';
 import { getAllMedicine } from '@/services/medicine';
 import React from 'react';

@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+
+
 import PrescriptionOrderPayment from "@/components/dashboard/user/PrescriptionOrderPayment";
 import { getCurrentUser } from "@/services/auth";
 import { getSpecificOrder } from "@/services/order";

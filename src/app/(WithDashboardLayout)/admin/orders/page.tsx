@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+
+
 import AdminManageOrders from '@/components/dashboard/admin/orders/AdminManageOrders';
 import { getAllOrder } from '@/services/order';
 import React from 'react';

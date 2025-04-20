@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+
+
 import ManageMedicine from '@/components/dashboard/medicine/ManageMedicine';
 import { getAllMedicine } from '@/services/medicine';
 import React from 'react';

@@ -4,7 +4,7 @@ import PreLoading from '@/components/home/PreLoading';
 import { AppStore, makeStore } from '@/redux/store';
 import  { useRef } from 'react';
 import { Provider } from 'react-redux';
-import { persistStore } from 'redux-persist';
+import { Persistor, persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 
 const StoreProvider = ({children}:{children:React.ReactNode})  => {
@@ -15,11 +15,14 @@ const StoreProvider = ({children}:{children:React.ReactNode})  => {
     }
 
 
-    const persistedStore = persistStore(storeRef.current)
+    const persistorRef = useRef<Persistor>(undefined)
+    if (!persistorRef.current) {
+      persistorRef.current = persistStore(storeRef.current)
+    }
     
     return (
         <Provider store={storeRef.current}>
-            <PersistGate loading={null} persistor={persistedStore} >
+            <PersistGate loading={null} persistor={persistorRef.current!} >
             {children}
             </PersistGate>
         </Provider>

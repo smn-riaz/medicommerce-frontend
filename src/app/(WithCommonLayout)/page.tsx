@@ -1,4 +1,5 @@
-"use server"
+export const dynamic = "force-dynamic";
+
 
 import AllProducts from '@/components/home/AllProducts';
 import Carousel from '@/components/home/Carousel';

@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 
 export const getAllUser = async() => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user`, {
+      const res = await fetch(`${process.env.BASE_API}/user`, {
         next:{
           tags:['USER']
         },
@@ -27,7 +27,7 @@ export const getAllUser = async() => {
   export const deleteSingleUser = async (userId: string) => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API}/user/${userId}`,
+        `${process.env.BASE_API}/user/${userId}`,
         
         {
           headers: {

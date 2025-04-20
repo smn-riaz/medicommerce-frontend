@@ -1,3 +1,7 @@
+export const dynamic = "force-dynamic";
+
+
+
 import UpdateMedicineForm from "@/components/shared/dashboard/admin/update-medicine/UpdateMedicineForm";
 import { getSingleMedicine } from "@/services/medicine";
 

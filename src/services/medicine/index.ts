@@ -8,7 +8,7 @@ import { cookies } from "next/headers"
 export const createMedicine = async(medicineData:IMedicine) => {
   
     try {
-       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/product/create-product`, {
+       const res = await fetch(`${process.env.BASE_API}/product/create-product`, {
         method:"POST",
         headers: {
           Authorization:(await cookies()).get("accessToken")!.value,
@@ -32,7 +32,7 @@ export const createMedicine = async(medicineData:IMedicine) => {
 export const updateMedicine = async(medicineData:IMedicineWithId) => {
   
     try {
-       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/product/${medicineData._id}`, {
+       const res = await fetch(`${process.env.BASE_API}/product/${medicineData._id}`, {
         method:"PATCH",
         headers: {
           Authorization:(await cookies()).get("accessToken")!.value,
@@ -54,7 +54,7 @@ export const updateMedicine = async(medicineData:IMedicineWithId) => {
 export const deleteMedicine = async(id:string) => {
 
     try {
-       const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/product/${id}`, {
+       const res = await fetch(`${process.env.BASE_API}/product/${id}`, {
         method:"DELETE",
         headers: {
           Authorization:(await cookies()).get("accessToken")!.value,
@@ -78,7 +78,7 @@ export const getAllMedicine = async (params?: Record<string, string>) => {
   try {
     const query = new URLSearchParams(params).toString();
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/product${query ? `?${query}` : ""}`,
+      `${process.env.BASE_API}/product${query ? `?${query}` : ""}`,
       {
         next: {
           tags: ['MEDICINE'],
@@ -86,26 +86,21 @@ export const getAllMedicine = async (params?: Record<string, string>) => {
         },
         
       }
-    );
-
-    if (!res.ok) {
-      const text = await res.text(); // get full message
-      console.error('Fetch error:', res.status, text);
-      throw new Error(`Failed to fetch medicines: ${res.status}`);
-    }
+    )
 
     return await res.json();
   } catch (error: any) {
-    console.error("getAllMedicine error:", error);
+   
     throw new Error(error.message || 'Something went wrong');
   }
 }
 
 
+
 export const getSingleMedicine = async (medicineId: string) => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_API}/product/${medicineId}`,
+        `${process.env.BASE_API}/product/${medicineId}`,
         {
           next: {
             tags: ["MEDICINE"],

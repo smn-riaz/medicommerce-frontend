@@ -1,30 +1,14 @@
 "use client"
 
-import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
+
+import {useRouter } from "next/navigation";
 import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useEffect } from "react";
-import { useState as reactUseState } from "react";
 
 export default function PaymentSuccessPage() {
+
   const router = useRouter();
-
-  const searchParams = useSearchParams();
-
-
-
-  const redirectPath = searchParams.get('redirectPath');
-
-  useEffect(() => {
-    if (redirectPath) {
-      const timer = setTimeout(() => {
-        router.push("/success");
-      }, 2000); 
-
-      return () => clearTimeout(timer)
-    }
-  }, [redirectPath]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
@@ -46,9 +30,5 @@ export default function PaymentSuccessPage() {
       </Card>
     </div>
   );
-}
-
-function useState<T>(initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
-  return reactUseState(initialValue);
 }
 

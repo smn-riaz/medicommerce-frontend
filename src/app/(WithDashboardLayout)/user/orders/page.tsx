@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+
+
 import UserManageOrders from '@/components/dashboard/user/orders/UserManageOrders';
 import { useUser } from '@/context/UserContext';
 import { getCurrentUser } from '@/services/auth';

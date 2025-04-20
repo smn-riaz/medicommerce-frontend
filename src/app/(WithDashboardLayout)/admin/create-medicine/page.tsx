@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+
+
 import CreateMedicineForm from '@/components/shared/dashboard/admin/create-medicine/CreateMedicineForm';
 import React from 'react';
 

@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+
+
 import ManagePrescriptionReview from '@/components/dashboard/admin/prescription/ManagePrescriptionsReview';
 import { getAllOrder } from '@/services/order';
 import { IOrderResponse } from '@/types';
