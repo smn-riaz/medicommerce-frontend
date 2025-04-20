@@ -82,7 +82,6 @@ export const getAllMedicine = async (params?: Record<string, string>) => {
       {
         next: {
           tags: ['MEDICINE'],
-          revalidate: 5
         },
         
       }
@@ -102,8 +101,6 @@ export const getSingleMedicine = async (medicineId: string) => {
     const res = await fetch(`${process.env.BASE_API}/product/${medicineId}`, {
       next: { tags: ['MEDICINE'] },
     });
-
-    if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
     
     const data = await res.json();
     return data;
