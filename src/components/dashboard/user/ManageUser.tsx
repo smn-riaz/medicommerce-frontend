@@ -3,7 +3,7 @@ import DeleteConfirmationModal from "@/components/shared/dashboard/MMModal";
 import { MMTable } from "@/components/shared/dashboard/MMTable";
 import { Button } from "@/components/ui/button";
 import { deleteSingleUser } from "@/services/user";
-import { IUser } from "@/types";
+import {  IUserResponse } from "@/types";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Trash } from "lucide-react";
@@ -14,23 +14,23 @@ import { toast } from "sonner";
 
 
 
-const ManageUser = ({ data }: { data: IUser[] }) => {
+const ManageUser = ({ data }: { data: IUserResponse[] }) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
-  const handleDelete = (data: IUser) => {
-    setSelectedId(data?.id);
+  const handleDelete = (data: IUserResponse) => {
+    setSelectedId(data?._id);
     setSelectedItem(data?.name);
     setModalOpen(true);
   };
 
-  const handleDeleteConfirm = async () => {
+  const handleDeleteConfirm = async (id:string) => {
     try {
-        if (selectedId) {
-          const res = await deleteSingleUser(selectedId);
+        if (id) {
+          const res = await deleteSingleUser(id);
           
           if (res.success) {
             toast.success(res.message);
@@ -44,7 +44,7 @@ const ManageUser = ({ data }: { data: IUser[] }) => {
     }
   };
 
-  const columns: ColumnDef<IUser>[] = [
+  const columns: ColumnDef<IUserResponse>[] = [
     {
       accessorKey: "name",
       header: "Name",
@@ -110,7 +110,7 @@ const ManageUser = ({ data }: { data: IUser[] }) => {
           name={selectedItem}
           isOpen={isModalOpen}
           onOpenChange={setModalOpen}
-          onConfirm={handleDeleteConfirm}
+          onConfirm={() => selectedId && handleDeleteConfirm(selectedId)}
         />
       </div>
     </div>
