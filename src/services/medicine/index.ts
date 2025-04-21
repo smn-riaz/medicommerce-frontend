@@ -114,7 +114,7 @@ export const getSingleMedicine = async (medicineId: string) => {
 
   export const imageToLink = async(image:FormData) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_IMGBB_API_LINK}?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`, {
+      const res = await fetch(`${process.env.IMGBB_API_LINK}?key=${process.env.IMGBB_API_KEY}`, {
         method: 'POST',
         body: image,
       });

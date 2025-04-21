@@ -25,7 +25,7 @@ export const middleware = async(request:NextRequest) => {
         if(authRoutes.includes(pathname)){
            return NextResponse.next()
         } else {
-           return NextResponse.redirect(new URL(`http://localhost:3000/login?redirectPath=${pathname}`, request.url))
+           return NextResponse.redirect(new URL(`https://medicommerce-client.vercel.app/login?redirectPath=${pathname}`, request.url))
         }
     }
 

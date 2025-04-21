@@ -62,6 +62,7 @@ const onSubmit: SubmitHandler<FieldValues> = async (data) => {
   try {
     const res = await loginUser(data);
 
+    setIsLoading(true)
     const user = await getCurrentUser()
 
     if (res?.success) {

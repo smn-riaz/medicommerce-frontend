@@ -58,6 +58,7 @@ export default function RegisterForm() {
 
 
       const res = await registerUser(data);
+      setIsLoading(true)
 
       if (res?.success) {
         const user = await getCurrentUser(); 

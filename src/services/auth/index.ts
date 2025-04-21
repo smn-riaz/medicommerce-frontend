@@ -37,8 +37,6 @@ export const registerUser = async(userData: FieldValues) => {
 
 
 export const loginUser = async(userData:FieldValues) => {
-
-
     try {  
         const res = await fetch(`${process.env.BASE_API}/auth/login`, {
             method:'POST',
@@ -79,6 +77,26 @@ export const getCurrentUser = async () => {
       return null;
     }
   };
+
+
+  export const getNewToken = async () => {
+    try {  
+        const res = await fetch(`${process.env.BASE_API}/auth/refresh-token`, {
+            method:'POST',
+            headers:{
+                "Content-type":"application/json",
+                Authorization:(await cookies()).get("refreshToken")!.value,
+            },
+           
+        })
+
+        return res.json()
+    
+    } catch (error:any) {
+        return Error(error)
+    }
+  }
+
 
 
 
