@@ -1,5 +1,11 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { Star } from "lucide-react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,75 +14,127 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { TMedicineResponse } from "@/types";
-import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addItemToCart, specificProductQuantitySelector } from "@/redux/features/cartSlice";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { getCurrentUser } from "@/services/auth";
+import {
+  addItemToCart,
+  specificProductQuantitySelector,
+} from "@/redux/features/cartSlice";
 import { useUser } from "@/context/UserContext";
 
+import { TMedicineResponse, TReview } from "@/types";
+import { createReview } from "@/services/review";
 
-
-export default function MedicineDetail({ medicine }: { medicine: TMedicineResponse }) {
-
-  const router = useRouter()
-
-  const {user} = useUser()
+export default function MedicineDetail({
+  medicine,
+}: {
+  medicine: TMedicineResponse;
+}) {
+  const router = useRouter();
+  const { user } = useUser();
+  const dispatch = useAppDispatch();
 
   const [selectedImage, setSelectedImage] = useState(medicine.imageUrl[0]);
+  const { cartedProductQuantity } = useAppSelector((state) =>
+    specificProductQuantitySelector(state, { id: medicine._id })
+  );
 
-  const dispatch = useAppDispatch()
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [rating, setRating] = useState(0);
 
-  const {cartedProductQuantity} = useAppSelector((state) => specificProductQuantitySelector(state, { id: medicine._id }))
+  const handleStarClick = (value: number) => {
+    setRating(value);
+  };
 
 
+  const handleSubmit = async() => {
+  try {
+    if (title.length < 3 || title.length > 100) {
+      toast.error("Title must be between 3 and 100 characters.");
+      return;
+    }
+  
+    if (description.length < 10 || description.length > 1000) {
+      toast.error("Description must be between 10 and 1000 characters.");
+      return;
+    }
+  
+    if (rating === 0) {
+      toast.error("Please give a rating.");
+      return;
+    }
+  
+    if(user?.id && medicine?._id){
+      const reviewData:TReview = {
+        userId:user?.id as string,
+        productId:medicine._id,
+        title,
+        description,
+        rating: rating,
+      }
+  
+
+  
+
+      const res = await createReview(reviewData)
+  
+      if(res?.success){
+        toast.success(res.message);
+        setTitle('')
+        setDescription("")
+        setRating(0)
+      }
+    }
+  } catch (error) {
+    toast.error("Something went wrong!")
+  }
+  };
 
   const handleAddToCart = () => {
-    dispatch(addItemToCart({
-      id: medicine._id,
-      name: medicine.name,
-      quantity: 1,
-      price: medicine.price,
-      image:medicine.imageUrl[0],
-      description:medicine.description,
-      type:medicine.type,
-      prescription:medicine.requiredPrescription
-    }))
+    dispatch(
+      addItemToCart({
+        id: medicine._id,
+        name: medicine.name,
+        quantity: 1,
+        price: medicine.price,
+        image: medicine.imageUrl[0],
+        description: medicine.description,
+        type: medicine.type,
+        prescription: medicine.requiredPrescription,
+      })
+    );
 
-    toast.success("Medicine added to cart!",{duration:1000});
-
-    router.push("/cart")
-
-  }
+    toast.success("Medicine added to cart!", { duration: 1000 });
+    router.push("/cart");
+  };
 
   return (
-    <div className="py-20 px-4 ">
+    <div className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div className="">
-            <div>
-              <Image
+          {/* Left: Images */}
+          <div>
+            <Image
               width={400}
               height={300}
-                src={selectedImage}
-                alt={medicine.name}
-                className="max-w-xs h-64 object-cover rounded-lg shadow-lg"
-              />
-            </div>
+              src={selectedImage}
+              alt={medicine.name}
+              className="max-w-xs h-64 object-cover rounded-lg shadow-lg"
+            />
 
             <div className="mt-4 flex space-x-4 justify-start">
               {medicine.imageUrl.map((image, index) => (
                 <Image
-                width={70}
-                height={70}
+                  width={70}
+                  height={70}
                   key={index}
                   src={image}
                   alt={`${medicine.name} Thumbnail ${index + 1}`}
-                  className={` object-cover rounded-lg cursor-pointer transition-transform hover:scale-105 ${
+                  className={`object-cover rounded-lg cursor-pointer transition-transform hover:scale-105 ${
                     selectedImage === image ? "border-2 border-primary" : ""
                   }`}
                   onClick={() => setSelectedImage(image)}
@@ -85,6 +143,7 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
             </div>
           </div>
 
+          {/* Right: Product Details */}
           <div>
             <Card className="rounded-xl shadow-md p-6">
               <CardHeader>
@@ -95,20 +154,17 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
                   {medicine.type}
                 </CardDescription>
               </CardHeader>
+
               <CardContent className="space-y-4">
                 <p className="text-lg text-muted-foreground">
                   {medicine.description}
                 </p>
 
                 <div className="text-sm text-muted-foreground">
-                  <strong>Manufacturer: </strong>
-                  {medicine.manufacturer}
+                  <strong>Manufacturer:</strong> {medicine.manufacturer}
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  {/* {medicine.discount > 0 && (
-                    <Badge variant="destructive">-{medicine.discount}%</Badge>
-                  )} */}
                   <span className="text-xl font-semibold">
                     ৳
                     {(medicine.price * (1 - medicine.discount / 100)).toFixed(
@@ -123,17 +179,17 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
                 </div>
 
                 <div className="sm:flex items-center justify-between gap-6 text-sm text-muted-foreground">
-                <div className="pb-4 sm:pb-0">
-          {medicine.inStock ? (
-            <p className="text-green-500 border bg-green-100 w-1/2 sm:w-full text-center font-semibold px-1 rounded">
-             In Stock
-            </p>
-          ) : (
-            <p className="text-red-500 border bg-red-100 w-1/2 sm:w-full text-center font-semibold px-1 rounded">
-                Out of stock
-            </p>
-          )}
-        </div>
+                  <div className="pb-4 sm:pb-0">
+                    {medicine.inStock ? (
+                      <p className="text-green-500 border bg-green-100 w-1/2 sm:w-full text-center font-semibold px-1 rounded">
+                        In Stock
+                      </p>
+                    ) : (
+                      <p className="text-red-500 border bg-red-100 w-1/2 sm:w-full text-center font-semibold px-1 rounded">
+                        Out of stock
+                      </p>
+                    )}
+                  </div>
                   <span>Expires on: {medicine.expireDate}</span>
                 </div>
 
@@ -144,22 +200,84 @@ export default function MedicineDetail({ medicine }: { medicine: TMedicineRespon
                 )}
 
                 <div className="text-sm text-muted-foreground">
-                  <strong>Quantity Available: </strong>
-                  {medicine.quantity}
+                  <strong>Quantity Available:</strong> {medicine.quantity}
                 </div>
               </CardContent>
 
               <div className="mt-6">
-                <Button 
-                onClick={handleAddToCart}
+                <Button
+                  onClick={handleAddToCart}
                   size="lg"
-                  disabled={!medicine.inStock || user?.role==="admin" || cartedProductQuantity>=medicine.quantity}
+                  disabled={
+                    !medicine.inStock ||
+                    user?.role === "admin" ||
+                    cartedProductQuantity >= medicine.quantity
+                  }
                   className="w-full"
                 >
                   {medicine.inStock ? "Add to Cart" : "Out of Stock"}
                 </Button>
               </div>
             </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Review Section */}
+      <div className="mt-20  mx-auto flex justify-center items-center">
+        <div className="rounded-xl w-full sm:w-[500px] border p-6 shadow-sm bg-white">
+          <h3 className="text-xl font-semibold mb-4">Write a Review : <small className="text-violet-400">{medicine.name}</small></h3>
+
+          <div className="space-y-4">
+            {/* Review Title */}
+            <div>
+              <Label htmlFor="title" className="py-2 block">
+                Title
+              </Label>
+              <Input
+                id="title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Enter your review title"
+              />
+            </div>
+
+            {/* Review Description */}
+            <div>
+              <Label htmlFor="description" className="py-2 block">
+                Description
+              </Label>
+              <Textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Write your thoughts here..."
+              />
+            </div>
+
+            {/* Rating Section */}
+            <div>
+              <Label className="py-2 block">Rating</Label>
+              <div className="flex items-center space-x-1 pt-1">
+                {[1, 2, 3, 4, 5].map((starValue) => (
+                  <Star
+                    key={starValue}
+                    size={24}
+                    onClick={() => handleStarClick(starValue)}
+                    className={`cursor-pointer transition-colors ${
+                      rating >= starValue
+                        ? "text-yellow-400 fill-yellow-400"
+                        : "text-gray-300"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <Button onClick={handleSubmit} disabled={!rating || !title || !user?.id}>
+              Submit Review
+            </Button>
           </div>
         </div>
       </div>

@@ -22,6 +22,25 @@ export const getAllUser = async() => {
   }
 
 
+export const getSingleUser = async(id:string) => {
+    try {
+      const res = await fetch(`${process.env.BASE_API}/user/${id}`, {
+        next:{
+          tags:['USER']
+        },
+          headers: {
+                  Authorization:(await cookies()).get("accessToken")!.value,
+                  "Content-Type": "application/json"
+              },
+      })
+      return await res.json()
+  
+    } catch (error:any) {
+      throw Error(error)
+    }
+  }
+
+
 
 
   export const deleteSingleUser = async (userId: string) => {

@@ -9,6 +9,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
@@ -16,6 +17,8 @@ import { toast } from "sonner";
 
 const ManageUser = ({ data }: { data: IUserResponse[] }) => {
   const [isModalOpen, setModalOpen] = useState(false);
+
+  const router = useRouter()
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -72,15 +75,7 @@ const ManageUser = ({ data }: { data: IUserResponse[] }) => {
         </div>
       ),
     },
-    
-    {
-      accessorKey: "order",
-      header: () => <div>Orders</div>,
-      cell: ({ row }) => (
-        <Link href="/">
-        <Button className="rounded-full bg-primary text-white cursor-pointer w-[30px] h-[30px]">{5}</Button></Link>
-      ),
-    },
+  
     {
       accessorKey: "action",
       header: () => <div>Action</div>,
@@ -94,6 +89,21 @@ const ManageUser = ({ data }: { data: IUserResponse[] }) => {
         >
           <Trash className="w-5 h-5" />
         </button>
+        }
+        </>
+      ),
+    },
+    {
+      accessorKey: "action",
+      header: () => <div>Details</div>,
+      cell: ({ row }) => (
+        <>
+        { row.original.role === "user" &&
+          <Button
+          className=" px-1 cursor-pointer"
+        >
+         <Link href={`/admin/users/${row.original._id}`}>More details</Link>
+        </Button>
         }
         </>
       ),

@@ -1,12 +1,14 @@
 export const dynamic = "force-dynamic";
 
 
-import UserProfile from '@/components/dashboard/user/UserProfile';
+import AdminUserProfile from '@/components/dashboard/admin/user/AdminUserProfile';
+
 import { getCurrentUser } from '@/services/auth';
 import { getUserOrders } from '@/services/order';
+import { getSingleUser } from '@/services/user';
 import React from 'react';
 
-const UserProfilePage = async() => {
+const AdminUserProfilePage = async({params}:{params:Promise<{id:string}>}) => {
 
   const reviews = [
     {
@@ -29,13 +31,18 @@ const UserProfilePage = async() => {
     },
   ];
   
-  const user = await getCurrentUser()
-  const {data} =  await getUserOrders(user?.id as string)
+  const userId = (await params).id
+
+const {data:user} = await getSingleUser(userId)
+  const {data:userOrders} =  await getUserOrders(userId)
+
+ 
+
     return (
         <div className="flex justify-center items-center p-10">
-          <UserProfile user={user} orders={data}/>
+          <AdminUserProfile reviews={reviews} user={user} orders={userOrders}/>
         </div>
     );
 };
 
-export default UserProfilePage;
+export default AdminUserProfilePage;

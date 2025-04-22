@@ -229,7 +229,7 @@ const Cart = ({medicines}:{medicines:TMedicineResponse[]}) => {
                 <span>
                   x{item.quantity} {item.name}
                 </span>
-                <span>${(item.price * item.quantity).toFixed(2)}</span>
+                <span>৳{(item.price * item.quantity).toFixed(2)}</span>
               </li>
             ))}
           </ul>

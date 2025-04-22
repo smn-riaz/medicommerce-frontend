@@ -1,7 +1,16 @@
 export type TReview = {
-    name: string;
-    occupation: string;
-    image: string;
-    review: string;
+    title: string;
+    description: string;
+    userId: string;
+    productId: string;
+    rating: number;
+  };
+
+export type TReviewResponse = {
+    _id:string
+    title: string;
+    description: string;
+    userId: string;
+    productId: string;
     rating: number;
   };
