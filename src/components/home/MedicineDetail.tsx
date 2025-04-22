@@ -6,6 +6,8 @@ import Image from "next/image";
 import { Star } from "lucide-react";
 import { toast } from "sonner";
 
+import { motion } from "framer-motion";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,13 +27,14 @@ import {
 } from "@/redux/features/cartSlice";
 import { useUser } from "@/context/UserContext";
 
-import { TMedicineResponse, TReview } from "@/types";
+import { TMedicineResponse, TReview, TReviewResponse } from "@/types";
 import { createReview } from "@/services/review";
 
 export default function MedicineDetail({
-  medicine,
+  medicine,review
 }: {
-  medicine: TMedicineResponse;
+  medicine: TMedicineResponse,
+  review:TReviewResponse
 }) {
   const router = useRouter();
   const { user } = useUser();
@@ -62,6 +65,11 @@ export default function MedicineDetail({
       toast.error("Description must be between 10 and 1000 characters.");
       return;
     }
+
+    if(user?.id){
+       toast.error("Please, login first!");
+
+    }
   
     if (rating === 0) {
       toast.error("Please give a rating.");
@@ -87,6 +95,8 @@ export default function MedicineDetail({
         setTitle('')
         setDescription("")
         setRating(0)
+      } else {
+        toast.error(res.message);
       }
     }
   } catch (error) {
@@ -224,7 +234,52 @@ export default function MedicineDetail({
       </div>
 
       {/* Review Section */}
-      <div className="mt-20  mx-auto flex justify-center items-center">
+      {
+        review ? 
+        <div className="grid grid-cols-4 place-items-center">
+        <div className="col-span-4 md:col-span-2 lg:col-span-1">
+          <h3 className="text-md text-slate font-semibold text-center">Your review</h3>
+          <motion.div
+            whileHover={{ scale: 1.02 }}
+            className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition-transform h-full flex flex-col"
+          >
+            <div className="flex items-center gap-4 mb-4">
+              <Image
+                width={50}
+                height={50}
+                src={"https://i.pinimg.com/736x/3f/94/70/3f9470b34a8e3f526dbdb022f9f19cf7.jpg"}
+                alt={review.userId?.name as string}
+                className="rounded-full object-cover"
+              />
+              <div>
+                <h4 className="font-semibold uppercase">
+                  {review.userId?.name}
+                </h4>
+              </div>
+            </div>
+      
+            <p className="text-md text-center text-gray-700">
+              {review.title || "Review"}
+            </p>
+            <hr className="py-1" />
+            <p className="text-gray-700 text-sm flex-grow line-clamp-5">
+              "{review.description}"
+            </p>
+      
+            <div className="flex justify-between items-center">
+              <div className="mt-4 text-yellow-400 text-lg">
+                {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
+              </div>
+      
+              <p>{new Date(review.createdAt).toLocaleDateString()}</p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+      
+      
+        :
+        <div className="mt-20  mx-auto flex justify-center items-center">
         <div className="rounded-xl w-full sm:w-[500px] border p-6 shadow-sm bg-white">
           <h3 className="text-xl font-semibold mb-4">Write a Review : <small className="text-violet-400">{medicine.name}</small></h3>
 
@@ -281,6 +336,7 @@ export default function MedicineDetail({
           </div>
         </div>
       </div>
+      }
     </div>
   );
 }
