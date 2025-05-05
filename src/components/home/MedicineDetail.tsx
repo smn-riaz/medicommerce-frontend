@@ -123,7 +123,7 @@ export default function MedicineDetail({
   };
 
   return (
-    <div className="py-20 px-4">
+    <div className="">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Left: Images */}

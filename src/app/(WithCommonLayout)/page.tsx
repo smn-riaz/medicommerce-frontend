@@ -3,8 +3,11 @@
 
 import AllProducts from '@/components/home/AllProducts';
 import Carousel from '@/components/home/Carousel';
+import ChatBox from '@/components/home/Chatbot';
 import HomeBanner from '@/components/home/HomeBanner';
+import Pharmaceuticals from '@/components/home/Pharmaceuticals';
 import Testimonials from '@/components/home/Testimonials';
+import WhyChooseUs from '@/components/home/WhyChooseUs';
 
 import { getAllMedicine } from '@/services/medicine';
 import { getAllReviews } from '@/services/review';
@@ -15,11 +18,13 @@ const HomePage = async() => {
 
   const {data:reviews} = await getAllReviews()
   return (
-    <main className='my-16'>
+    <main className=''>
       <HomeBanner />
       <Carousel medicines={medicines.slice(0,4) || []}/>
       <AllProducts medicines={medicines.slice(1,7)} filterOption={false}/>
+      <WhyChooseUs />
       <Testimonials reviews={reviews.slice(0,7)}/>
+      <Pharmaceuticals />
     </main>
   );
 };

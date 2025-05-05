@@ -19,6 +19,13 @@ export default function FilterMedicine({
 }: {
   medicines: TMedicineResponse[];
 }) {
+
+
+  const manufacturers = ['ABC Pharma', 'Beximco Pharmaceuticals Ltd', 'ACME Laboratories Ltd', 'Ziska Pharmaceuticals Ltd', 'MediCore Pharma', 'PainRelief Pharma', 'DiabetaMed', 'WellCare Pharma', 'NovaCare Pharma']
+
+  const types = ['Syrup', 'Tablet', 'Syrup', 'Injection', 'Capsule', 'Tablet', 'Injection', 'Injection', 'Tablet', 'Drops']
+
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -43,6 +50,7 @@ export default function FilterMedicine({
         />
       </div>
 
+
       {/* Manufacturer */}
       <div className="w-full md:w-[200px]">
         <Select
@@ -53,7 +61,7 @@ export default function FilterMedicine({
             <SelectValue placeholder="Select Manufacturer" />
           </SelectTrigger>
           <SelectContent>
-            {[...new Set(medicines.map((m) => m.manufacturer))].map(
+            {manufacturers.map(
               (manufacturer) => (
                 <SelectItem key={manufacturer} value={manufacturer}>
                   {manufacturer}
@@ -64,6 +72,7 @@ export default function FilterMedicine({
         </Select>
       </div>
 
+
       {/* Type */}
       <div className="w-full md:w-[200px]">
         <Select  onValueChange={(val) => handleFilter("type", val)}>
@@ -71,7 +80,7 @@ export default function FilterMedicine({
             <SelectValue placeholder="Select Type" />
           </SelectTrigger>
           <SelectContent>
-            {[...new Set(medicines.map((m) => m.type))].map((type) => (
+            {types.map((type) => (
               <SelectItem key={type} value={type}>
                 {type}
               </SelectItem>

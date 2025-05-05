@@ -10,15 +10,16 @@ import Link from 'next/link';
 
 export default function HomeBanner() {
   return (
-    <section className="relative lg:min-h-screen bg-gradient-to-r from-blue-100 via-white to-green-100 py-16 px-6 md:px-16 overflow-hidden  shadow-lg mb-12">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+    <section className="relative lg:min-h-[100vh] bg-gradient-to-r from-blue-100 via-white to-green-100  overflow-hidden p-6 shadow-lg  lg:w-auto">
+      <div className="lg:max-w-[1200px] grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-5 md:px-12 items-center justify-center lg:mx-auto">
         
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="space-y-6"
+          className="flex justify-center items-center"
         >
+          <div className='space-y-6'>
           <h1 className="text-4xl md:text-5xl font-bold text-gray-800">
             Your Trusted 
           </h1>
@@ -29,6 +30,7 @@ export default function HomeBanner() {
           <Link href="/shop"><Button className="text-lg px-6 py-2 rounded-xl">
             Shop Now
           </Button></Link>
+          </div>
         </motion.div>
 
        
@@ -36,7 +38,7 @@ export default function HomeBanner() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center"
+          className="flex justify-center md:justify-end"
         >
           <Image
             src={banner}

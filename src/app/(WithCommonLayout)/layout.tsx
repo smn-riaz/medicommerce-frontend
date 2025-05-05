@@ -1,5 +1,6 @@
 "use client";
 
+import ChatBox from '@/components/home/Chatbot';
 import Footer from '@/components/home/Footer';
 import Navbar from '@/components/home/Navbar';
 import PreLoading from '@/components/home/PreLoading';
@@ -32,10 +33,20 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
   //   return <PreLoading />;
   // }
 
+
   return (
     <main>
+      
+      <div className='h-[12vh]  bg-gradient-to-r from-blue-100 via-white to-green-100 '>
       <Navbar />
-      <div className="min-h-screen bg-white">{children}</div>
+      </div>
+
+      <div className="md:min-h-[78vh] bg-white relative">
+        {children}
+        <div className="fixed top-[70vh] right-4 z-50">
+          <ChatBox userId="user123" receiverId="admin123" />
+        </div>
+        </div>
       <Footer />
     </main>
   );
