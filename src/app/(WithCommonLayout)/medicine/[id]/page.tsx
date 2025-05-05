@@ -43,7 +43,7 @@ const MedicineDetailPage = async({params}:{params:Promise<{id:string}>}) => {
     
 
     return (
-        <div className='my-16'>
+        <div className='py-16'>
             <MedicineDetail medicine={medicine} review={review || ""}/>
         </div>
     );

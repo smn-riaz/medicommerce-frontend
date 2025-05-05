@@ -37,11 +37,11 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main>
       
-      <div className='h-[12vh]  bg-gradient-to-r from-blue-100 via-white to-green-100 '>
+      <div className='h-[12vh]  flex justify-center bg-gradient-to-r from-blue-100 via-white to-green-100 '>
       <Navbar />
       </div>
 
-      <div className="md:min-h-[78vh] bg-white relative">
+      <div className="md:min-h-[78vh]  relative">
         {children}
         <div className="fixed top-[70vh] right-4 z-50">
           <ChatBox userId="user123" receiverId="admin123" />

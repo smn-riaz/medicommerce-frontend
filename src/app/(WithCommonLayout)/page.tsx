@@ -4,6 +4,7 @@
 import AllProducts from '@/components/home/AllProducts';
 import Carousel from '@/components/home/Carousel';
 import ChatBox from '@/components/home/Chatbot';
+import DynamicCategories from '@/components/home/DynamicCategories';
 import HomeBanner from '@/components/home/HomeBanner';
 import Pharmaceuticals from '@/components/home/Pharmaceuticals';
 import Testimonials from '@/components/home/Testimonials';
@@ -23,6 +24,9 @@ const HomePage = async() => {
       <Carousel medicines={medicines.slice(0,4) || []}/>
       <AllProducts medicines={medicines.slice(1,7)} filterOption={false}/>
       <WhyChooseUs />
+      {/* <OfferedProducts /> */}
+      {/* <BestSellingProducts /> */}
+      <DynamicCategories />
       <Testimonials reviews={reviews.slice(0,7)}/>
       <Pharmaceuticals />
     </main>

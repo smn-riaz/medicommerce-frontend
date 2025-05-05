@@ -45,7 +45,7 @@ export default function Navbar() {
 
   
   return (
-    <nav className="w-full bg-white border-b shadow-sm fixed top-0 left-0 z-50">
+    <nav className="w-[95vw] bg-[#DAEAFE] border-b rounded-md shadow-sm fixed top-0 z-50">
     <div className="container mx-auto px-4 py-3 flex items-center justify-between">
     
       <Link href="/" className="text-xl font-bold text-primary flex items-center gap-2">
@@ -72,6 +72,15 @@ export default function Navbar() {
           }`}
         >
           Medicines
+        </Link>
+
+        <Link
+          href="/#offers"
+          className={`hover:text-primary transition ${
+            pathname === "/shop" ? "text-primary font-semibold" : ""
+          }`}
+        >
+          Offers
         </Link>
   
         {user?.role && (

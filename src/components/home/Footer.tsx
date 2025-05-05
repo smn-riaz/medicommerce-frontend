@@ -4,7 +4,7 @@ import Logo from './Logo'
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 text-gray-700 py-10 mt-20 border-t">
+    <footer className=" text-gray-700 py-10 border-t bg-[#eaf0f3a1]">
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
 
       <Logo />

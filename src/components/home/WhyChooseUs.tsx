@@ -89,7 +89,7 @@ export default function WhyChooseUs() {
         <div className="w-full lg:w-1/2 flex flex-col gap-6">
           {/* Ensure that the motion animation is correctly set */}
           <div
-            className="text-2xl font-bold text-gray-900 mb-2"
+            className="text-3xl font-bold text-gray-900 mb-2"
           >
             Why Choose <span className="text-blue-600">MediCommerce</span>?
           </div>

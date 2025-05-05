@@ -236,8 +236,8 @@ export default function MedicineDetail({
       {/* Review Section */}
       {
         review ? 
-        <div className="grid grid-cols-4 place-items-center">
-        <div className="col-span-4 md:col-span-2 lg:col-span-1">
+        <div className="flex justify-center py-10">
+  <div className="w-full md:w-1/2 lg:w-1/4">
           <h3 className="text-md text-slate font-semibold text-center">Your review</h3>
           <motion.div
             whileHover={{ scale: 1.02 }}

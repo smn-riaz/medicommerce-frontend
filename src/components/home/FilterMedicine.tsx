@@ -21,9 +21,9 @@ export default function FilterMedicine({
 }) {
 
 
-  const manufacturers = ['ABC Pharma', 'Beximco Pharmaceuticals Ltd', 'ACME Laboratories Ltd', 'Ziska Pharmaceuticals Ltd', 'MediCore Pharma', 'PainRelief Pharma', 'DiabetaMed', 'WellCare Pharma', 'NovaCare Pharma']
+  const manufacturers = ['ABC Pharma', 'Beximco Pharmaceuticals Ltd', 'ACME Laboratories Ltd', 'Ziska Pharmaceuticals Ltd', 'MediCore Pharma', 'PainRelief Pharma', 'DiabetaMed', 'WellCare Pharma', 'NovaCare Pharma',"Genereal Pharma","Square Pharma","Pfizer"]
 
-  const types = ['Syrup', 'Tablet', 'Syrup', 'Injection', 'Capsule', 'Tablet', 'Injection', 'Injection', 'Tablet', 'Drops']
+  const types = ['Syrup', 'Tablet', 'Capsule', 'Injection', 'Drops', "Skin Care","Food", "Baby"]
 
 
   const router = useRouter();
