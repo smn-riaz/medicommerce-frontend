@@ -88,7 +88,7 @@ const AdminUserProfile = ({
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="max-w-5xl rounded-3xl mx-auto border border-blue-100 shadow-sm bg-white"
+        className="max-w-5xl p-6 rounded-3xl mx-auto border border-blue-100 shadow-sm bg-white"
       >
         <CardHeader>
           <CardTitle className="text-xl text-slate-800">Last Order History</CardTitle>
@@ -139,7 +139,7 @@ const AdminUserProfile = ({
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="max-w-6xl mx-auto rounded-3xl border bg-white shadow-sm"
+        className="max-w-6xl p-6 mx-auto rounded-3xl border bg-white shadow-sm"
       >
         <CardHeader>
           <CardTitle className="text-xl text-slate-800">User Orders</CardTitle>
@@ -175,7 +175,7 @@ const AdminUserProfile = ({
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="max-w-6xl mx-auto rounded-3xl border bg-white shadow-sm"
+        className="max-w-6xl p-6 mx-auto rounded-3xl border bg-white shadow-sm"
       >
         <CardHeader>
           <CardTitle className="text-xl text-slate-800">User Reviews</CardTitle>

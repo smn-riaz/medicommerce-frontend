@@ -27,7 +27,7 @@ const SpecificOrder = async ({ order }: { order: IOrderResponse }) => {
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 md:px-8 py-10 space-y-10">
-      <Card className="rounded-2xl">
+      <Card className="rounded-2xl p-6">
         <CardHeader>
           <CardTitle className="text-xl">Order Summary</CardTitle>
         </CardHeader>
@@ -64,7 +64,7 @@ const SpecificOrder = async ({ order }: { order: IOrderResponse }) => {
         </Card>
       )}
 
-      <Card className="rounded-2xl">
+      <Card className="rounded-2xl p-6">
         <CardHeader>
           <CardTitle>Products</CardTitle>
         </CardHeader>

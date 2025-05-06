@@ -25,7 +25,7 @@ const pathname = usePathname()
 
         {
           pathname === "/" && <div className="flex justify-center items-center my-6">
-          <Link href="/shop"><Button className="bg-accent">See More <IconRight /></Button></Link>
+          <Link href="/shop"><Button className="bg-primary cursor-pointer">See More <IconRight /></Button></Link>
         </div>
         }
 

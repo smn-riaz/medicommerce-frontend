@@ -11,9 +11,13 @@ import {
   XCircle,
   Briefcase,
 } from 'lucide-react';
-import { IOrderResponse, IProduct, IUser } from '@/types';
+import { IOrderResponse, IProduct, IUser, TMedicineResponse } from '@/types';
+import { OrderStatusBar } from './OrderStatusBar';
+import { ProductsCategoriesChart } from './ProductsCategoriesChart';
+import { DashboardProductsTable } from './DashboardProductsTable';
+import { Button } from '@/components/ui/button';
 
-const AdminDashboard = ({orders, users, products}:{orders:IOrderResponse[], users:IUser[], products:IProduct[]}) => {
+const AdminDashboard = ({orders, users, products}:{orders:IOrderResponse[], users:IUser[], products:TMedicineResponse[]}) => {
 
   const totalRevenue = orders?.filter(order => order.paymentStatus).reduce((sum,order) => order.totalPrice + sum ,0)
 
@@ -26,6 +30,14 @@ const AdminDashboard = ({orders, users, products}:{orders:IOrderResponse[], user
   const [duePayments, setDuePayments] = useState(2000);
 
 
+  const orderStatusData = [
+    { name: "Pending", value: pendingOrders.length },
+    { name: "Shipped", value: shippedOrders.length },
+    { name: "Delivered", value: deliveredOrders.length },
+    { name: "Cancelled", value: cancelledOrders.length },
+    { name: "Due Payment", value: prescriptionReviews?.length },
+  ];
+  
 
   return (
     <div className="container mx-auto p-6">
@@ -128,8 +140,25 @@ const AdminDashboard = ({orders, users, products}:{orders:IOrderResponse[], user
           </Card>
       
         </div>
+
+        <div className='py-10'>
+          <OrderStatusBar orderStatusData={orderStatusData} />
+        </div>
+
+
+     
+      <div className='py-10'>
+          <ProductsCategoriesChart products={products}/>
+        </div>
+
+<div className='py-10'>
+<DashboardProductsTable products={products}/>
+
+</div>
+
+      </div>
  
-    </div>
+
   );
 };
 
