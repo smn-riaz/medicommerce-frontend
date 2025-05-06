@@ -17,8 +17,6 @@ const pathname = usePathname()
 
   return (
     <div className=" lg:min-h-screen">
-      <SectionHeadline headline="Everything You Need for Better Care" /> 
-      {filterOption && <FilterMedicine medicines={medicines}/> }
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 p-6">
         {medicines.map((medicine: TMedicineResponse, index) => (
           <MedicineCard key={index} medicine={medicine} />

@@ -2,10 +2,13 @@
 
 
 import AllProducts from '@/components/home/AllProducts';
+import BestSellingProducts from '@/components/home/BestSellingProducts';
+import Blogs from '@/components/home/Blogs';
 import Carousel from '@/components/home/Carousel';
 import ChatBox from '@/components/home/Chatbot';
 import DynamicCategories from '@/components/home/DynamicCategories';
 import HomeBanner from '@/components/home/HomeBanner';
+import OfferedProducts from '@/components/home/OfferedProducts';
 import Pharmaceuticals from '@/components/home/Pharmaceuticals';
 import Testimonials from '@/components/home/Testimonials';
 import WhyChooseUs from '@/components/home/WhyChooseUs';
@@ -24,10 +27,11 @@ const HomePage = async() => {
       <Carousel medicines={medicines.slice(0,4) || []}/>
       <AllProducts medicines={medicines.slice(1,7)} filterOption={false}/>
       <WhyChooseUs />
-      {/* <OfferedProducts /> */}
-      {/* <BestSellingProducts /> */}
+      <OfferedProducts />
+      <BestSellingProducts />
       <DynamicCategories />
       <Testimonials reviews={reviews.slice(0,7)}/>
+      <Blogs />
       <Pharmaceuticals />
     </main>
   );

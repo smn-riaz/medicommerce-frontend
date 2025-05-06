@@ -15,9 +15,9 @@ import { Button } from "../ui/button";
 import { X } from "lucide-react";
 
 export default function FilterMedicine({
-  medicines,
+
 }: {
-  medicines: TMedicineResponse[];
+ 
 }) {
 
 
