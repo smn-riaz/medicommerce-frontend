@@ -44,9 +44,17 @@ export default function MedicineCard({ medicine }: { medicine: TMedicineResponse
             )}
             <span>৳{(price * (1 - discount / 100)).toFixed(2)}</span>
           </span>
-         <Link href={`/medicine/${_id}`}> <Button size="sm" >
-             More Details
-          </Button></Link>
+          <Link href={`/medicine/${_id}`}>
+  <Button
+    size="sm"
+    className="cursor-pointer border-[1px] border-[#918d8d8a] bg-[#488BF7] text-white rounded-lg px-4 py-2 
+               transition-all duration-500 ease-in-out 
+               hover:bg-white hover:text-black hover:scale-105"
+  >
+    More Details
+  </Button>
+</Link>
+
         </div>
       </CardContent>
     </Card>

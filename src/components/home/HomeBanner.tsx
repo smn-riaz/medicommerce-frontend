@@ -2,10 +2,9 @@
 'use client';
 
 import Image from 'next/image';
-import { Button } from "@/components/ui/button";
 import { motion } from 'framer-motion';
 import banner from '../../assets/banner.png'
-import Link from 'next/link';
+import FacnyButton from './FacnyButton';
 
 
 export default function HomeBanner() {
@@ -27,9 +26,7 @@ export default function HomeBanner() {
           <p className="text-gray-600 text-lg">
             Shop quality medicines, health products & wellness essentials delivered to your door.
           </p>
-          <Link href="/shop"><Button className="text-lg px-6 py-2 rounded-xl">
-            Shop Now
-          </Button></Link>
+          <FacnyButton title='Shop Now' link='/shop'/>
           </div>
         </motion.div>
 

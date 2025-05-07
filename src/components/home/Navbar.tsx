@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, ShoppingCart, BellRing } from "lucide-react";
+import { Menu, X, ShoppingCart, BellRing, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import logo from "../../assets/logo.png";
@@ -31,6 +31,9 @@ export default function Navbar() {
   const { user, setUser, setIsLoading } = useUser();
 
   const dispatch = useAppDispatch();
+
+ 
+
 
   const handleLogOut = () => {
     setUser(null);
@@ -76,17 +79,18 @@ export default function Navbar() {
           </Link>
 
           <Link
-            href="/#offers"
+            href="/#bestselling"
             className={`hover:text-primary transition ${
-              window.location.hash === "/#offers"
+              window.location.hash === "/#bestselling"
                 ? "text-primary font-semibold"
                 : ""
             }`}
           >
-            Offers
+            Hotshots
           </Link>
 
-          <p>
+          <p className="flex justify-center">
+            <span ></span>
             <HoverNavbarCategory />
           </p>
 

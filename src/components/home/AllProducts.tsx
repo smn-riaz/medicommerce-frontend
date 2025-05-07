@@ -3,12 +3,11 @@
 import React from "react";
 import MedicineCard from "./MedicineCard";
 import { TMedicineResponse } from "@/types";
-import SectionHeadline from "../shared/home/sectionHeadline";
+
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { IconRight } from "react-day-picker";
-import FilterMedicine from "./FilterMedicine";
 
 
 const AllProducts =  ({ medicines, filterOption }: { medicines: TMedicineResponse[], filterOption:boolean }) => {

@@ -32,19 +32,23 @@ export const generateMetadata = async({params}:{params:Promise<{id:string}>}) =>
 const MedicineDetailPage = async({params}:{params:Promise<{id:string}>}) => {
     const medicineId = (await params).id
 
+  
+
     const {data:medicine} = await getSingleMedicine(medicineId)
 
-    const {id} = await getCurrentUser()
+    // const {id} = await getCurrentUser()
 
-    const {data:review} = id 
-        ? await getSpecificUserProductReview({userId: id, productId: medicine._id}) 
-        : { data: null };
+    // const {data:review} = id 
+    //     ? await getSpecificUserProductReview({userId: id, productId: medicine._id}) 
+    //     : { data: null };
  
     
 
     return (
         <div className='py-16'>
-            <MedicineDetail medicine={medicine} review={review || ""}/>
+            <MedicineDetail medicine={medicine} 
+            // review={review || ""}
+            />
         </div>
     );
 };

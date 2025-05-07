@@ -31,10 +31,11 @@ import { TMedicineResponse, TReview, TReviewResponse } from "@/types";
 import { createReview } from "@/services/review";
 
 export default function MedicineDetail({
-  medicine,review
+  medicine,
+  // review
 }: {
   medicine: TMedicineResponse,
-  review:TReviewResponse
+  // review:TReviewResponse
 }) {
   const router = useRouter();
   const { user } = useUser();
@@ -235,9 +236,11 @@ export default function MedicineDetail({
 
       {/* Review Section */}
       {
-        review ? 
+        // review 
+        false
+        ? 
         <div className="flex justify-center py-10">
-  <div className="w-full md:w-1/2 lg:w-1/4">
+  {/* <div className="w-full md:w-1/2 lg:w-1/4">
           <h3 className="text-md text-slate font-semibold text-center">Your review</h3>
           <motion.div
             whileHover={{ scale: 1.02 }}
@@ -274,7 +277,7 @@ export default function MedicineDetail({
               <p>{new Date(review.createdAt).toLocaleDateString()}</p>
             </div>
           </motion.div>
-        </div>
+        </div> */}
       </div>
       
       

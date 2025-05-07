@@ -7,43 +7,21 @@ import {
   Cell,
   Tooltip,
   ResponsiveContainer,
-  PieLabelRenderProps,
+  Legend,
 } from "recharts";
 
 const COLORS = [
-  "#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6",
-  "#ec4899", "#14b8a6", "#f43f5e", "#6366f1"
+  "#1f77b4", 
+  "#ff7f0e", 
+  "#2ca02c", 
+  "#d62728", 
+  "#9467bd",
+  "#8c564b",
+  "#e377c2",
+  "#7f7f7f", 
+  "#bcbd22",
+  "#17becf", 
 ];
-
-// ✅ Custom label function to show the name/type
-const renderCustomLabel = ({
-  cx,
-  cy,
-  midAngle,
-  innerRadius,
-  outerRadius,
-  percent,
-  index,
-  name,
-}: PieLabelRenderProps & { name?: string }) => {
-  const RADIAN = Math.PI / 180;
-  const radius = Number(innerRadius) + (Number(outerRadius) - Number(innerRadius)) * 0.5;
-  const x = Number(cx) + radius * Math.cos(-midAngle * RADIAN);
-  const y = Number(cy) + radius * Math.sin(-midAngle * RADIAN);
-
-  return (
-    <text
-      x={x}
-      y={y}
-      fill="white"
-      textAnchor="middle"
-      dominantBaseline="central"
-      fontSize={12}
-    >
-      {name}
-    </text>
-  );
-};
 
 export function ProductsCategoriesChart({ products }: { products: TMedicineResponse[] }) {
   const categoryData = Object.values(
@@ -54,8 +32,14 @@ export function ProductsCategoriesChart({ products }: { products: TMedicineRespo
       }
       acc[type].value += 1;
       return acc;
-    }, {} as Record<string, { name: string; value: number }>)
+    }, {} as Record<string, { name: string; value: number }>),
   );
+
+  // Create a formatter to display `Category – Count`
+  const renderLegendText = (value: string) => {
+    const item = categoryData.find((c) => c.name === value);
+    return `${value} – ${item?.value ?? 0}`;
+  };
 
   return (
     <div className="w-full h-96 p-4 bg-white dark:bg-gray-900 rounded-2xl shadow-md">
@@ -66,18 +50,25 @@ export function ProductsCategoriesChart({ products }: { products: TMedicineRespo
             data={categoryData}
             dataKey="value"
             nameKey="name"
-            cx="50%"
+            cx="40%"
             cy="50%"
             outerRadius={100}
             innerRadius={60}
             labelLine={false}
-            label={renderCustomLabel}
+            label={false}
           >
-            {categoryData.map((entry, index) => (
+            {categoryData.map((_, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
           <Tooltip />
+          <Legend
+            layout="vertical"
+            align="right"
+            verticalAlign="middle"
+            iconType="circle"
+            formatter={renderLegendText}
+          />
         </PieChart>
       </ResponsiveContainer>
     </div>
