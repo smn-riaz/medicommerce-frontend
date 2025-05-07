@@ -51,15 +51,16 @@ export const categories = [
 const DynamicCategories = () => {
   
     return (
-      <div className='flex flex-col justify-between'>
-      <h1 className='text-3xl text-center font-bold'>Our Products Categories</h1>
+      <div className="flex flex-col justify-between">
+      <h1 className="text-3xl text-center font-bold text-gray-900 dark:text-gray-100">Our Products Categories</h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-10 p-4">
         {categories.map((cat, i) => (
-          <Link href={`/shop/${cat.name}`}
+          <Link
+            href={`/shop/${cat.name}`}
             key={i}
-            className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center justify-center p-4 cursor-pointer group"
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center justify-center p-4 cursor-pointer group"
           >
-            <div className="bg-slate-100 p-2 rounded-full group-hover:scale-105 transition-transform duration-200">
+            <div className="bg-slate-100 dark:bg-gray-700 p-2 rounded-full group-hover:scale-105 transition-transform duration-200">
               <Image
                 src={cat.image}
                 alt={cat.name}
@@ -68,19 +69,19 @@ const DynamicCategories = () => {
                 className="w-12 h-12 object-contain"
               />
             </div>
-            <p className="mt-3 flex gap-x-2 text-center text-sm font-medium text-gray-700 group-hover:font-semibold hover:text-md transition-colors">
-              {cat.name}  
+            <p className="mt-3 flex gap-x-2 text-center text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:font-semibold hover:text-md transition-colors">
+              {cat.name}
               <span className="relative">
-              <ArrowRight
-  className="absolute left-0 transform -translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 text-blue-700 font-semibold transition-all duration-300 ease-in-out"
-/>
-
+                <ArrowRight
+                  className="absolute left-0 transform -translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 text-blue-700 dark:text-blue-300 font-semibold transition-all duration-300 ease-in-out"
+                />
               </span>
             </p>
           </Link>
         ))}
       </div>
     </div>
+    
     
     
       

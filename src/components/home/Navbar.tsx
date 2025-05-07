@@ -18,6 +18,7 @@ import { NotificationPopover } from "./NotificationPopup";
 import { protectedRoutes } from "@/constants";
 import { HoverNavbarCategory } from "./HoverNavbarCategory";
 import { ProfileDropDown } from "./ProfileDropDown";
+import { ThemeToggle } from "./ThemeToggle";
 
 export default function Navbar() {
   const totalQuantity = useAppSelector(totalQuantitySelector);
@@ -46,7 +47,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-[95vw] bg-[#DAEAFE] border-b rounded-md shadow-sm fixed top-0 z-50">
+    <nav className="w-[95vw] bg-secondary border-b rounded-md shadow-sm fixed top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link
           href="/"
@@ -113,6 +114,8 @@ export default function Navbar() {
           )}
         </div>
 
+       
+
         <div className="hidden md:flex items-center gap-6">
           <Link
             href="/cart"
@@ -137,6 +140,8 @@ export default function Navbar() {
               <Button>Login</Button>
             </Link>
           )}
+
+<ThemeToggle />
 
           {/* <NotificationPopover /> */}
         </div>

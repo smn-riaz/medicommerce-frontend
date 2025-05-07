@@ -31,7 +31,7 @@ export default function Carousel({ medicines }: { medicines: TMedicineResponse[]
       >
         {medicines.map((med) => (
           <SwiperSlide key={med._id}>
-            <Card className="rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-[250px] flex flex-row">
+            <Card className="rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-[250px] my-auto flex flex-row">
               <div>
               <Image
                 src={med.imageUrl[0]}
@@ -57,11 +57,21 @@ export default function Carousel({ medicines }: { medicines: TMedicineResponse[]
                       </span>
                     </p>
                   </div>
+                  <p className="text-sm text-gray-400 font-semibold">Stock: {med.quantity}</p>
                 </div>
                 <div className="mt-4">
-                  <Link href={`/medicine/${med._id}`}><Button size="sm" className="w-full">
-                    See More
-                  </Button></Link>
+                <Link href={`/medicine/${med._id}`}>
+  <Button
+    size="sm"
+    className="w-full cursor-pointer bg-gradient-to-br from-blue-500 to-indigo-600 text-white rounded-lg py-2 px-4 
+              transition-transform transform hover:scale-105 
+              hover:bg-gradient-to-br hover:from-indigo-600 hover:to-blue-500
+              focus:outline-none focus:ring-4 focus:ring-indigo-300 hover:shadow-xl"
+  >
+    See More
+  </Button>
+</Link>
+
                 </div>
               </CardContent>
             </Card>

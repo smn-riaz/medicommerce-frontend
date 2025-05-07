@@ -56,69 +56,67 @@ export default function WhyChooseUs() {
 
   return (
     <section ref={sectionRef} className="w-full max-w-7xl mx-auto px-4 py-12">
-      <motion.div
-        initial="hidden"
-        animate={controls}
-        variants={{
-          hidden: { opacity: 0, y: 50 },
-          visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: 'easeOut' },
-          },
-        }}
-        className="flex flex-col lg:flex-row items-center justify-between gap-10 bg-white rounded-2xl shadow-xl p-8"
-      >
-        {/* Left: Video */}
-        <div className="w-full lg:w-1/2">
-          <video
-            className="w-full h-auto rounded-xl shadow-md"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            onError={() => console.error('Failed to load video')}
-          >
-            <source src="/video/whychooseus.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+    <motion.div
+      initial="hidden"
+      animate={controls}
+      variants={{
+        hidden: { opacity: 0, y: 50 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.6, ease: 'easeOut' },
+        },
+      }}
+      className="flex flex-col lg:flex-row items-center justify-between gap-10 bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8"
+    >
+      {/* Left: Video */}
+      <div className="w-full lg:w-1/2">
+        <video
+          className="w-full h-auto rounded-xl shadow-md"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          onError={() => console.error('Failed to load video')}
+        >
+          <source src="/video/whychooseus.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+  
+      {/* Right: List */}
+      <div className="w-full lg:w-1/2 flex flex-col gap-6">
+        <div className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+          Why Choose <span className="text-blue-600 dark:text-blue-300">MediCommerce</span>?
         </div>
-
-        {/* Right: List */}
-        <div className="w-full lg:w-1/2 flex flex-col gap-6">
-          {/* Ensure that the motion animation is correctly set */}
-          <div
-            className="text-3xl font-bold text-gray-900 mb-2"
+  
+        {reasons.map(({ icon: Icon, title, description }, idx) => (
+          <motion.div
+            key={title}
+            variants={{
+              hidden: { opacity: 0, x: 20 },
+              visible: { opacity: 1, x: 0 },
+            }}
+            initial="hidden"
+            animate={controls}
+            transition={{ delay: 0.3 + idx * 0.1 }}
+            className="flex items-start gap-4"
           >
-            Why Choose <span className="text-blue-600">MediCommerce</span>?
-          </div>
-
-          {reasons.map(({ icon: Icon, title, description }, idx) => (
-            <motion.div
-              key={title}
-              variants={{
-                hidden: { opacity: 0, x: 20 },
-                visible: { opacity: 1, x: 0 },
-              }}
-              initial="hidden"
-              animate={controls}
-              transition={{ delay: 0.3 + idx * 0.1 }}
-              className="flex items-start gap-4"
-            >
-              <div className="text-blue-600 mt-1">
-                <Icon className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800">
-                  {title}
-                </h3>
-                <p className="text-sm text-gray-600">{description}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-    </section>
+            <div className="text-blue-600 dark:text-blue-300 mt-1">
+              <Icon className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                {title}
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{description}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  </section>
+  
   );
 }

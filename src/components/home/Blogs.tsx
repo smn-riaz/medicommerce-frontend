@@ -81,8 +81,8 @@ const blogs: Blog[] = [
 
 export default function Blogs() {
   return (
-    <section className="w-full px-4 py-10 md:px-8 lg:px-16 bg-gray-50">
-    <h2 className="text-2xl md:text-3xl font-bold text-center text-green-700 mb-8">
+    <section className="w-full px-4 py-10 md:px-8 lg:px-16 bg-gray-50 dark:bg-gray-800">
+    <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-900 dark:text-gray-100">
       Latest Medical Discoveries
     </h2>
   
@@ -93,7 +93,7 @@ export default function Blogs() {
             key={index}
             className="pl-2 md:pl-6 basis-[85%] sm:basis-[50%] lg:basis-[33.333%] xl:basis-[25%]"
           >
-            <Card className="relative rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+            <Card className="relative rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white dark:bg-gray-700">
               {/* Fixed height for image container */}
               <div className="w-full h-52 overflow-hidden rounded-t-xl">
                 <Image
@@ -106,18 +106,20 @@ export default function Blogs() {
               </div>
               {/* Fixed height for Card content section */}
               <CardContent className="p-5 h-44">
-                <p className="text-xs uppercase font-semibold text-green-600 mb-1">
+                <p className="text-xs text-center uppercase p-1 bg-[#f7f2f2] dark:bg-gray-600 font-semibold text-primary dark:text-gray-300 mb-1">
                   {blog.category}
                 </p>
-                <h3 className="text-lg font-bold text-gray-800 mb-2">
+                <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2">
                   {blog.title}
                 </h3>
-                <p className="text-sm text-gray-500 mb-3">📅 {blog.date}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-300 mb-3">
+                  📅 {blog.date}
+                </p>
                 <Link
                   href={blog.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block text-sm font-medium text-green-700 hover:underline"
+                  className="inline-block text-sm font-medium text-primary hover:underline dark:text-blue-400"
                 >
                   {blog.description}
                 </Link>
@@ -127,10 +129,11 @@ export default function Blogs() {
         ))}
       </CarouselContent>
   
-      <CarouselPrevious className="-left-6" />
-      <CarouselNext className="-right-6" />
+      <CarouselPrevious className="-left-6 text-gray-700 dark:text-gray-300" />
+      <CarouselNext className="-right-6 text-gray-700 dark:text-gray-300" />
     </Carousel>
   </section>
+  
   
   
   );

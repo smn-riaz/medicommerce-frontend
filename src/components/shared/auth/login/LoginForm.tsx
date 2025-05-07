@@ -24,7 +24,7 @@ import {usePathname, useRouter, useSearchParams } from "next/navigation";
 import { loginSchema } from "./loginValidation";
 import Logo from "@/components/home/Logo";
 import { getCurrentUser, loginUser } from "@/services/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useUser } from "@/context/UserContext";
 
@@ -42,18 +42,34 @@ const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const {setIsLoading, setUser} = useUser()
 
+  const [autoFillCredentials, setAutoFillCredentials] = useState(false)
 
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
+    defaultValues: { email: '', password: '' } 
+    
   });
+
+ 
+  useEffect(() => {
+    if (autoFillCredentials) {
+      form.reset({
+        email: 'admin@gmail.com',
+        password: 'aaaaaa',
+      });
+    } else {
+      form.reset({
+        email: '',
+        password: '',
+      });
+    }
+  }, [autoFillCredentials])
+
 
   const {
     formState: { isSubmitting },
   } = form;
-
-
-
 
 
 
@@ -87,6 +103,8 @@ const onSubmit: SubmitHandler<FieldValues> = async (data) => {
 
 
 
+
+
   return (
     <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
       <div className="flex items-center justify-between space-x-4 ">
@@ -98,8 +116,12 @@ const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         </div>
         <Logo />
       </div>
+
+<div className="flex justify-center items-center pt-6">
+<Button onClick={() => setAutoFillCredentials(!autoFillCredentials)} className={`flex ${autoFillCredentials ? "bg-[#b65151] ":"bg-[#0e8f0e]"} hover:bg-[paused] cursor-pointer justify-center items-center py-2 gap-2`}>{!autoFillCredentials?"Click to autofill admin credentials" : "Clear admin credentials"}</Button>
+</div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>  
          
           <FormField
             control={form.control}

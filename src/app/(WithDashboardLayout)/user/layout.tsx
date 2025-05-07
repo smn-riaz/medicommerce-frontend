@@ -1,4 +1,5 @@
 "use client"
+import { ThemeToggle } from "@/components/home/ThemeToggle"
 import { AppSidebar } from "@/components/ui/app-sidebar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { Home, ContactRound, ShoppingBag, Book } from "lucide-react"
@@ -26,11 +27,14 @@ const items = [
 export default function UserDashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <AppSidebar items={items}/>
-      <main className="bg-[#FFFFFF]  min-h-screen">
-        <SidebarTrigger />
-        <div className="p-4 pt-0 ">{children}</div>
-      </main>
-    </SidebarProvider>
+  <AppSidebar items={items} />
+  <main className="bg-white w-full dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100">
+ <div className="flex justify-start gap-6 items-center">   <SidebarTrigger />
+ <ThemeToggle />
+ </div>
+    <div className="p-4 pt-0">{children}</div>
+  </main>
+</SidebarProvider>
+
   )
 }

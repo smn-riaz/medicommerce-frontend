@@ -5,8 +5,9 @@ export const dynamic = "force-dynamic";
 import MedicineDetail from '@/components/home/MedicineDetail';
 import { useUser } from '@/context/UserContext';
 import { getCurrentUser } from '@/services/auth';
-import { getSingleMedicine } from '@/services/medicine';
-import { getSpecificUserProductReview } from '@/services/review';
+import { getAllMedicine, getSingleMedicine } from '@/services/medicine';
+import { getSpecificProductReviews, getSpecificUserProductReview } from '@/services/review';
+import { TMedicineResponse } from '@/types';
 import React from 'react';
 
 
@@ -36,18 +37,20 @@ const MedicineDetailPage = async({params}:{params:Promise<{id:string}>}) => {
 
     const {data:medicine} = await getSingleMedicine(medicineId)
 
-    // const {id} = await getCurrentUser()
+  
 
-    // const {data:review} = id 
-    //     ? await getSpecificUserProductReview({userId: id, productId: medicine._id}) 
-    //     : { data: null };
+    const {data:reviews} = await getSpecificProductReviews(medicineId)
  
-    
+    const {data:medicines} = await getAllMedicine()
+
+    const relatedMedicines = medicines.filter((med:TMedicineResponse) => med.type === medicine.type) || []
+
 
     return (
         <div className='py-16'>
             <MedicineDetail medicine={medicine} 
-            // review={review || ""}
+            reviews={reviews}
+            relatedMedicines= {relatedMedicines}
             />
         </div>
     );

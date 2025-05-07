@@ -1,3 +1,4 @@
+import { TMedicineResponse } from './medicine';
 import { IUserResponse } from "./user";
 
 export type TReview = {
@@ -13,7 +14,7 @@ export type TReviewResponse = {
     title: string;
     description: string;
     userId: IUserResponse;
-    productId: string;
+    productId: TMedicineResponse;
     rating: number;
     createdAt: string;
     updatedAt: string;

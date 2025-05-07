@@ -34,7 +34,7 @@ export default function BestSellingProductCard({
       {/* Card Content */}
       <CardContent className="flex flex-col gap-2 flex-grow">
         <h2 className="text-md font-semibold line-clamp-2">{medicine.name}</h2>
-        <p className="text-sm text-gray-500 line-clamp-2">{medicine.description}</p>
+        <p className="text-sm dark:text-gray-300 text-gray-500 line-clamp-2">{medicine.description}</p>
 
         {/* Price Section */}
         <div className="mt-auto">

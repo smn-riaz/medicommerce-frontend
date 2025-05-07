@@ -30,6 +30,8 @@ interface IProduct {
 
 export interface IOrderResponse {
   _id: string;
+  name:string
+  email:string
   userId: string;
   createdAt: string;
   updatedAt: string;

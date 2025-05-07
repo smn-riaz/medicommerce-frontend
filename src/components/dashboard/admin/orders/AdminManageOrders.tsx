@@ -17,40 +17,21 @@ import { toast } from "sonner";
 import { IOrderResponse } from "@/types";
 import { HoverPrescription } from "@/components/shared/dashboard/admin/hoverPrescription/HoverCard";
 
-
-
-interface IShippingInfo {
-  shippingAddress: string;
-  shippingCity: string;
-}
-
-interface IProduct {
-  productId: string;
-  name: string;
-  quantity: number;
-  price: number;
-}
-
-
-
 interface ManageOrdersProps {
   data: IOrderResponse[];
 }
 
 const AdminManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
-
   const handleOrderStatusChange = async (orderId: string, newStatus: string) => {
     try {
-  const res =  await updateOrderStatus(orderId, newStatus);
-
-   if(res.success){
-    toast.success("Order status updated", {duration:1200});
-   } else{
-    toast.error(res.message, {duration:1200});
-   }
-    } 
-    catch (err) {
-      toast("Failed to update order status",{duration:1200} );
+      const res = await updateOrderStatus(orderId, newStatus);
+      if (res.success) {
+        toast.success("Order status updated", { duration: 1200 });
+      } else {
+        toast.error(res.message, { duration: 1200 });
+      }
+    } catch (err) {
+      toast("Failed to update order status", { duration: 1200 });
     }
   };
 
@@ -58,40 +39,45 @@ const AdminManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
     {
       accessorKey: "name",
       header: "Customer info",
-      cell: ({ row }) => <div>
-        <p className="px-1">{row.original.name}</p>
-        <p className="bg-gray-200 px-1">{row.original.email}</p>
-      </div>,
+      cell: ({ row }) => (
+        <div>
+          <p className="px-1">{row.original.name}</p>
+          <p className="bg-gray-200 dark:bg-gray-700 text-sm rounded px-1">{row.original.email}</p>
+        </div>
+      ),
     },
     {
       accessorKey: "prescription",
       header: "Prescription",
-      cell: ({ row }) => (
-        row.original.prescription ? <div className="w-20 h-20 overflow-hidden rounded-md border">
-                  <HoverPrescription prescription={row.original.prescription} products={row.original.products}>
-                  
-                  </HoverPrescription>
-                </div> : <p className="text-center">N/A</p>
-      ),
+      cell: ({ row }) =>
+        row.original.prescription ? (
+          <div className="w-20 h-20 overflow-hidden rounded-md border dark:border-gray-600">
+            <HoverPrescription
+              prescription={row.original.prescription}
+              products={row.original.products}
+            />
+          </div>
+        ) : (
+          <p className="text-center">N/A</p>
+        ),
     },
     {
       accessorKey: "prescriptionReviewStatus",
       header: "Review Status",
       cell: ({ row }) => {
         const status = row.original.prescriptionReviewStatus;
-        const color =
-          status === "ok"
-            ? "green"
-            : status === "cancelled"
-            ? "red"
-            : "yellow";
+        const colorClasses = {
+          ok: "bg-green-100 text-green-600 border-green-300 dark:bg-green-800 dark:text-green-100 dark:border-green-600",
+          cancelled: "bg-red-100 text-red-600 border-red-300 dark:bg-red-800 dark:text-red-100 dark:border-red-600",
+          pending: "bg-yellow-100 text-yellow-600 border-yellow-300 dark:bg-yellow-800 dark:text-yellow-100 dark:border-yellow-600",
+        };
 
-        return (
-          row.original.prescription ? (
-          <Badge className={`bg-${color}-100 text-${color}-600 border border-${color}-300`}>
+        return row.original.prescription ? (
+          <Badge className={colorClasses[status]}>
             {status.toUpperCase()}
           </Badge>
-          ) : <p className="text-center">N/A</p>
+        ) : (
+          <p className="text-center">N/A</p>
         );
       },
     },
@@ -143,7 +129,7 @@ const AdminManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
       cell: ({ row }) => (
         <div>
           <p>{row.original.shippingInfo.shippingAddress}</p>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
             {row.original.shippingInfo.shippingCity}
           </p>
         </div>
@@ -157,7 +143,7 @@ const AdminManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
           {row.original.products.map((product, index) => (
             <div
               key={index}
-              className="text-sm p-1 rounded bg-muted border border-border"
+              className="text-sm p-1 rounded bg-muted dark:bg-gray-800 border border-border dark:border-gray-600"
             >
               <p>
                 <span className="font-medium">{product.name}</span> — Qty:{" "}
@@ -171,7 +157,7 @@ const AdminManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
   ];
 
   return (
-    <div className="p-4 ">
+    <div className="p-4">
       <h2 className="text-2xl font-semibold mb-4">Manage Orders</h2>
       <MMTable data={data} columns={columns} />
     </div>

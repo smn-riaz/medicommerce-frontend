@@ -41,25 +41,35 @@ export default function Pharmaceuticals() {
   const duplicatedLogos = [...logos, ...logos]
 
   return (
-    <div className="w-full mx-auto py-10 bg-white max-w-7xl px-4 overflow-hidden">
-        <h1 className='text-center py-2 text-3xl font-bold'>Trusted by Leading Pharmaceutical Brands</h1>
-      <motion.div
-        className="flex gap-x-8 sm:gap-x-20 w-max"
-        initial={{ x: 0 }}
-        animate={{ x: `-${100 / 2}%` }} 
-        transition={{ repeat: Infinity, duration: 100, ease: 'linear' }}
-      >
-        {duplicatedLogos.map((logo, index) => (
-          <div key={index} className="flex items-center justify-center ">
-            <Image
-              src={logo.image}
-              alt={`Logo ${index}`}
-              width={logo.width}
-              height={logo.height}
-            />
-          </div>
-        ))}
-      </motion.div>
+    <div className="w-full py-10 bg-white dark:bg-gray-900">
+      <h1 className="text-center py-2 text-3xl font-bold text-gray-900 dark:text-white">
+        Trusted by Leading Pharmaceutical Brands
+      </h1>
+
+      <div className="relative overflow-hidden w-full">
+        <motion.div
+          className="flex gap-x-10 sm:gap-x-20 w-max whitespace-nowrap"
+          initial={{ x: 0 }}
+          animate={{ x: "-50%" }}
+          transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
+        >
+          {duplicatedLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-center shrink-0 grayscale hover:grayscale-0 transition-all duration-300"
+            >
+              <Image
+                src={logo.image}
+                alt={`Logo ${index}`}
+                width={logo.width}
+                height={logo.height}
+                className="object-contain max-h-20"
+              />
+            </div>
+          ))}
+        </motion.div>
+      </div>
     </div>
+  
   );
 }

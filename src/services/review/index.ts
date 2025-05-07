@@ -45,12 +45,39 @@ export const getAllReviews = async () => {
   }
 
 
-export const getSpecificUserProductReview = async (reviewCondition:{userId:string, productId:string}) => {
+export const getSpecificUserProductReview = async (reviewCondition:{userId:string}) => {
     try {
 
       const res = await fetch(`${process.env.BASE_API}/review/user-product`,{
         method:"POST",
         body:JSON.stringify(reviewCondition),
+        headers:{
+          'Content-Type':"application/json"
+        }
+      });
+  
+
+      if (!res.ok) {
+        throw new Error(`Failed to fetch reviews, status: ${res.status}`);
+      }
+
+
+      return await res.json();
+    } catch (error: any) {
+      console.error("Error fetching reviews:", error);
+      return { error: error.message || "Something went wrong" };
+    }
+  };
+
+
+
+
+
+export const getSpecificProductReviews = async (medicineId:string) => {
+    try {
+
+      const res = await fetch(`${process.env.BASE_API}/review/${medicineId}`,{
+        method:"GET",
         headers:{
           'Content-Type':"application/json"
         }

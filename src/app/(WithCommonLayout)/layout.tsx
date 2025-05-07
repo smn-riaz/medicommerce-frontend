@@ -37,7 +37,7 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main>
       
-      <div className='h-[12vh]  flex justify-center bg-gradient-to-r from-blue-100 via-white to-green-100 '>
+      <div className='h-[12vh]  flex justify-center  '>
       <Navbar />
       </div>
 

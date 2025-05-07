@@ -38,7 +38,7 @@ export function HoverNavbarCategory() {
           {categories.map((category, index) => (
             <Link href={`/shop/${category.name}`}>
               {" "}
-              <DropdownMenuItem key={index} className="cursor-pointer">
+              <DropdownMenuItem key={index} className="cursor-pointer bg-background dark:hover:bg-gray-700">
                 <Image
                   src={category.image}
                   alt={category.name}

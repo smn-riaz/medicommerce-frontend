@@ -1,15 +1,18 @@
 export const dynamic = "force-dynamic";
 
+import AdminUserProfile from "@/components/dashboard/admin/user/AdminUserProfile";
 
-import AdminUserProfile from '@/components/dashboard/admin/user/AdminUserProfile';
+import { getCurrentUser } from "@/services/auth";
+import { getUserOrders } from "@/services/order";
+import { getSpecificUserProductReview } from "@/services/review";
+import { getSingleUser } from "@/services/user";
+import React from "react";
 
-import { getCurrentUser } from '@/services/auth';
-import { getUserOrders } from '@/services/order';
-import { getSingleUser } from '@/services/user';
-import React from 'react';
-
-const AdminUserProfilePage = async({params}:{params:Promise<{id:string}>}) => {
-
+const AdminUserProfilePage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
   const reviews = [
     {
       id: "rev1",
@@ -30,19 +33,29 @@ const AdminUserProfilePage = async({params}:{params:Promise<{id:string}>}) => {
       rating: 4,
     },
   ];
+
+  const userId = (await params).id;
+
+  const { data: user } = await getSingleUser(userId);
+
+  const { data: userOrders } = await getUserOrders(userId);
+
+  const sanitizedOrders = Array.isArray(userOrders) ? userOrders : [];
+
+  const { data: userReviews } =await getSpecificUserProductReview({userId})
   
-  const userId = (await params).id
 
-const {data:user} = await getSingleUser(userId)
-  const {data:userOrders} =  await getUserOrders(userId)
+    const sanitizedReviews = Array.isArray(userReviews) ? userReviews : [];
 
- 
-
-    return (
-        <div className="flex justify-center items-center p-10">
-          <AdminUserProfile reviews={reviews} user={user} orders={userOrders}/>
-        </div>
-    );
+  return (
+    <div className="flex justify-center items-center p-10">
+      <AdminUserProfile
+        reviews={sanitizedReviews}
+        user={user}
+        orders={sanitizedOrders}
+      />
+    </div>
+  );
 };
 
 export default AdminUserProfilePage;

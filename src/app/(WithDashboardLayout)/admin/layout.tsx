@@ -1,5 +1,6 @@
 "use client"
 
+import { ThemeToggle } from "@/components/home/ThemeToggle"
 import { AppSidebar } from "@/components/ui/app-sidebar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { Home, Pill,Pen, ShoppingBag, Users, Book, BookCopy } from "lucide-react"
@@ -46,11 +47,14 @@ const items = [
 export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <AppSidebar items={items}/>
-      <main className="bg-[#FFFFFF]">
-        <SidebarTrigger />
-        <div className="p-4 pt-0 min-h-screen ">{children}</div>
-      </main>
-    </SidebarProvider>
+    <AppSidebar items={items} />
+    <main className="bg-white w-full dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100">
+      <div className="flex gap-6 justify-start items-center">   <SidebarTrigger />
+       <ThemeToggle />
+       </div>
+      <div className="p-4 pt-0">{children}</div>
+    </main>
+  </SidebarProvider>
+  
   )
 }
