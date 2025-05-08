@@ -1,103 +1,115 @@
-# MediCommerce  
-### A Full-stack e-commerce web application for purchasing medicines online. Developed using the MERN stack, it offers an awesome experience for both customers and administrators.
+# 🏥 MediCommerce
 
-### 🌐 Live Links  
-- **Client Website**: [medicommerce-client.vercel.app](https://medicommerce-client.vercel.app)  
-- **Server Endpoint**: [medimart-server-three.vercel.app](https://medimart-server-three.vercel.app)  
-- **Client GitHub**: [Client Repository](https://github.com/smn-riaz/medimart-6-mediCommerce-client)  
-- **Server GitHub**: [Server Repository](https://github.com/smn-riaz/medimart-6-mediCommerce-server)
+A modern, full-stack e-commerce web application tailored for purchasing medical and healthcare products securely. Built with Next.js, Node.js, TypeScript, and integrated with SSLCommerz for real-time payments. Includes features like prescription uploads, role-based dashboards, and email notifications for a seamless user experience.
+
+---
+
+## 🌐 Live Links
+
+- 🚀 **Client App:** [https://medicommerce-client.vercel.app](https://medicommerce-client.vercel.app)
+- 🌐 **Server API:** [https://medimart-server-three.vercel.app](https://medimart-server-three.vercel.app)
+- 📦 **Client GitHub Repo:** [smn-riaz/medimart-6-mediCommerce-client](https://github.com/smn-riaz/medimart-6-mediCommerce-client)
+- ⚙️ **Server GitHub Repo:** [smn-riaz/medimart-6-mediCommerce-server](https://github.com/smn-riaz/medimart-6-mediCommerce-server)
+
+---
+
+## 📸 Screenshot
 
 ![MediCommerce Banner](https://github.com/user-attachments/assets/21419087-1e0b-42cf-bb40-e0bea891b62f)
 
 ---
 
-## 🔥 Features
+## 🚀 Core Features
 
-### Frontend
-- Fully responsive UI for all devices
-- Browse and search for medicine products by name, type, or brand
-- Dynamic filtering and carousel view for special offers
-- Users must upload prescriptions for specific medicines
-- Add to cart, place orders, and track status
-- Secure online payments using SSLCommerz
-- Authentication & Authorization with JWT
-- State Management via Redux Toolkit & RTK Query
-- Role-based dashboard: Admin & User
-- Testimonial section for customer reviews
+### 👤 User Functionality
+- Secure registration and login with JWT-based authentication
+- Browse and search for medicines by name, brand, or type
+- Real-time product filtering with advanced search capabilities
+- Upload prescriptions for restricted medicines before ordering
+- Add to cart and place orders with online payment via SSLCommerz
+- Track order history and view statuses
+- Receive order confirmation and status updates via email
+- Give ratings and reviews products
 
-### Backend
-- RESTful API with Node.js & Express.js
-- MongoDB & Mongoose for database management
-- Role-based access (User/Admin)
-- Password hashing with Bcrypt
-- Authentication & Authorization with JWT
-- Data validation with Zod
-- Email notifications (order updates) using Nodemailer
-- CRUD operations for Users, Products, and Orders
+### 🛒 Admin Functionality
+- Admin dashboard with role-based access control
+- Manage all users (view/delete/update roles)
+- Add, update, or delete products (CRUD)
+- Review uploaded prescriptions and approve/reject as needed
+- Monitor orders and update shipping/payment statuses
+- Access user feedback and testimonials
 
 ---
 
-## 👥 User Flow Highlights
-- Secure registration & login using JWT
-- Order placement with real-time stock validation
-- Prescription upload for restricted medicines
-- Order status updates sent via email
-- Admin can:
-  - Manage users & products (Add/Edit/Delete)
-  - Process and update customer orders
-  - Monitor site activity
+## 🧰 Technologies & Versions
+
+### 🔧 Frontend
+- Next.js (v15.2.4)
+- TypeScript (v5.x)
+- Tailwind CSS (v4.0)
+- Shadcn UI Components
+- Framer Motion (v12.9.4)
+- Redux Toolkit (v2.6.1)
+
+### 🛠️ Backend
+- Node.js (v22.12.0)
+- Express.js (v4.21.2)
+- MongoDB (v6.15.0)
+- Mongoose (v8.13.0)
+- Bcrypt.js (v5.0.2)
+- JSON Web Token - JWT (v9.0.2)
+- Zod (v3.24.2) for schema validation
+- Nodemailer (v6.10.1)
+- SSLCommerz Payment Gateway Integration : Sslcommerz-lts (v1.1.0)
 
 ---
 
-## 🚧 Challenges
-- Implementing persistent and secure JWT-based authentication
-- SSLCommerz integration for secure and seamless payments
-- Building complex product filtering and search logic
-- Designing responsive, accessible UI across all devices
-- Real-time product stock tracking and consistency
-- Maintaining seamless communication between frontend and backend
+## 🚧 Major Challenges
+
+1. 🔐 Securing Authentication
+   - Implementing persistent login using JWT with role-based routes and token verification on both the frontend and backend.
+
+2. 💳 Payment Gateway Integration
+   - Handling secure real-time transactions with SSLCommerz and managing success/failure callbacks.
+
+3. 🔍 Complex Search & Filtering
+   - Implementing efficient search logic that filters products by multiple attributes (name, brand, type).
+
+4. 📦 Inventory Management
+   - Real-time stock validation and ensuring data consistency between orders and product availability.
+
+5. 📄 Prescription Verification
+   - Uploading, storing, and validating prescription images before approving an order for sensitive medicines.
+
+6. 📱 Responsive UI Design
+   - Ensuring a consistent user experience across mobile, tablet, and desktop using Tailwind CSS and responsive components.
+
+7. 📧 Email Notifications
+   - Sending dynamic emails with order confirmation and tracking updates using Nodemailer.
 
 ---
 
-## ⚙️ Technologies Used
+## 📈 Future Plans
 
-### Frontend:
-- Next.js
-- TypeScript
-- Tailwind CSS
-- ShadCN UI
-- Framer Motion
-- Redux Toolkit
-
-### Backend:
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- Bcrypt
-- JWT
-- Zod
-- Nodemailer
+- 💬 Real-time Chat: Integrate Socket.io for communication between users and admins
+- 📦 Order Tracking: Live delivery status updates for placed orders
+- 🎁 Promotions: Discount codes and promo campaigns for engagement
+- 🧠 Smart Recommendations: AI-based suggestions based on user history
+- 🛍️ Catalog Expansion: Add health tools, supplements, and personal care items
 
 ---
 
-## 🚀 Future Plans
-- Real-time chat feature (Socket.io)
-- Order tracking with delivery status updates
-- Product ratings & reviews from users
-- Discount codes and promotional offers
-- Smart recommendation system based on purchase history
-- Expansion of product catalog (more healthcare categories)
+## 🛠️ Getting Started Locally
 
----
+### Prerequisites
+- Node.js v20+
+- MongoDB Atlas or Local Instance
+- SSLCommerz account for sandbox/testing
+- Create .env files for both client and server
 
-## 🛠️ Local Development Setup
+### Setup
 
-1. Clone or download the repositories
-2. Install dependencies using `npm install`
-3. Set environment variables (.env)
-4. Run the development server using `npm run dev`
-5. Make sure to configure the backend API URL correctly in the client
-6. Test all features locally (authentication, payments, orders, etc.)
-
----
+1. Clone the repositories:
+   ```bash
+   git clone https://github.com/smn-riaz/medimart-6-mediCommerce-client
+   git clone https://github.com/smn-riaz/medimart-6-mediCommerce-server
