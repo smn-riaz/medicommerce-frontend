@@ -109,7 +109,6 @@ A modern, full-stack e-commerce web application tailored for purchasing medical 
 
 ### Setup
 
-1. Clone the repositories:
+1. Clone the repository:
    ```bash
-   git clone https://github.com/smn-riaz/medimart-6-mediCommerce-client
-   git clone https://github.com/smn-riaz/medimart-6-mediCommerce-server
+   git clone https://github.com/smn-riaz/medicommerce-frontend
