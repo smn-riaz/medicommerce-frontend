@@ -77,6 +77,7 @@ export const deleteMedicine = async(id:string) => {
 export const getAllMedicine = async (params?: Record<string, string>) => {
   try {
     const query = new URLSearchParams(params).toString();
+    
     const res = await fetch(
       `${process.env.BASE_API}/product${query ? `?${query}` : ""}`,
       {

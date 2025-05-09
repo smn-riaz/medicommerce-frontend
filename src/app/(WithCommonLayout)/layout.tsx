@@ -43,9 +43,9 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
 
       <div className="md:min-h-[78vh]  relative">
         {children}
-        <div className="fixed top-[70vh] right-4 z-50">
+        {/* <div className="fixed top-[70vh] right-4 z-50">
           <ChatBox userId="user123" receiverId="admin123" />
-        </div>
+        </div> */}
         </div>
       <Footer />
     </main>

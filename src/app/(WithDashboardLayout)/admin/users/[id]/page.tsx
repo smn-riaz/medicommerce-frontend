@@ -42,7 +42,7 @@ const AdminUserProfilePage = async ({
 
   const sanitizedOrders = Array.isArray(userOrders) ? userOrders : [];
 
-  const { data: userReviews } =await getSpecificUserProductReview({userId})
+  const { data: userReviews } =await getSpecificUserProductReview(userId)
   
 
     const sanitizedReviews = Array.isArray(userReviews) ? userReviews : [];

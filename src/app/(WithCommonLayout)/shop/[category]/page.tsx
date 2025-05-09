@@ -15,7 +15,7 @@ const CategoryProductsPage = async ({
 }) => {
   const { category } = await params;
 
-  const { data: medicines } = await getAllMedicine({ type: category });
+  const { data: medicines , meta} = await getAllMedicine({ type: category });
 
   return (
     <div className="">
@@ -40,7 +40,7 @@ const CategoryProductsPage = async ({
             }
           >
             {medicines.length ? (
-              <AllProducts medicines={medicines} filterOption={true} />
+              <AllProducts medicines={medicines} meta={meta}/>
             ) : (
               <p className="text-center text-3xl flex justify-center items-center my-12 text-red-600 ">
                 No products found

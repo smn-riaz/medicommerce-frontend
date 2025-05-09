@@ -1,10 +1,12 @@
 "use client";
+
+import MedicineSearchbar from "@/components/home/MedicineSearchbar";
 import DeleteConfirmationModal from "@/components/shared/dashboard/MMModal";
 import { MMTable } from "@/components/shared/dashboard/MMTable";
+import TablePagination from "@/components/shared/TablePagination";
 import { Button } from "@/components/ui/button";
 import { deleteMedicine } from "@/services/medicine";
-import { TMedicineResponse } from "@/types";
-
+import { IMeta, TMedicineResponse } from "@/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { Pen, Trash } from "lucide-react";
 import Image from "next/image";
@@ -13,16 +15,15 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
-
-
-const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
+const ManageMedicine = ({ data, meta }: { data: TMedicineResponse[]; meta: IMeta }) => {
   const [isModalOpen, setModalOpen] = useState(false);
-
-  const router = useRouter()
-
+  const router = useRouter();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const [sorting, setSorting] = useState<{ key: string; desc: boolean }>({
+    key: "price",
+    desc: false,
+  });
 
   const handleDelete = (data: TMedicineResponse) => {
     setSelectedId(data?._id);
@@ -30,26 +31,40 @@ const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
     setModalOpen(true);
   };
 
-  const handleDeleteConfirm = async (id:string) => {
+  const handleDeleteConfirm = async (id: string) => {
     try {
-        if (id) {
-          const res = await deleteMedicine(id)
-     
-          if (res.success) {
-            toast.success(res.message);
-            setModalOpen(false);
-          } else {
-            toast.error(res.message);
-          }
+      if (id) {
+        const res = await deleteMedicine(id);
+        if (res.success) {
+          toast.success(res.message);
+          setModalOpen(false);
+        } else {
+          toast.error(res.message);
         }
+      }
     } catch (err: any) {
       console.error(err?.message);
     }
   };
 
-  const handleUpdate = (id:string)=>{
-    router.push(`/admin/medicines/update-medicine/${id}`)
-  }
+  const handleUpdate = (id: string) => {
+    router.push(`/admin/medicines/update-medicine/${id}`);
+  };
+
+  const handleSort = (column: string) => {
+    setSorting((prev) => ({
+      key: column,
+      desc: prev.key === column ? !prev.desc : false,
+    }));
+  };
+
+  const sortedData = [...data].sort((a, b) => {
+    const aValue = a[sorting.key as keyof TMedicineResponse];
+    const bValue = b[sorting.key as keyof TMedicineResponse];
+    if (aValue < bValue) return sorting.desc ? 1 : -1;
+    if (aValue > bValue) return sorting.desc ? -1 : 1;
+    return 0;
+  });
 
   const columns: ColumnDef<TMedicineResponse>[] = [
     {
@@ -77,21 +92,31 @@ const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
     },
     {
       accessorKey: "manufacturer",
-      header: "Menufacturer",
+      header: "Manufacturer",
     },
     {
       accessorKey: "price",
-      header: "Price",
-      cell: ({ row }) => (
-        <p className="text-center">{row.original.price}</p>
-      )
+      header: () => (
+        <div
+          className="cursor-pointer"
+          onClick={() => handleSort("price")}
+        >
+          Price {sorting.key === "price" ? (sorting.desc ? "↓" : "↑") : ""}
+        </div>
+      ),
+      cell: ({ row }) => <p className="text-center">{row.original.price}</p>,
     },
     {
       accessorKey: "quantity",
-      header: "Quantity",
-      cell: ({ row }) => (
-        <p className="text-center">{row.original.quantity}</p>
-      )
+      header: () => (
+        <div
+          className="cursor-pointer"
+          onClick={() => handleSort("quantity")}
+        >
+          Quantity {sorting.key === "quantity" ? (sorting.desc ? "↓" : "↑") : ""}
+        </div>
+      ),
+      cell: ({ row }) => <p className="text-center">{row.original.quantity}</p>,
     },
     {
       accessorKey: "inStock",
@@ -110,15 +135,6 @@ const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
         </div>
       ),
     },
-    // {
-    //   accessorKey: "discount",
-    //   header: "Discount",
-    //   cell: ({ row }) => (
-    //     <div>
-    //       <p className="text-center">{row.original.discount}%</p>
-    //     </div>
-    //   ),
-    // },
     {
       accessorKey: "expireDate",
       header: "Expire",
@@ -129,12 +145,12 @@ const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
       cell: ({ row }) => (
         <div className="flex justify-center items-center">
           <button
-          className="text-red-500 cursor-pointer"
-          title="Delete"
-          onClick={() => handleDelete(row.original)}
-        >
-         <Trash className="w-5 h-5" />
-        </button>
+            className="text-red-500 cursor-pointer"
+            title="Delete"
+            onClick={() => handleDelete(row.original)}
+          >
+            <Trash className="w-5 h-5" />
+          </button>
         </div>
       ),
     },
@@ -155,18 +171,19 @@ const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
         </div>
       ),
     },
-
     {
       accessorKey: "update",
       header: () => <div>Update</div>,
       cell: ({ row }) => (
-        <div className="flex justify-center items-center"><button
-        className="text-blue-500 cursor-pointer"
-        title="Update"
-        onClick={() => handleUpdate(row.original._id)}
-      >
-       <Pen className="w-5 h-5" />
-      </button></div>
+        <div className="flex justify-center items-center">
+          <button
+            className="text-blue-500 cursor-pointer"
+            title="Update"
+            onClick={() => handleUpdate(row.original._id)}
+          >
+            <Pen className="w-5 h-5" />
+          </button>
+        </div>
       ),
     },
   ];
@@ -174,10 +191,18 @@ const ManageMedicine = ({ data }: { data: TMedicineResponse[] }) => {
   return (
     <div>
       <div className="flex items-center justify-end my-4">
-        <Link href="/admin/create-medicine"><Button>Create Medicine</Button></Link>
+        <Link href="/admin/create-medicine">
+          <Button>Create Medicine</Button>
+        </Link>
+      </div>
+      <div className="w-1/2">
+        <MedicineSearchbar />
+      </div>
+      <div>
+        <TablePagination totalPage={meta.totalPage} />
       </div>
       <div className="flex items-center justify-between">
-        <MMTable data={data} columns={columns} />
+        <MMTable data={sortedData} columns={columns} />
         <DeleteConfirmationModal
           name={selectedItem}
           isOpen={isModalOpen}

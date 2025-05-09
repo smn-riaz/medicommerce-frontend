@@ -1,16 +1,18 @@
 "use client"
 
-import React from "react";
+import React, { useState } from "react";
 import MedicineCard from "./MedicineCard";
-import { TMedicineResponse } from "@/types";
+import { IMeta, TMedicineResponse } from "@/types";
 
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { IconRight } from "react-day-picker";
+import TablePagination from "../shared/TablePagination";
+import LimitDropDown from "./LimitDropDown";
 
 
-const AllProducts =  ({ medicines, filterOption }: { medicines: TMedicineResponse[], filterOption:boolean }) => {
+const AllProducts =  ({ medicines, meta }: { medicines: TMedicineResponse[], meta:IMeta}) => {
 
 const pathname = usePathname()
 
@@ -21,6 +23,8 @@ const pathname = usePathname()
           <MedicineCard key={index} medicine={medicine} />
         ))}
       </div>
+
+     
 
         {
           pathname === "/" && <div className="flex justify-center items-center my-6">

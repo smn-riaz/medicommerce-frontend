@@ -28,23 +28,18 @@ const UserProfilePage = async() => {
 
   const sanitizedOrders = Array.isArray(userOrders) ? userOrders : [];
 
-  const { data: userReviews } =await getSpecificUserProductReview({userId:user.id})
+  const { data: userReviews } =await getSpecificUserProductReview(user.id)
     
-  
-      const sanitizedReviews = Array.isArray(userReviews) ? userReviews : [];
 
-    console.log(sanitizedReviews);
-
-  // const cart = useAppSelector(cartSelector)
 
 
 
     return (
         <div className="flex justify-center items-center p-10">
           <UserProfile 
-          // cart={[cart]} reviews={reviews} 
           user={userInfo} 
           orders={sanitizedOrders}
+          reviews={userReviews}
           />
         </div>
     );

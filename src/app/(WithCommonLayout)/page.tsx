@@ -19,14 +19,18 @@ import { getAllReviews } from '@/services/review';
 import React from 'react';
 
 const HomePage = async() => {
-  const {data:medicines} = await getAllMedicine()
+  const {data:medicines, meta} = await getAllMedicine()
 
   const {data:reviews} = await getAllReviews()
+
+    const carouselMedicineSlice = medicines?.slice(0, 4) || [];
+
+
   return (
     <main className=''>
       <HomeBanner />
-      <Carousel medicines={medicines.slice(0,4) || []}/>
-      <AllProducts medicines={medicines.slice(1,7)} filterOption={false}/>
+      <Carousel medicines={carouselMedicineSlice}/>
+      <AllProducts medicines={medicines || []} meta={meta}/>
       <WhyChooseUs />
       <BestSellingProducts />
       <DynamicCategories />

@@ -6,10 +6,9 @@ import { TMedicineResponse } from "@/types";
 const BestSellingProducts = async () => {
   const { data } = await getAllMedicine();
 
-  const allowedTypes = ["Skin Care", "Food", "Baby", "Tablet"];
-  const medicines = data
-    .filter((med: TMedicineResponse) => allowedTypes.includes(med.type))
-    .slice(0, 10);
+  const allowedTypes = ["Skin Care", "Food", "Baby", "Tablet","Syrup"];
+  const medicines = data?.filter((med: TMedicineResponse) => allowedTypes.includes(med.type)).slice(0, 8) || []
+    ;
 
   return (
     <div className="" id="bestselling">

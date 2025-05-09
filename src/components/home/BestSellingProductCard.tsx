@@ -1,17 +1,44 @@
+"use client"
+
 import React from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TMedicineResponse } from "@/types";
-import { ShoppingBasket, ShoppingCart } from "lucide-react";
+import {  ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import { useAppDispatch } from "@/redux/hooks";
+import { addItemToCart } from "@/redux/features/cartSlice";
+import { toast } from "sonner";
 
 export default function BestSellingProductCard({
   medicine,
 }: {
   medicine: TMedicineResponse;
 }) {
+
+  const { name, description, type, requiredPrescription, price, discount, expireDate , quantity, imageUrl, _id } =
+    medicine;
+
+
+    const dispatch = useAppDispatch()
+
+    const handleAddToCart = () => {
+      dispatch(
+            addItemToCart({
+              id: _id,
+              name,
+              quantity: 1,
+              price,
+              image: medicine.imageUrl[0],
+              description,
+              type,
+              prescription:requiredPrescription,
+            }))
+
+            toast.success(`${name} added to cart!`, { duration: 1000 });
+    }
   return (
     <Card className="w-full max-w-xs rounded-2xl shadow-lg border p-4 flex flex-col justify-between hover:shadow-xl transition-shadow duration-300 min-h-[440px]">
       {/* Image Container */}
@@ -50,7 +77,7 @@ export default function BestSellingProductCard({
          <div className="flex justify-between gap-3 items-center pt-4">
          
          
-         <Button className="cursor-pointer w-1/2 rounded-xl group">
+         <Button onClick={handleAddToCart} className="cursor-pointer w-1/2 rounded-xl group">
   <span className="inline-block transform transition-transform duration-500 group-hover:scale-125 group-hover:rotate-[360deg]">
     <ShoppingCart />
   </span>

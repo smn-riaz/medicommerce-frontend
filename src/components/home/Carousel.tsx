@@ -29,7 +29,7 @@ export default function Carousel({ medicines }: { medicines: TMedicineResponse[]
         autoplay={{ delay: 3000 }}
         loop
       >
-        {medicines.map((med) => (
+        {medicines?.map((med) => (
           <SwiperSlide key={med._id}>
             <Card className="rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all h-[250px] my-auto flex flex-row">
               <div>

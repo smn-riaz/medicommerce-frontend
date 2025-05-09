@@ -28,6 +28,8 @@ export default function FilterMedicineSidebar() {
   const [price, setPrice] = useState<number[]>([0]);
   const [date, setDate] = useState<Date | undefined>();
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedType, setSelectedType] = useState<string | undefined>(undefined);
+  const [selectedManufacturer, setSelectedManufacturer] = useState<string | undefined>(undefined);
 
   const manufacturers = [
     "ABC Pharma", "Beximco Pharmaceuticals Ltd", "ACME Laboratories Ltd",
@@ -43,7 +45,11 @@ export default function FilterMedicineSidebar() {
 
   const handleFilter = (key: string, value: string) => {
     const params = new URLSearchParams(searchParams);
-    params.set(key, value);
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
@@ -51,7 +57,9 @@ export default function FilterMedicineSidebar() {
     setPrice([0]);
     setDate(undefined);
     setSearchTerm("");
-    router.push(`${pathname}`); // This will reset the query params in the URL
+    setSelectedType(undefined);
+    setSelectedManufacturer(undefined);
+    router.push(`${pathname}`);
   };
 
   return (
@@ -76,8 +84,9 @@ export default function FilterMedicineSidebar() {
           placeholder="Search..."
           value={searchTerm}
           onChange={(e) => {
-            setSearchTerm(e.target.value);
-            handleFilter("searchTerm", e.target.value);
+            const value = e.target.value;
+            setSearchTerm(value);
+            handleFilter("searchTerm", value);
           }}
         />
       </div>
@@ -85,11 +94,19 @@ export default function FilterMedicineSidebar() {
       {/* Type */}
       <div className="space-y-1">
         <Label>Type</Label>
-        <Select onValueChange={(val) => handleFilter("type", val)}>
+        <Select
+          value={selectedType || "none"}
+          onValueChange={(val) => {
+            const newVal = val === "none" ? undefined : val;
+            setSelectedType(newVal);
+            handleFilter("type", newVal || "");
+          }}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select Type" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="none">Select Type</SelectItem>
             {types.map((type) => (
               <SelectItem key={type} value={type}>
                 {type}
@@ -102,11 +119,19 @@ export default function FilterMedicineSidebar() {
       {/* Manufacturer */}
       <div className="space-y-1">
         <Label>Manufacturer</Label>
-        <Select onValueChange={(val) => handleFilter("manufacturer", val)}>
+        <Select
+          value={selectedManufacturer || "none"}
+          onValueChange={(val) => {
+            const newVal = val === "none" ? undefined : val;
+            setSelectedManufacturer(newVal);
+            handleFilter("manufacturer", newVal || "");
+          }}
+        >
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select Manufacturer" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="none">Select Manufacturer</SelectItem>
             {manufacturers.map((manufacturer) => (
               <SelectItem key={manufacturer} value={manufacturer}>
                 {manufacturer}
@@ -128,7 +153,7 @@ export default function FilterMedicineSidebar() {
         </p>
         <Slider
           max={5000}
-          value={price} // Correctly bind the value for slider
+          value={price}
           step={1}
           onValueChange={(value) => {
             setPrice(value);
@@ -151,24 +176,23 @@ export default function FilterMedicineSidebar() {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0 dark:bg-zinc-900 dark:border-zinc-700">
-          <Calendar
-  mode="single"
-  selected={date ?? undefined}
-  onSelect={(selectedDate) => {
-    setDate(selectedDate);
-    if (selectedDate) {
-      const increasedDate = new Date(selectedDate);
-      increasedDate.setDate(increasedDate.getDate() + 1);
-      handleFilter("expireDate", increasedDate.toISOString().split("T")[0]);
-    } else {
-      handleFilter("expireDate", "");
-    }
-  }}
-  defaultMonth={new Date()}
-  key={date ? date.toISOString() : "no-date"} // Forces the Calendar to re-render if cleared
-  initialFocus
-/>
-
+            <Calendar
+              mode="single"
+              selected={date ?? undefined}
+              onSelect={(selectedDate) => {
+                setDate(selectedDate);
+                if (selectedDate) {
+                  const increasedDate = new Date(selectedDate);
+                  increasedDate.setDate(increasedDate.getDate() + 1);
+                  handleFilter("expireDate", increasedDate.toISOString().split("T")[0]);
+                } else {
+                  handleFilter("expireDate", "");
+                }
+              }}
+              defaultMonth={new Date()}
+              key={date ? date.toISOString() : "no-date"}
+              initialFocus
+            />
           </PopoverContent>
         </Popover>
       </div>

@@ -45,12 +45,11 @@ export const getAllReviews = async () => {
   }
 
 
-export const getSpecificUserProductReview = async (reviewCondition:{userId:string}) => {
+export const getSpecificUserProductReview = async (userId:string) => {
     try {
 
-      const res = await fetch(`${process.env.BASE_API}/review/user-product`,{
-        method:"POST",
-        body:JSON.stringify(reviewCondition),
+      const res = await fetch(`${process.env.BASE_API}/review/user-product/${userId}`,{
+        method:"GET",
         headers:{
           'Content-Type':"application/json"
         }
