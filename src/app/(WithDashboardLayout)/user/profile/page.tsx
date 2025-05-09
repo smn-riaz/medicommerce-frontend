@@ -2,38 +2,50 @@ export const dynamic = "force-dynamic";
 
 
 import UserProfile from '@/components/dashboard/user/UserProfile';
+import { useUser } from '@/context/UserContext';
+import { cartSelector } from '@/redux/features/cartSlice';
+import { useAppSelector } from '@/redux/hooks';
 import { getCurrentUser } from '@/services/auth';
 import { getUserOrders } from '@/services/order';
+import { getSpecificUserProductReview } from '@/services/review';
+import { getSingleUser } from '@/services/user';
 import React from 'react';
 
 const UserProfilePage = async() => {
 
-  const reviews = [
-    {
-      id: "rev1",
-      productName: "Wireless Headphones",
-      comment: "Great sound quality and battery life. Highly recommended!",
-      rating: 5,
-    },
-    {
-      id: "rev2",
-      productName: "Smartwatch Pro X",
-      comment: "Good features but the strap quality could be better.",
-      rating: 3,
-    },
-    {
-      id: "rev3",
-      productName: "Eco-Friendly Water Bottle",
-      comment: "Stylish, leak-proof, and keeps water cold for hours!",
-      rating: 4,
-    },
-  ];
-  
   const user = await getCurrentUser()
-  const {data} =  await getUserOrders(user?.id as string)
+  
+
+  if (!user?.id) {
+    throw new Error("User is not logged in");
+  }
+
+  const { data: userInfo } = await getSingleUser(user.id);
+
+
+
+  const { data: userOrders } = await getUserOrders(user.id);
+
+  const sanitizedOrders = Array.isArray(userOrders) ? userOrders : [];
+
+  const { data: userReviews } =await getSpecificUserProductReview({userId:user.id})
+    
+  
+      const sanitizedReviews = Array.isArray(userReviews) ? userReviews : [];
+
+    console.log(sanitizedReviews);
+
+  // const cart = useAppSelector(cartSelector)
+
+
+
     return (
         <div className="flex justify-center items-center p-10">
-          <UserProfile user={user} orders={data}/>
+          <UserProfile 
+          // cart={[cart]} reviews={reviews} 
+          user={userInfo} 
+          orders={sanitizedOrders}
+          />
         </div>
     );
 };

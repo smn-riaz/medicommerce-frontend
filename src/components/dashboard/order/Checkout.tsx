@@ -92,99 +92,97 @@ const Checkout = () => {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
-  <h1 className="text-3xl font-bold mb-6">Checkout</h1>
+<div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 py-8 space-y-8">
+  <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-center dark:text-white">Checkout</h1>
 
-  {/* Order Summary */}
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <Card className="col-span-1 lg:col-span-3">
+  {/* Grid: Order Summary + User Info, Shipping Info, Prescription */}
+  <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    {/* Order Summary (2/3 width) */}
+    <Card className="lg:col-span-2 shadow-md dark:bg-muted dark:text-white">
       <CardHeader>
-        <CardTitle>Order Summary</CardTitle>
+        <CardTitle className="text-xl">Order Summary</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 px-4 py-2">
         {products?.map((product) => (
           <div
             key={product.productId}
-            className="border-b bg-blue-50 p-2 rounded-md"
+            className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 border dark:border-blue-800"
           >
-            <p className="font-medium">{product.name}</p>
-            <p className="text-sm text-muted-foreground">
-              Quantity: {product.quantity}
-            </p>
-            <p className="text-sm">Price: ৳{product.price}</p>
-            <p className="text-sm font-semibold">
-              Total: ৳{product.price * product.quantity}
-            </p>
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="font-medium">{product.name}</p>
+                <p className="text-sm text-muted-foreground dark:text-gray-400">Qty: {product.quantity}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-sm">Price: ৳{product.price}</p>
+                <p className="font-semibold">Total: ৳{product.price * product.quantity}</p>
+              </div>
+            </div>
           </div>
         ))}
-        <div className="pt-4 border-t space-y-2">
-          <p>
-            <strong>Shipping Cost:</strong> ৳{shippingCost}
-          </p>
-          <p>
-            <strong>Total:</strong> ৳
-            {Number(totalPrice) + Number(shippingCost)}
-          </p>
+
+        <div className="pt-4 border-t border-border space-y-1">
+          <div className="flex justify-between text-sm">
+            <span>Shipping Cost</span>
+            <span>৳{shippingCost}</span>
+          </div>
+          <div className="flex justify-between text-md font-semibold">
+            <span>Total</span>
+            <span>৳{Number(totalPrice) + Number(shippingCost)}</span>
+          </div>
         </div>
       </CardContent>
     </Card>
-  </div>
 
-  {/* User, Shipping, Prescription */}
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    <Card>
-      <CardHeader>
-        <CardTitle>User Information</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-2">
-        <p>
-          <strong>Name:</strong>
-          <Badge>{user?.name?.toUpperCase()}</Badge>
-        </p>
-        <p>
-          <strong>Email:</strong>
-          <Badge className="bg-primary text-sm">{user?.email}</Badge>
-        </p>
-      </CardContent>
-    </Card>
-
-    <Card>
-      <CardHeader>
-        <CardTitle>Shipping Information</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-2">
-        <p>
-          <strong>Address:</strong> {shippingInfo?.shippingAddress}
-        </p>
-        <p>
-          <strong>City:</strong> {shippingInfo?.shippingCity}
-        </p>
-      </CardContent>
-    </Card>
-
-    {prescription && (
-      <Card>
+    {/* Right Column (User, Shipping, Prescription) */}
+    <div className="space-y-6">
+      {/* User Info */}
+      <Card className="dark:bg-muted dark:text-white">
         <CardHeader>
-          <CardTitle>Prescription</CardTitle>
+          <CardTitle>User Info</CardTitle>
         </CardHeader>
-        <CardContent>
-          <Image
-            width={500}
-            height={500}
-            src={prescription}
-            alt="Prescription"
-            className="w-full max-w-sm mx-auto rounded shadow"
-          />
+        <CardContent className="space-y-2 px-4 py-2">
+          <p><strong>Name:</strong> <Badge>{user?.name?.toUpperCase()}</Badge></p>
+          <p><strong>Email:</strong> <Badge className="bg-primary text-sm">{user?.email}</Badge></p>
         </CardContent>
       </Card>
-    )}
+
+      {/* Shipping Info */}
+      <Card className="dark:bg-muted dark:text-white">
+        <CardHeader>
+          <CardTitle>Shipping Info</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2 px-4 py-2">
+          <p><strong>Address:</strong> {shippingInfo?.shippingAddress}</p>
+          <p><strong>City:</strong> {shippingInfo?.shippingCity}</p>
+        </CardContent>
+      </Card>
+
+      {/* Prescription */}
+      {prescription && (
+        <Card className="dark:bg-muted dark:text-white">
+          <CardHeader>
+            <CardTitle>Prescription</CardTitle>
+          </CardHeader>
+          <CardContent className="px-4 py-2">
+            <Image
+              width={500}
+              height={500}
+              src={prescription}
+              alt="Prescription"
+              className="w-full max-w-xs mx-auto rounded-lg shadow dark:shadow-lg"
+            />
+          </CardContent>
+        </Card>
+      )}
+    </div>
   </div>
 
-  {/* Pay Now Button */}
-  <div className="mt-4">
+  {/* Pay Now / Review Button */}
+  <div className="mt-8">
     <Card
       onClick={handleOrder}
-      className="bg-accent text-white hover:bg-accent cursor-pointer"
+      className="cursor-pointer bg-green-500 hover:bg-green-600 dark:bg-yellow-600 dark:hover:bg-yellow-700 text-white transition rounded-lg shadow-md"
     >
       <CardContent className="py-6 text-center font-semibold text-xl flex justify-center items-center gap-2">
         {prescription ? (
@@ -198,6 +196,7 @@ const Checkout = () => {
     </Card>
   </div>
 </div>
+
 
   );
 };

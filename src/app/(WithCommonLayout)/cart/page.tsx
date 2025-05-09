@@ -8,7 +8,7 @@ const CartPage =async () => {
 
     const {data} = await getAllMedicine()
     return (
-        <div className='my-18 py-10 bg-white'>
+        <div className=''>
             <Cart medicines = {data}/>
         </div>
     );

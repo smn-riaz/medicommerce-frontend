@@ -1,4 +1,5 @@
 "use server"
+import { IUser, IUserResponse } from "@/types";
 import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
@@ -65,3 +66,47 @@ export const getSingleUser = async(id:string) => {
       return Error(error.message);
     }
   };
+
+
+  export const updateProfile = async(userId:string, updatedData:Partial<IUserResponse>) => {
+    
+      try {
+         const res = await fetch(`${process.env.BASE_API}/user/update-user/${userId}`, {
+          method:"PATCH",
+          headers: {
+            Authorization:(await cookies()).get("accessToken")!.value,
+            "Content-Type": "application/json"
+        },
+          body:JSON.stringify(updatedData)
+         })
+  
+         revalidateTag("USER")
+  
+         return res.json()
+          
+      } catch (error:any) {
+          return Error(error)
+      }
+  }
+
+
+  export const updatePassword = async(userId:string, updatedData:{prevPassword:string, newPassword:string}) => {
+    
+      try {
+         const res = await fetch(`${process.env.BASE_API}/user/update-password/${userId}`, {
+          method:"PATCH",
+          headers: {
+            Authorization:(await cookies()).get("accessToken")!.value,
+            "Content-Type": "application/json"
+        },
+          body:JSON.stringify(updatedData)
+         })
+  
+         revalidateTag("USER")
+  
+         return res.json()
+          
+      } catch (error:any) {
+          return Error(error)
+      }
+  }

@@ -29,12 +29,12 @@ export default function Navbar() {
 
   const router = useRouter();
 
-  const { user, setUser, setIsLoading } = useUser();
+ 
 
   const dispatch = useAppDispatch();
 
  
-
+  const { user, setUser, setIsLoading } = useUser();
 
   const handleLogOut = () => {
     setUser(null);

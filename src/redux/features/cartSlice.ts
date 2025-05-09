@@ -1,29 +1,9 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store';
+import { ICartItem, ICartState } from '@/types';
 
-interface ICartItem {
-  id: string;
-  name: string;
-  description:string;
-  quantity: number;
-  price: number;
-  image:string
-  type:string
-  prescription:boolean
-}
 
-interface ICartState {
-  items: ICartItem[];
-  totalQuantity: number;
-  totalPrice: number;
-  shippingInfo:{
-    shippingAddress:string
-    shippingCity:string
-  }
-  prescriptionImage?:string
-  shippingCost?:number
-}
 
 const initialState: ICartState = {
   items: [],
@@ -140,6 +120,8 @@ export const specificProductQuantitySelector = (state: RootState, payload: { id:
     cartedProductQuantity
   }
 }
+
+export const cartSelector = (state: RootState) => state.cart
 
 export const { addItemToCart, removeItemFromCart,addPrescription, clearCart,increaseQuanity,decreaseQuanity, addOrderInfo } = cartSlice.actions;
 

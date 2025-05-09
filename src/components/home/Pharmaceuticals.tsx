@@ -56,7 +56,7 @@ export default function Pharmaceuticals() {
           {duplicatedLogos.map((logo, index) => (
             <div
               key={index}
-              className="flex items-center justify-center shrink-0 grayscale hover:grayscale-0 transition-all duration-300"
+              className="flex items-center justify-center shrink-0   transition-all duration-300"
             >
               <Image
                 src={logo.image}

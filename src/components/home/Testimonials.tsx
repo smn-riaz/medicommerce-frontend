@@ -6,7 +6,7 @@ import {  TReviewResponse } from "@/types"
 import Link from "next/link";
 
 const Testimonials = ({ reviews }: { reviews: TReviewResponse[] }) => {
-  console.log(reviews);
+
   return (
     <section className="py-12 bg-gray-50 dark:bg-gray-800">
     <div className="max-w-6xl mx-auto px-4">

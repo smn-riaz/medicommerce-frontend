@@ -6,7 +6,7 @@ import MedicineDetail from '@/components/home/MedicineDetail';
 import { useUser } from '@/context/UserContext';
 import { getCurrentUser } from '@/services/auth';
 import { getAllMedicine, getSingleMedicine } from '@/services/medicine';
-import { getSpecificProductReviews, getSpecificUserProductReview } from '@/services/review';
+import { getSpecificProductReviews } from '@/services/review';
 import { TMedicineResponse } from '@/types';
 import React from 'react';
 

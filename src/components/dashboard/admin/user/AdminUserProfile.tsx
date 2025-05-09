@@ -61,7 +61,7 @@ const AdminUserProfile = ({
         <CardHeader className="flex items-center flex-col space-y-4">
           <Avatar className="w-24 h-24 border-4 border-blue-100 shadow-md dark:border-gray-600">
             <AvatarImage
-              src={user.avatarUrl || ''}
+              src={''}
               alt={user.name || 'User'}
             />
             <AvatarFallback className="bg-blue-100 text-blue-800 text-2xl dark:bg-gray-700 dark:text-white">
@@ -76,7 +76,7 @@ const AdminUserProfile = ({
         <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6 px-4 pb-6">
           <InfoItem icon={<BadgeCheck size={18} />} label="Role" value={user.role} />
           <InfoItem icon={<Mail size={18} />} label="Email" value={user.email} />
-          <InfoItem icon={<User size={18} />} label="Phone" value={user.phone || 'Not provided'} />
+          {/* <InfoItem icon={<User size={18} />} label="Phone" value={user.phone || 'Not provided'} /> */}
         </CardContent>
       </MotionCard>
 

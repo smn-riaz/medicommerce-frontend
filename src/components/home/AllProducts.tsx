@@ -16,7 +16,7 @@ const pathname = usePathname()
 
   return (
     <div className=" lg:min-h-screen">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 p-2">
         {medicines.map((medicine: TMedicineResponse, index) => (
           <MedicineCard key={index} medicine={medicine} />
         ))}

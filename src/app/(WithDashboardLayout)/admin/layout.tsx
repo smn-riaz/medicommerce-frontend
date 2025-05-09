@@ -1,5 +1,6 @@
 "use client"
 
+import { DashboardNavbar } from "@/components/dashboard/DashboardNavbar"
 import { ThemeToggle } from "@/components/home/ThemeToggle"
 import { AppSidebar } from "@/components/ui/app-sidebar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
@@ -49,9 +50,9 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
     <SidebarProvider>
     <AppSidebar items={items} />
     <main className="bg-white w-full dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100">
-      <div className="flex gap-6 justify-start items-center">   <SidebarTrigger />
-       <ThemeToggle />
-       </div>
+     <div className="flex justify-start gap-6 items-center">  
+      <DashboardNavbar />
+      </div>
       <div className="p-4 pt-0">{children}</div>
     </main>
   </SidebarProvider>

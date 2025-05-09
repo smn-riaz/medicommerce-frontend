@@ -160,159 +160,162 @@ const Cart = ({medicines}:{medicines:TMedicineResponse[]}) => {
   };
 
   return (
-    <div className="flex justify-center items-center lg:min-h-screen bg-white"> {cartItems.length> 0 ?
-    <div className="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div className="md:col-span-2 space-y-4">
+    <div className="flex justify-center items-center lg:min-h-screen"> {cartItems.length> 0 ?
+
+ <div className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+  {/* Cart Items Section */}
+  <div className="lg:col-span-2 space-y-6">
+    {cartItems.map((item) => (
+      <Card key={item.id} className="shadow-sm border border-muted bg-card">
+        <CardContent className="flex flex-col sm:flex-row gap-4 p-4">
+          <img
+            src={item.image}
+            alt={item.name}
+            className="w-full sm:w-28 h-28 object-cover rounded-xl"
+          />
+          <div className="flex-1">
+            <h3 className="text-lg font-semibold">{item.name}</h3>
+            <p className="text-sm text-muted-foreground">{item.type}</p>
+            <p className="text-sm mt-1">{item.description}</p>
+            <p className="text-base font-medium mt-2 text-primary">
+              ৳{item.price.toFixed(2)}
+            </p>
+            {item.prescription && (
+              <p className="text-sm mt-3 text-destructive flex items-center gap-2 font-semibold">
+                PRESCRIPTION <ImageUp size={16} />
+              </p>
+            )}
+          </div>
+
+          <div className="flex flex-row sm:flex-col items-center gap-2 sm:gap-3 justify-between sm:justify-start">
+            <Button
+              onClick={() => handleDecreaseQuantity(item.id)}
+              variant="ghost"
+              size="icon"
+            >
+              <Minus size={16} />
+            </Button>
+            <span>{item.quantity}</span>
+            <Button
+              onClick={() => handleIncreaseQuantity(item.id)}
+              variant="ghost"
+              size="icon"
+            >
+              <Plus size={16} />
+            </Button>
+            <Button
+              onClick={() => handleRemoveItem(item.id)}
+              variant="ghost"
+              size="icon"
+              className="text-destructive"
+            >
+              <Trash2 size={16} />
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    ))}
+  </div>
+
+  {/* Order Summary Section */}
+  <Card className="h-fit border border-muted shadow-md bg-card">
+    <CardContent className="p-4 space-y-4">
+      <h2 className="text-lg font-bold">Order Summary</h2>
+
+      <ul className="space-y-1 text-sm">
         {cartItems.map((item) => (
-          <Card key={item.id}>
-            <CardContent className="flex items-start space-x-4 p-4">
-              <Image
-              width={40}
-              height={40}
-                src={item.image}
-                alt={item.name}
-                className="w-24 h-24 object-cover rounded-xl"
-              />
-              <div className="flex-1">
-                <h3 className="text-md font-semibold">{item.name}</h3>
-                <p className="text-sm text-gray-500">{item.type}</p>
-                <p className="text-sm mt-1">{item.description}</p>
-
-                <p className="text-md font-medium mt-2">
-                  ${item.price.toFixed(2)}
-                </p>
-                {item.prescription && (
-                  <p className="text-sm mt-3  text-red-700 flex gap-x-2">
-                    {" "}
-                    <span className="font-semibold">PRESCRIPTION</span>{" "}
-                    <ImageUp />
-                  </p>
-                )}
-              </div>
-
-              <div className="flex flex-col items-center space-y-2">
-                <Button
-                  onClick={() => handleDecreaseQuantity(item.id)}
-                  variant="ghost"
-                  size="icon"
-                >
-                  <Minus size={16} />
-                </Button>
-                <span>{item.quantity}</span>
-                <Button
-                  onClick={() => handleIncreaseQuantity(item.id)}
-                  variant="ghost"
-                  size="icon"
-                >
-                  <Plus size={16} />
-                </Button>
-                <Button
-                  onClick={() => handleRemoveItem(item.id)}
-                  variant="ghost"
-                  size="icon"
-                  className="text-red-500"
-                >
-                  <Trash2 size={16} />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <li key={item.id} className="flex justify-between">
+            <span>
+              x{item.quantity} {item.name}
+            </span>
+            <span>৳{(item.price * item.quantity).toFixed(2)}</span>
+          </li>
         ))}
+      </ul>
+
+      <Separator />
+
+      {/* Shipping Inputs */}
+      <div className="text-sm space-y-2">
+        <p>Delivery Address</p>
+        <Input
+          name="shippingAddress"
+          placeholder="Address"
+          value={shippingInfo.shippingAddress}
+          onChange={handleChange}
+        />
+        <Input
+          name="shippingCity"
+          placeholder="City"
+          value={shippingInfo.shippingCity}
+          onChange={handleChange}
+        />
       </div>
 
-    <Card className="h-fit">
-        <CardContent className="p-4 space-y-4">
-          <h2 className="text-lg font-semibold">Order Summary</h2>
-          <ul className="space-y-1 text-sm">
-            {cartItems.map((item) => (
-              <li key={item.id} className="flex justify-between">
-                <span>
-                  x{item.quantity} {item.name}
-                </span>
-                <span>৳{(item.price * item.quantity).toFixed(2)}</span>
-              </li>
-            ))}
-          </ul>
-          <Separator />
-          <div className="text-sm flex-col justify-between">
-            <p>Delivery</p>
-            <p>
-              <Input
-              name="shippingAddress"
-                placeholder="Address"
-                value={shippingInfo.shippingAddress}
-                onChange={handleChange}
-                className="mt-2"
-              />
-              <Input
-                name="shippingCity"
-                placeholder="City"
-                value={shippingInfo.shippingCity}
-                onChange={handleChange}
-                className="mt-2"
-              />
-            </p>
-          </div>
-          <Separator />
+      <Separator />
 
-          <div className="text-sm flex justify-between">
-            <span>Shipping</span>
-            <span>৳ 60.00</span>
-          </div>
+      <div className="text-sm flex justify-between">
+        <span>Shipping</span>
+        <span>৳ 60.00</span>
+      </div>
 
-          <Separator />
-          <div className="text-md font-semibold flex justify-between">
-            <span>Total</span>
-            <span>৳ {(totalPrice + 60).toFixed(2)}</span>
-          </div>
-          {cartItems.some((cart) => cart.prescription) && (
-            <div className=" flex justify-center items-center">
-              {imagePreview.length > 0 ? (
-               <>
-                <div className="mt-8">
-                  <ImagePreviewer
-                    setImageFiles={setImageFiles}
-                    imagePreview={imagePreview}
-                    setImagePreview={setImagePreview}
-                  />
-                </div>
-                
-               </>
-              ) : (
-                <div className="mt-8">
-                  <ImageUploader
-                    setImageFiles={setImageFiles}
-                    setImagePreview={setImagePreview}
-                    label="Upload Prescription"
-                  />
-                </div>
-              )}
-              
-            </div>
+      <Separator />
+
+      <div className="text-base font-semibold flex justify-between">
+        <span>Total</span>
+        <span>৳ {(totalPrice + 60).toFixed(2)}</span>
+      </div>
+
+      {/* Prescription Upload */}
+      {cartItems.some((cart) => cart.prescription) && (
+        <div className="mt-6">
+          {imagePreview.length > 0 ? (
+            <ImagePreviewer
+              setImageFiles={setImageFiles}
+              imagePreview={imagePreview}
+              setImagePreview={setImagePreview}
+            />
+          ) : (
+            <ImageUploader
+              setImageFiles={setImageFiles}
+              setImagePreview={setImagePreview}
+              label="Upload Prescription"
+            />
           )}
-<div className="m-1">{ (
-          <small className={`text-center font-semibold text-sm text-green-600 ${!showMessage ? "hidden" :""}`}>
-            Image uploaded successfully
-          </small>
-        )}</div>
+        </div>
+      )}
 
-          {shippingInfo.shippingAddress && shippingInfo.shippingCity ?
-            <Button
-            onClick={handleSubmit}
-            disabled={
-              cartItems.some((cart) => cart.prescription) &&
-              !prescription
-            }
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-white"
-          >
-            Checkout
-          </Button> :
-          <p className="text-yellow-600 font-medium text-center">Shipping Address Required!</p>
+      {/* Upload Success Message */}
+      {showMessage && (
+        <small className="text-center block font-semibold text-sm text-green-600">
+          Image uploaded successfully
+        </small>
+      )}
+
+      {/* Checkout Button */}
+      {shippingInfo.shippingAddress && shippingInfo.shippingCity ? (
+        <Button
+          onClick={handleSubmit}
+          disabled={
+            cartItems.some((cart) => cart.prescription) && !prescription
           }
-        </CardContent>
-      </Card> 
-      
-    </div> : <div className=" min-h-[50vh] flex justify-center items-center">
+          className="w-full bg-yellow-500 hover:bg-yellow-600 text-white"
+        >
+          Checkout
+        </Button>
+      ) : (
+        <p className="text-yellow-600 font-medium text-center">
+          Shipping Address Required!
+        </p>
+      )}
+    </CardContent>
+  </Card>
+</div>
+
+    
+    : 
+    
+    <div className=" min-h-[50vh] flex justify-center items-center">
     
     <p className="text-yellow-700 font-semibold text-2xl">No Items in Cart</p>
 

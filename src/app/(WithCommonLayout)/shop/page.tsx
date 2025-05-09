@@ -19,27 +19,44 @@ const AllMedicinesPage = async ({ searchParams }: { searchParams: Promise<{ sear
   const medicines = await fetchMedicines(await searchParams);
 
   return (
-    <div className="">
-       <SectionHeadline headline="Everything You Need for Better Care" /> 
-       {<FilterMedicine /> }
-      <Suspense
-        fallback={
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16 p-16">
-            {Array.from({ length: 8 }).map((_, index) => (
-              <div key={index} className="flex flex-col space-y-3 ">
-                <Skeleton className="h-[125px] w-[250px] rounded-xl bg-[#ebeff1d3]" />
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-[250px] bg-[#ebeff1d3]" />
-                  <Skeleton className="h-4 w-[200px] bg-[#ebeff1d3]" />
+    <div className="px-4 md:px-8 py-6 bg-background min-h-screen">
+    <SectionHeadline headline="Everything You Need for Better Care" />
+  
+    <div className="flex flex-col md:flex-row gap-8 mt-6">
+      {/* Left Sidebar Filter */}
+      <div className="md:w-[280px] w-full md:sticky md:top-24 self-start">
+        <FilterMedicine />
+      </div>
+  
+      {/* Product Grid or Fallback */}
+      <div className="flex-1">
+        <Suspense
+          fallback={
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {Array.from({ length: 8 }).map((_, index) => (
+                <div key={index} className="flex flex-col space-y-3">
+                  <Skeleton className="h-[125px] w-full rounded-xl bg-[#ebeff1d3]" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-full bg-[#ebeff1d3]" />
+                    <Skeleton className="h-4 w-3/4 bg-[#ebeff1d3]" />
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        }
-      >
-        {medicines.length ? <AllProducts medicines={medicines} filterOption={true} /> : <p className="text-center text-3xl flex justify-center items-center my-12 text-red-600 ">No products found</p>}
-      </Suspense>
+              ))}
+            </div>
+          }
+        >
+          {medicines?.length ? (
+            <AllProducts medicines={medicines} filterOption={true} />
+          ) : (
+            <p className="text-center text-3xl text-red-600 my-12">
+              No products found
+            </p>
+          )}
+        </Suspense>
+      </div>
     </div>
+  </div>
+  
   );
 };
 

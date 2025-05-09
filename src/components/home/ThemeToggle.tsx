@@ -19,7 +19,7 @@ export const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-full bg-background cursor-pointer dark:bg-gray-800 text-black dark:text-white"
+      className="p-1 border-gray-200 border-[0.5px] rounded-full bg-[#ffffffd2] cursor-pointer dark:bg-gray-800 text-black dark:text-white"
     >
       {isDark ? "☀️" : "🌙"}
     </button>

@@ -32,9 +32,9 @@ export function ProfileDropDown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="border-[1px] border-white cursor-pointer w-12 h-12 p-[3px]">
+        <Avatar className="border-[1px] bg-background border-white cursor-pointer w-9 h-9">
           <AvatarImage
-            src="https://imageio.forbes.com/specials-images/imageserve/62d700cd6094d2c180f269b9/0x0.jpg?format=jpg&crop=959,959,x0,y0,safe&height=416&width=416&fit=bounds"
+            src="https://github.com/shadcn.png"
             alt={user.name}
           />
           <AvatarFallback>
@@ -57,59 +57,72 @@ export function ProfileDropDown({
 
          {
           user.role === 'user' ? <>
- <DropdownMenuItem className="cursor-pointer group">
-            Profile{" "}
-            <span className="">
-              <ArrowRight className="absolute right-0 transform -translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 text-blue-700 font-semibold transition-all duration-300 ease-in-out" />
-            </span>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer group flex items-center">
-            Orders{" "}
-            <span className="">
-              <ArrowRight className="absolute right-0 transform -translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 text-blue-700 font-semibold transition-all duration-300 ease-in-out" />
-            </span>
-          </DropdownMenuItem>
+ {[
+    {
+        title: "Profile",
+        link: "/user/profile"
+    },
+    {
+        title: "Orders",
+        link: "/user/orders"
+    },
+    {
+        title: "Update Profile",
+        link: "/user/update-profile"
+    },
+    {
+        title: "Change Password",
+        link: "/user/change-password"
+    },
+].map((item, idx) => (
+  <DropdownMenuItem key={idx} className="cursor-pointer group">
+    <Link href={item.link}>
+      {item.title}
+    </Link>
+  </DropdownMenuItem>
+))}
           </> 
           
           : 
           
           <>
-          <DropdownMenuItem className="cursor-pointer group">
-           <Link href="/admin/dashboard"> Dashboard{" "}
-            <span className="">
-              <ArrowRight className="absolute right-0 transform -translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 text-blue-700 font-semibold transition-all duration-300 ease-in-out" />
-            </span></Link>
-          </DropdownMenuItem>
 
-          <DropdownMenuItem className="cursor-pointer group flex items-center">
-           <Link href="/admin/products"> Products{" "}
-            <span className="">
-              <ArrowRight className="absolute right-0 transform -translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 text-blue-700 font-semibold transition-all duration-300 ease-in-out" />
-            </span></Link>
-          </DropdownMenuItem>
+{[
+    {
+        title: "Dashboard",
+        link: "/admin/dashboard"
+    },
+    {
+        title: "Products",
+        link: "/admin/medicines"
+    },
+    {
+        title: "Create Product",
+        link: "/admin/create-medicine"
+    },
+    {
+        title: "Orders",
+        link: "/admin/orders"
+    },
+    {
+        title: "Users",
+        link: "/admin/users"
+    },
+    {
+        title: "Prescriptions review",
+        link: "/admin/prescription-review"
+    },
+].map((item, idx) => (
+  <DropdownMenuItem key={idx} className="cursor-pointer group">
+    <Link href={item.link}>
+      {item.title}
+    </Link>
+  </DropdownMenuItem>
+))}
 
-          <DropdownMenuItem className="cursor-pointer group flex items-center">
-          <Link href="/admin/orders">  Orders{" "}
-            <span className="">
-              <ArrowRight className="absolute right-0 transform -translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 text-blue-700 font-semibold transition-all duration-300 ease-in-out" />
-            </span></Link>
-          </DropdownMenuItem>
 
+         
 
-          <DropdownMenuItem className="cursor-pointer group flex items-center">
-            <Link href="/admin/users">
-            Users{" "}
-            <span className="">
-              <ArrowRight className="absolute right-0 transform -translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 text-blue-700 font-semibold transition-all duration-300 ease-in-out" />
-            </span></Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer group flex justify-between items-center">
-           <Link href="/admin/prescription-review">
-           Prescription{" "}
-            <span >
-              <ArrowRight className="absolute right-0 transform -translate-x-full opacity-0 group-hover:opacity-100 group-hover:translate-x-0 text-blue-700 font-semibold transition-all duration-300 ease-in-out" />
-            </span></Link>
-          </DropdownMenuItem>
           </>
          }
 

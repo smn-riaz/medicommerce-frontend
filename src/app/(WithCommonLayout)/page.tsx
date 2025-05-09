@@ -30,7 +30,7 @@ const HomePage = async() => {
       <WhyChooseUs />
       <BestSellingProducts />
       <DynamicCategories />
-      <Testimonials reviews={reviews.slice(0,7)}/>
+      <Testimonials reviews={reviews.slice(0,6)}/>
       <Blogs />
       <NewsLetter />
       <Pharmaceuticals />
