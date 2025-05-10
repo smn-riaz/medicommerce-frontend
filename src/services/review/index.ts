@@ -54,11 +54,7 @@ export const getSpecificUserProductReview = async (userId:string) => {
           'Content-Type':"application/json"
         }
       });
-  
 
-      if (!res.ok) {
-        throw new Error(`Failed to fetch reviews, status: ${res.status}`);
-      }
 
 
       return await res.json();

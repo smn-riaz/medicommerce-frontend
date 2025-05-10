@@ -74,9 +74,22 @@ export default function WhyChooseUs() {
             preload="auto"
             onError={() => console.error("Failed to load video")}
           >
-            <source src="/video/whychooseus.mp4" type="video/mp4" />
+            <source src="https://files.catbox.moe/22arrq.mp4" type="video/mp4" />
+
             Your browser does not support the video tag.
           </video>
+
+        {/* <iframe
+  src="https://drive.google.com/file/d/1duQxTxJXLt9Q6Rj-RohCLFXhSeCJSGtD/preview?autoplay=1&loop=1&playlist=1"
+  width="100%"
+  height="500px"
+  frameBorder="0"
+  allow="autoplay; encrypted-media"
+  allowFullScreen
+  style={{ borderRadius: "16px", border: "none" }}
+></iframe> */}
+
+
         </div>
 
         {/* Right: List */}

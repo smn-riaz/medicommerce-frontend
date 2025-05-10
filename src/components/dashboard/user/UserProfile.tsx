@@ -22,7 +22,7 @@ import { format } from "date-fns";
 import Link from "next/link";
 import { IOrderResponse, IUser, TReviewResponse } from "@/types";
 
-// InfoItem
+// InfoItem Component
 const InfoItem = ({
   icon,
   label,
@@ -43,6 +43,28 @@ const InfoItem = ({
   </div>
 );
 
+// ReviewCard Component
+const ReviewCard = ({ review }: { review: TReviewResponse }) => (
+  <div className="border border-muted rounded-lg p-4 bg-muted/20 dark:bg-muted/40 transition hover:shadow-md">
+    <div className="flex justify-between items-center mb-1">
+      <h3 className="font-semibold text-base">{review.title}</h3>
+      <span className="text-yellow-500 text-sm">
+        {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
+      </span>
+    </div>
+    <p className="text-sm text-muted-foreground mb-2 line-clamp-3">
+      {review.description}
+    </p>
+    <div className="text-xs text-gray-500 dark:text-gray-400">
+      <span>
+        By <strong>{review.userId?.name?.trim() || "Anonymous"}</strong>
+      </span>
+      <br />
+      <span>{new Date(review.createdAt).toLocaleDateString()}</span>
+    </div>
+  </div>
+);
+
 const UserProfile = ({
   orders,
   user,
@@ -56,7 +78,7 @@ const UserProfile = ({
   const lastLogin = user.iat ? new Date(Number(user.iat) * 1000) : null;
 
   return (
-    <div className=" space-y-8">
+    <div className="space-y-8">
       {/* Header */}
       <div className="relative flex justify-between items-center w-full rounded-2xl bg-gradient-to-r from-blue-400 to-purple-400 shadow-lg p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
@@ -152,37 +174,15 @@ const UserProfile = ({
         <Card className="p-4 shadow-md rounded-2xl border dark:border-gray-700">
           <CardHeader>
             <CardTitle className="text-lg font-bold flex items-center gap-2">
-              Reviews ({reviews.length})
+              Reviews ({reviews?.length ?? 0})
             </CardTitle>
           </CardHeader>
 
           <CardContent>
-            {reviews.length > 0 ? (
+            {reviews?.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {reviews.map((r, i) => (
-                  <div
-                    key={i}
-                    className="border border-muted rounded-lg p-4 bg-muted/20 dark:bg-muted/40 transition hover:shadow-md"
-                  >
-                    <div className="flex justify-between items-center mb-1">
-                      <h3 className="font-semibold text-base">{r.title}</h3>
-                      <span className="text-yellow-500 text-sm">
-                        {"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}
-                      </span>
-                    </div>
-
-                    <p className="text-sm text-muted-foreground mb-2 line-clamp-3">
-                      {r.description}
-                    </p>
-
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                      <span>
-                        By <strong>{r.userId?.name?.trim() || "Anonymous"}</strong>
-                      </span>
-                      <br />
-                      <span>{new Date(r.createdAt).toLocaleDateString()}</span>
-                    </div>
-                  </div>
+                {reviews.map((review, index) => (
+                  <ReviewCard key={index} review={review} />
                 ))}
               </div>
             ) : (
