@@ -81,10 +81,7 @@ const blogs: Blog[] = [
 
 export default function Blogs() {
   return (
-    <section className="w-full px-4 py-10 md:px-8 lg:px-16 bg-gray-50 dark:bg-gray-800">
-    <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-gray-900 dark:text-gray-100">
-      Latest Medical Discoveries
-    </h2>
+    <section className="p-2 bg-background xl:max-w-[1300px] xl:mx-auto ">
   
     <Carousel opts={{ align: "start" }} className="w-full">
       <CarouselContent className="-ml-4 md:-ml-6">
@@ -93,7 +90,7 @@ export default function Blogs() {
             key={index}
             className="pl-2 md:pl-6 basis-[85%] sm:basis-[50%] lg:basis-[33.333%] xl:basis-[25%]"
           >
-            <Card className="relative rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-white dark:bg-gray-700">
+            <Card className="relative rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-300 bg-background dark:bg-gray-700">
               {/* Fixed height for image container */}
               <div className="w-full h-52 overflow-hidden rounded-t-xl">
                 <Image
@@ -138,3 +135,4 @@ export default function Blogs() {
   
   );
 }
+ 

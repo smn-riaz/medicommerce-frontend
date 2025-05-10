@@ -51,9 +51,9 @@ export const categories = [
 const DynamicCategories = () => {
   
     return (
-      <div className="flex flex-col justify-between">
-      <h1 className="text-3xl text-center font-bold text-gray-900 dark:text-gray-100">Our Products Categories</h1>
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-10 p-4">
+      <div className="flex flex-col justify-between xl:max-w-[1300px] xl:mx-auto">
+     
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-10 ">
         {categories.map((cat, i) => (
           <Link
             href={`/shop/${cat.name}`}

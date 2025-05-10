@@ -193,7 +193,7 @@ const Checkout = () => {
         <Button
           onClick={handleOrder}
           disabled={isCartEmpty || isLoading}
-          className={`w-1/4 px-10 py-4 text-lg font-semibold rounded-xl transition shadow-lg ${
+          className={`w-1/2 px-10 py-4 text-lg font-semibold rounded-xl transition shadow-lg ${
             isCartEmpty
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
               : "bg-green-500 hover:bg-green-600 text-white"

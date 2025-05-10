@@ -35,7 +35,7 @@ const UserProfilePage = async() => {
 
 
     return (
-        <div className="flex justify-center items-center p-10">
+        <div className="flex justify-center items-center">
           <UserProfile 
           user={userInfo} 
           orders={sanitizedOrders}

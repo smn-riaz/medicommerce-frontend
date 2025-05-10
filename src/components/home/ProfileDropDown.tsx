@@ -75,7 +75,7 @@ export function ProfileDropDown({
         link: "/user/change-password"
     },
 ].map((item, idx) => (
-  <DropdownMenuItem key={idx} className="cursor-pointer group">
+  <DropdownMenuItem key={idx} className="cursor-pointer group ">
     <Link href={item.link}>
       {item.title}
     </Link>

@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useAppDispatch } from "@/redux/hooks";
 import { addItemToCart } from "@/redux/features/cartSlice";
 import { toast } from "sonner";
+import { useUser } from "@/context/UserContext";
 
 export default function BestSellingProductCard({
   medicine,
@@ -21,6 +22,7 @@ export default function BestSellingProductCard({
   const { name, description, type, requiredPrescription, price, discount, expireDate , quantity, imageUrl, _id } =
     medicine;
 
+    const {user} = useUser()
 
     const dispatch = useAppDispatch()
 
@@ -77,11 +79,13 @@ export default function BestSellingProductCard({
          <div className="flex justify-between gap-3 items-center pt-4">
          
          
-         <Button onClick={handleAddToCart} className="cursor-pointer w-1/2 rounded-xl group">
+        
+          <Button disabled={user?.role==='admin'} onClick={handleAddToCart} className="cursor-pointer w-1/2 rounded-xl group">
   <span className="inline-block transform transition-transform duration-500 group-hover:scale-125 group-hover:rotate-[360deg]">
     <ShoppingCart />
   </span>
 </Button>
+        
       
         <Button variant="outline" className="w-1/2 cursor-pointer text-sm rounded-xl">
         <Link href={`/medicine/${medicine._id}`}>Details</Link>

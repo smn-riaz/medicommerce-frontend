@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import MedicineCard from "./MedicineCard";
@@ -11,29 +11,24 @@ import { IconRight } from "react-day-picker";
 import TablePagination from "../shared/TablePagination";
 import LimitDropDown from "./LimitDropDown";
 
-
-const AllProducts =  ({ medicines, meta }: { medicines: TMedicineResponse[], meta:IMeta}) => {
-
-const pathname = usePathname()
+const ShopAllProducts = ({
+  medicines,
+  meta,
+}: {
+  medicines: TMedicineResponse[];
+  meta: IMeta;
+}) => {
+  const pathname = usePathname();
 
   return (
-    <div className=" lg:min-h-screen">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 p-2">
+    <div className={``}>
+      <div className={`grid grid-cols-1 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-2 md:gap-4`}>
         {medicines.map((medicine: TMedicineResponse, index) => (
           <MedicineCard key={index} medicine={medicine} />
         ))}
       </div>
-
-     
-
-        {
-          pathname === "/" && <div className="flex justify-center items-center my-6">
-          <Link href="/shop"><Button className="bg-primary cursor-pointer">See More <IconRight /></Button></Link>
-        </div>
-        }
-
-   </div>
+    </div>
   );
 };
 
-export default AllProducts;
+export default ShopAllProducts;

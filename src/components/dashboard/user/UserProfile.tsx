@@ -56,10 +56,10 @@ const UserProfile = ({
   const lastLogin = user.iat ? new Date(Number(user.iat) * 1000) : null;
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 space-y-8">
+    <div className=" space-y-8">
       {/* Header */}
       <div className="relative flex justify-between items-center w-full rounded-2xl bg-gradient-to-r from-blue-400 to-purple-400 shadow-lg p-4 sm:p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
           <Avatar className="w-20 h-20 sm:w-24 sm:h-24 border-4 border-white shadow-md">
             <AvatarImage src="https://github.com/shadcn.png" alt={user.name} />
             <AvatarFallback>{user.name.charAt(0).toUpperCase()}</AvatarFallback>
@@ -86,7 +86,7 @@ const UserProfile = ({
             </CardHeader>
             <CardContent className="space-y-4">
               <InfoItem icon={<BadgeCheck size={18} />} label="Role" value={user.role} />
-              <InfoItem icon={<Mail size={18} />} label="Email" value={user.email} />
+              <InfoItem icon={<Mail size={14} />} label="Email" value={user.email} />
               <InfoItem
                 icon={<MapPin size={18} />}
                 label="Last Logged In"

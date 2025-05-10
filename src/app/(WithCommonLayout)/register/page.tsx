@@ -4,7 +4,7 @@ import RegisterForm from "@/components/shared/auth/register/registerForm";
 
 const RegisterPage = () => {
   return (
-    <div className="flex justify-center items-center my-18 px-4 py-18">
+   <div className='flex justify-center md:items-center px-4 md:px-8 py-8 lg:py-12 xl:min-h-screen xl:max-w-[1300px] xl:mx-auto'>
       <RegisterForm />
     </div>
   );

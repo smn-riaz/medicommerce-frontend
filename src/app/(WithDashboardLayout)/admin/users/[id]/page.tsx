@@ -43,14 +43,15 @@ const AdminUserProfilePage = async ({
   const sanitizedOrders = Array.isArray(userOrders) ? userOrders : [];
 
   const { data: userReviews } =await getSpecificUserProductReview(userId)
-  
 
-    const sanitizedReviews = Array.isArray(userReviews) ? userReviews : [];
+  console.log(userReviews);
+
+
 
   return (
-    <div className="flex justify-center items-center p-10">
+    <div className="flex justify-center items-center">
       <AdminUserProfile
-        reviews={sanitizedReviews}
+        reviews={userReviews}
         user={user}
         orders={sanitizedOrders}
       />

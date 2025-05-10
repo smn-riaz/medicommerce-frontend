@@ -1,53 +1,29 @@
 "use client";
 
-import ChatBox from '@/components/home/Chatbot';
-import Footer from '@/components/home/Footer';
-import Navbar from '@/components/home/Navbar';
-import PreLoading from '@/components/home/PreLoading';
-import React, { useEffect, useState } from 'react';
+import ChatBox from "@/components/home/Chatbot";
+import Footer from "@/components/home/Footer";
+import Navbar from "@/components/home/Navbar";
+import PreLoading from "@/components/home/PreLoading";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
-  // const [showPreloader, setShowPreloader] = useState(false);
-  // const [mounted, setMounted] = useState(false)
-
-  // useEffect(() => {
-  //   setMounted(true)
-
-  //   const hasSeenPreloader = sessionStorage.getItem("hasSeenPreloader");
-
-  //   if (!hasSeenPreloader) {
-  //     setShowPreloader(true);
-
-  //     const timer = setTimeout(() => {
-  //       setShowPreloader(false);
-  //       sessionStorage.setItem("hasSeenPreloader", "true");
-  //     }, 3000);
-
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, []);
-
-  // if (!mounted) return null; 
-
-  // if (showPreloader) {
-  //   return <PreLoading />;
-  // }
-
-
+  const pathname = usePathname()
   return (
-    <main>
-      
-      <div className='h-[12vh]  flex justify-center  '>
-      <Navbar />
+    <main className="min-h-screen">
+      <div className={`h-[12vh]  flex justify-center  ${pathname==='/'?'bg-gradient-to-r dark:bg-background from-blue-100 via-white to-green-100 dark:from-background dark:via-background dark:to-background':'bg-background'}`}>
+        <Navbar />
       </div>
 
-      <div className="md:min-h-[78vh]  relative">
+      <div className=" relative">
         {children}
         {/* <div className="fixed top-[70vh] right-4 z-50">
           <ChatBox userId="user123" receiverId="admin123" />
         </div> */}
-        </div>
-      <Footer />
+      </div>
+      <div className="xl:max-w-[1300px] xl:mx-auto">
+        <Footer />
+      </div>
     </main>
   );
 };

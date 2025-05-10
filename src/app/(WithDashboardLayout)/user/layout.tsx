@@ -43,13 +43,13 @@ export default function UserDashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider>
+    <SidebarProvider className="min-h-screen">
       <AppSidebar items={items} />
       <main className="bg-white w-full dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100">
         <div className="flex justify-start gap-6 items-center">
           <DashboardNavbar />
         </div>
-        <div className="p-4 pt-0">{children}</div>
+        <div className="p-2 pt-0">{children}</div>
       </main>
     </SidebarProvider>
   );

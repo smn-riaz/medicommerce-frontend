@@ -41,7 +41,7 @@ export default function Pharmaceuticals() {
   const duplicatedLogos = [...logos, ...logos]
 
   return (
-    <div className="w-full py-10 bg-white dark:bg-gray-900">
+    <div className="w-full py-4 bg-background rounded-md dark:bg-gray-900 xl:max-w-[1300px] xl:mx-auto">
       <h1 className="text-center py-2 text-3xl font-bold text-gray-900 dark:text-white">
         Trusted by Leading Pharmaceutical Brands
       </h1>

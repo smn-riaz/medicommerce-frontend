@@ -1,13 +1,14 @@
 export const dynamic = "force-dynamic";
 
 import React, { Suspense } from "react";
-import AllProducts from "@/components/home/AllProducts";
+import HomeAllProducts from "@/components/home/HomeAllProducts";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getAllMedicine } from "@/services/medicine";
 import SectionHeadline from "@/components/shared/home/sectionHeadline";
 import FilterMedicine from "@/components/home/FilterMedicine";
 import TablePagination from "@/components/shared/TablePagination";
 import LimitDropDown from "@/components/home/LimitDropDown";
+import ShopAllProducts from "@/components/home/ShopAllProducts";
 
 const AllMedicinesPage = async ({
   searchParams,
@@ -30,10 +31,9 @@ const AllMedicinesPage = async ({
 
 
   return (
-    <div className="px-4 md:px-8 py-6 bg-background min-h-screen">
+    <div className="px-4 md:px-8 py-6 bg-background min-h-screen xl:max-w-[1300px] xl:mx-auto">
       <SectionHeadline headline="Everything You Need for Better Care" />
-
-      <div className="flex flex-col md:flex-row gap-8 mt-6">
+      <div className="flex flex-col md:flex-row gap-8 mt-2">
         {/* Left Sidebar Filter */}
         <div className="md:w-[280px] w-full md:sticky md:top-24 self-start">
           <FilterMedicine />
@@ -62,7 +62,7 @@ const AllMedicinesPage = async ({
             }
           >
             {medicines?.length ? (
-              <AllProducts medicines={medicines} meta={meta} />
+              <ShopAllProducts medicines={medicines} meta={meta} />
             ) : (
               <p className="text-center text-3xl text-red-600 my-12">
                 No products found

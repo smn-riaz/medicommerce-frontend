@@ -14,8 +14,7 @@ import Link from "next/link";
 
 export default function Carousel({ medicines }: { medicines: TMedicineResponse[] }) {
   return (
-    <div className="p-10 my-6 md:min-h-screen">
-      <SectionHeadline headline="Popular Medicines" />
+    <div className="xl:max-w-[1300px] xl:mx-auto">
 
       <Swiper
         modules={[Pagination, Autoplay]}

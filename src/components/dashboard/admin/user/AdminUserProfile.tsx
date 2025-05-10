@@ -20,16 +20,11 @@ import {
   Star,
   Truck,
 } from 'lucide-react';
-import { IOrderResponse, IUser } from '@/types';
+import { IOrderResponse, IUser, TReviewResponse } from '@/types';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-type IReview = {
-  id: string;
-  productName: string;
-  comment: string;
-  rating: number;
-};
+
 
 const MotionCard = motion(Card);
 
@@ -40,7 +35,7 @@ const AdminUserProfile = ({
 }: {
   user: IUser;
   orders: IOrderResponse[];
-  reviews: IReview[];
+  reviews: TReviewResponse[];
 }) => {
   const hasOrders = orders.length > 0;
   const lastOrder = hasOrders ? orders[orders.length - 1] : null;
@@ -50,7 +45,7 @@ const AdminUserProfile = ({
   }
 
   return (
-    <div className="w-full px-4 md:px-8 py-10 space-y-10">
+    <div className="w-full px-2 md:px-4 py-6 space-y-10">
       {/* User Info */}
       <MotionCard
         initial={{ opacity: 0, y: 40 }}
@@ -208,38 +203,45 @@ const AdminUserProfile = ({
       </MotionCard>
 
       {/* Reviews */}
-      <MotionCard
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="max-w-6xl p-6 mx-auto rounded-3xl border shadow-sm bg-white dark:bg-gray-800 dark:border-gray-700"
-      >
-        <CardHeader>
-          <CardTitle className="text-xl text-slate-800 dark:text-white">
-            User Reviews
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4 px-4 pb-6">
-          {reviews.length > 0 ? (
-            reviews.map((review) => (
-              <div
-                key={review.id}
-                className="border rounded-lg p-4 bg-slate-50 hover:bg-slate-100 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
-              >
-                <p className="font-semibold text-blue-700 dark:text-blue-400">{review.productName}</p>
-                <p className="text-sm text-gray-600 dark:text-gray-300">{review.comment}</p>
-                <p className="text-sm text-yellow-600 dark:text-yellow-400">
-                  {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
-                </p>
-              </div>
-            ))
-          ) : (
-            <p className="text-gray-500 dark:text-gray-300">
-              This user hasn't left any reviews yet.
+     <MotionCard
+  initial={{ opacity: 0, y: 40 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5, delay: 0.3 }}
+  className="max-w-6xl p-3 mx-auto rounded-3xl border shadow-sm bg-white dark:bg-gray-800 dark:border-gray-700"
+>
+  <CardHeader>
+    <CardTitle className="text-xl text-slate-800 dark:text-white">
+      User Reviews
+    </CardTitle>
+  </CardHeader>
+  <CardContent className="space-y-4 px-4 pb-6">
+    {reviews.length > 0 ? (
+      reviews.map((review) => (
+        <div
+          key={review._id}
+          className="border rounded-lg p-4 bg-slate-50 hover:bg-slate-100 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
+        >
+          <p className="font-semibold text-blue-700 dark:text-blue-400">
+            {review.title}
+          </p>
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            {review.description}
+          </p>
+          {review.rating && (
+            <p className="text-sm text-yellow-600 dark:text-yellow-400">
+              {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
             </p>
           )}
-        </CardContent>
-      </MotionCard>
+        </div>
+      ))
+    ) : (
+      <p className="text-gray-500 dark:text-gray-300">
+        This user hasn't left any reviews yet.
+      </p>
+    )}
+  </CardContent>
+</MotionCard>
+
     </div>
   );
 };

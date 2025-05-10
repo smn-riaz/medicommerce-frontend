@@ -12,6 +12,7 @@ import { ShoppingCart } from "lucide-react";
 import { useAppDispatch } from "@/redux/hooks";
 import { addItemToCart } from "@/redux/features/cartSlice";
 import { toast } from "sonner";
+import { useUser } from "@/context/UserContext";
 
 export default function MedicineCard({
   medicine,
@@ -39,6 +40,8 @@ export default function MedicineCard({
 
             toast.success(`${name} added to cart!`, { duration: 1000 });
     }
+
+    const {user} = useUser()
 
   return (
     <motion.div
@@ -84,12 +87,15 @@ export default function MedicineCard({
               )}
               <span>৳{(price * (1 - discount / 100)).toFixed(2)}</span>
             </span>
-
-            <span onClick={handleAddToCart} className="absolute hover:border-[1px] dark:border-[white] border-[green]  top-[-30px] left-1/2 -translate-x-1/2 cursor-pointer bg-gradient-to-br from-blue-500 to-indigo-600 p-[8px] rounded-full shadow-md hover:shadow-xl transition-all duration-300 ease-in-out">
+{
+ user?.role!=='admin' && 
+ <span onClick={handleAddToCart} className="absolute hover:border-[1px] dark:border-[white] border-[green]  top-[-30px] left-1/2 -translate-x-1/2 cursor-pointer bg-gradient-to-br from-blue-500 to-indigo-600 p-[8px] rounded-full shadow-md hover:shadow-xl transition-all duration-300 ease-in-out">
               <span className="transition-transform duration-500">
                 <ShoppingCart color="white" size={15} />
               </span>
             </span>
+}
+            
 
             <Link href={`/medicine/${_id}`}>
               <Button

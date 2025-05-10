@@ -1,4 +1,4 @@
-import AllProducts from "@/components/home/AllProducts";
+import HomeAllProducts from "@/components/home/HomeAllProducts";
 import { categories } from "@/components/home/DynamicCategories";
 import SectionHeadline from "@/components/shared/home/sectionHeadline";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -18,7 +18,7 @@ const CategoryProductsPage = async ({
   const { data: medicines , meta} = await getAllMedicine({ type: category });
 
   return (
-    <div className="">
+    <div className="px-6">
       <SectionHeadline headline="Everything You Need for Better Care" /> 
       <p className="flex space-x-4 px-4"><Link href={"/"}>Home</Link><SquareChevronRight/><Link href={"/shop"}>Shop</Link> <SquareChevronRight/> <span className="text-blue-500 font-semibold">{category}</span></p>
 
@@ -40,7 +40,7 @@ const CategoryProductsPage = async ({
             }
           >
             {medicines.length ? (
-              <AllProducts medicines={medicines} meta={meta}/>
+              <HomeAllProducts medicines={medicines} meta={meta}/>
             ) : (
               <p className="text-center text-3xl flex justify-center items-center my-12 text-red-600 ">
                 No products found

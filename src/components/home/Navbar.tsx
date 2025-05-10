@@ -2,19 +2,19 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, ShoppingCart, BellRing, ChevronDown, ChevronUp } from "lucide-react";
+import {
+  Menu,
+  X,
+  ShoppingCart,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import logo from "../../assets/logo.png";
 import { usePathname, useRouter } from "next/navigation";
 import Logo from "./Logo";
 import { useUser } from "@/context/UserContext";
 import { logout } from "@/services/auth";
 import { Badge } from "../ui/badge";
-import { Skeleton } from "../ui/skeleton";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { clearCart, totalQuantitySelector } from "@/redux/features/cartSlice";
-import { NotificationPopover } from "./NotificationPopup";
 import { protectedRoutes } from "@/constants";
 import { HoverNavbarCategory } from "./HoverNavbarCategory";
 import { ProfileDropDown } from "./ProfileDropDown";
@@ -22,18 +22,10 @@ import { ThemeToggle } from "./ThemeToggle";
 
 export default function Navbar() {
   const totalQuantity = useAppSelector(totalQuantitySelector);
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const pathname = usePathname();
-
   const router = useRouter();
-
- 
-
   const dispatch = useAppDispatch();
-
- 
   const { user, setUser, setIsLoading } = useUser();
 
   const handleLogOut = () => {
@@ -56,6 +48,7 @@ export default function Navbar() {
           <Logo />
         </Link>
 
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-6">
           <Link href="/" className="hover:text-primary transition">
             Home
@@ -81,19 +74,12 @@ export default function Navbar() {
 
           <Link
             href="/#bestselling"
-            className={`hover:text-primary transition ${
-              window.location.hash === "/#bestselling"
-                ? "text-primary font-semibold"
-                : ""
-            }`}
+            className="hover:text-primary transition"
           >
             Hotshots
           </Link>
 
-          <p className="flex justify-center">
-            <span ></span>
-            <HoverNavbarCategory />
-          </p>
+          <HoverNavbarCategory />
 
           <Link
             href="/contact"
@@ -114,12 +100,11 @@ export default function Navbar() {
           )}
         </div>
 
-       
-
+        {/* Desktop Right Section */}
         <div className="hidden md:flex items-center gap-6">
           <Link
             href="/cart"
-            className={`flex justify-center items-center ${
+            className={`flex items-center gap-1 ${
               pathname === "/cart" ? "text-primary font-semibold" : ""
             }`}
           >
@@ -134,18 +119,17 @@ export default function Navbar() {
           </Link>
 
           {user?.email ? (
-            <ProfileDropDown user={user} handleLogOut={handleLogOut}/>
+            <ProfileDropDown user={user} handleLogOut={handleLogOut} />
           ) : (
             <Link href="/login">
               <Button>Login</Button>
             </Link>
           )}
 
-<ThemeToggle />
-
-          {/* <NotificationPopover /> */}
+          <ThemeToggle />
         </div>
 
+        {/* Mobile Menu Toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="md:hidden"
@@ -158,8 +142,9 @@ export default function Navbar() {
         </button>
       </div>
 
+      {/* Mobile Menu Content */}
       {mobileMenuOpen && (
-        <div className="md:hidden px-4 pb-4 space-y-2 bg-white border-t">
+        <div className="md:hidden px-4 pb-4 space-y-2 bg-background border-t z-50">
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
@@ -187,6 +172,19 @@ export default function Navbar() {
           >
             Medicines
           </Link>
+
+          <Link
+            href="/#bestselling"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block py-1 hover:text-primary transition"
+          >
+            Hotshots
+          </Link>
+
+          <div className="block py-1">
+            <HoverNavbarCategory />
+          </div>
+
           <Link
             href="/contact"
             onClick={() => setMobileMenuOpen(false)}
@@ -194,7 +192,7 @@ export default function Navbar() {
               pathname === "/contact" ? "text-primary font-semibold" : ""
             }`}
           >
-            Medicines
+            Contact
           </Link>
 
           {user?.role && (
@@ -207,35 +205,35 @@ export default function Navbar() {
             </Link>
           )}
 
+          <Link
+            href="/cart"
+            onClick={() => setMobileMenuOpen(false)}
+            className={`block py-1 hover:text-primary  items-center justify-between transition ${
+              pathname === "/cart" ? "text-primary font-semibold" : ""
+            }`}
+          >
+            <div className="flex">
+              <span>Cart</span>
+            {totalQuantity > 0 && (
+              <span className="ml-2 bg-accent-content text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
+                {totalQuantity}
+              </span>
+            )}
+            </div>
+          </Link>
+
           {user?.name && (
             <div className="block py-1">
               <Badge>{user.name.toUpperCase()}</Badge>
             </div>
           )}
 
-          <Link
-            href="/cart"
-            onClick={() => setMobileMenuOpen(false)}
-            className={`block py-1 items-center gap-2 hover:text-primary transition ${
-              pathname === "/cart" ? "text-primary font-semibold" : ""
-            }`}
-          >
-            <span className="flex justify-start">
-              Cart{" "}
-              {totalQuantity > 0 && (
-                <span className="ml-2 bg-accent-content text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
-                  {totalQuantity}
-                </span>
-              )}
-            </span>
-          </Link>
-
-          <hr />
+          <hr className="my-2" />
 
           {user?.email ? (
             <button
               onClick={() => {
-                handleLogOut;
+                handleLogOut();
                 setMobileMenuOpen(false);
               }}
               className="block py-1 text-left w-full text-amber-600 font-medium hover:underline"
@@ -251,6 +249,10 @@ export default function Navbar() {
               Login
             </Link>
           )}
+
+          <div className="pt-2">
+            <ThemeToggle />
+          </div>
         </div>
       )}
     </nav>

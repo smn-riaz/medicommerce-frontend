@@ -47,7 +47,7 @@ const items = [
  
 export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider>
+    <SidebarProvider className="min-h-screen">
     <AppSidebar items={items} />
     <main className="bg-white w-full dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100">
      <div className="flex justify-start gap-6 items-center">  

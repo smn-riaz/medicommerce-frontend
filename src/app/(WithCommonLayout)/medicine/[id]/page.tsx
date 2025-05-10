@@ -43,7 +43,7 @@ const MedicineDetailPage = async({params}:{params:Promise<{id:string}>}) => {
  
     const {data:medicines} = await getAllMedicine()
 
-    const relatedMedicines = medicines.filter((med:TMedicineResponse) => med.type === medicine.type) || []
+    const relatedMedicines = medicines.filter((med:TMedicineResponse) => med.type === medicine.type && med._id !==medicine._id) || []
 
 
     return (
