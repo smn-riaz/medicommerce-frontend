@@ -46,6 +46,9 @@ const medicineTypes = [
   "Injection",
   "Cream",
   "Drops",
+  "Food",
+  "Skin",
+  "Baby"
 ];
 
 const CreateMedicineForm = () => {

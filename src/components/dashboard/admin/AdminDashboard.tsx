@@ -21,11 +21,15 @@ const AdminDashboard = ({
   orders,
   users,
   products,
+  totalProducts
 }: {
   orders: IOrderResponse[];
   users: IUser[];
   products: TMedicineResponse[];
+  totalProducts:number
 }) => {
+
+  console.log(totalProducts);
   const totalRevenue = orders
     ?.filter((order) => order.paymentStatus)
     .reduce((sum, order) => order.totalPrice + sum, 0);
@@ -70,7 +74,7 @@ const AdminDashboard = ({
             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
               Total Products
             </h3>
-            <p className="text-2xl text-gray-900 dark:text-gray-50">{products?.length}</p>
+            <p className="text-2xl text-gray-900 dark:text-gray-50">{totalProducts}</p>
           </div>
           <Briefcase className="w-8 h-8 text-blue-600 dark:text-blue-400" />
         </div>
@@ -83,7 +87,7 @@ const AdminDashboard = ({
             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
               Total Users
             </h3>
-            <p className="text-2xl text-gray-900 dark:text-gray-50">{users.length}</p>
+            <p className="text-2xl text-gray-900 dark:text-gray-50">{users?.length}</p>
           </div>
           <Users className="w-8 h-8 text-purple-600 dark:text-purple-400" />
         </div>

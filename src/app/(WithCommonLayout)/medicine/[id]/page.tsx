@@ -33,11 +33,7 @@ export const generateMetadata = async({params}:{params:Promise<{id:string}>}) =>
 const MedicineDetailPage = async({params}:{params:Promise<{id:string}>}) => {
     const medicineId = (await params).id
 
-  
-
     const {data:medicine} = await getSingleMedicine(medicineId)
-
-  
 
     const {data:reviews} = await getSpecificProductReviews(medicineId)
  

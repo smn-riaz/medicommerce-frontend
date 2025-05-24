@@ -39,7 +39,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="w-[95vw] bg-secondary border-b rounded-md shadow-sm fixed top-0 z-50">
+    <nav className="bg-secondary w-full border-b shadow-sm fixed top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <Link
           href="/"

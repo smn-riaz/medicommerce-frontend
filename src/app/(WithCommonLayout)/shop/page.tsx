@@ -18,15 +18,10 @@ const AllMedicinesPage = async ({
  
   const resolvedSearchParams = await searchParams;
 
-
-
-  // Merge searchParams with a default 'limit' if not present
   const searchParamsWithLimit = { ...resolvedSearchParams };
 
-
-
-
   const { data: medicines, meta } = await getAllMedicine(searchParamsWithLimit);
+
 
 
 

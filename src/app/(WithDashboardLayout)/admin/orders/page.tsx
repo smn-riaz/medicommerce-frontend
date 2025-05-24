@@ -9,7 +9,7 @@ const OrdersPage = async () => {
     const {data} =  await getAllOrder()
 
     return (
-        <div className='overflow-x-auto w-full'>
+        <div className='w-full'>
         <AdminManageOrders data={data}/>
       </div>
     );

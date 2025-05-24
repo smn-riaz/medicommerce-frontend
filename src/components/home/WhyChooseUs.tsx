@@ -3,6 +3,9 @@
 import { ShieldCheck, UserCheck, Truck, Tag, FileText } from "lucide-react";
 import { useRef, useEffect } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
+import Image from "next/image";
+
+import whychooseus from '../../assets/whychooseus.gif'
 
 const reasons = [
   {
@@ -64,30 +67,16 @@ export default function WhyChooseUs() {
         className="flex flex-col lg:flex-row items-center justify-between gap-10 bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8"
       >
         {/* Left: Video */}
-        <div className="w-full lg:w-1/2">
-          <video
-            className="w-full h-auto rounded-xl shadow-md"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            onError={() => console.error("Failed to load video")}
-          >
-            <source src="https://files.catbox.moe/22arrq.mp4" type="video/mp4" />
+        <div className="w-full lg:w-1/2 p-1">
 
-            Your browser does not support the video tag.
-          </video>
+<Image
+  src={whychooseus}
+  alt="Demo animation"
+  width={800} 
+  height={450}
+  className="rounded-xl shadow-md w-full h-auto"
+/>
 
-        {/* <iframe
-  src="https://drive.google.com/file/d/1duQxTxJXLt9Q6Rj-RohCLFXhSeCJSGtD/preview?autoplay=1&loop=1&playlist=1"
-  width="100%"
-  height="500px"
-  frameBorder="0"
-  allow="autoplay; encrypted-media"
-  allowFullScreen
-  style={{ borderRadius: "16px", border: "none" }}
-></iframe> */}
 
 
         </div>

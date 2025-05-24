@@ -1,6 +1,8 @@
 "use client";
 
-import ChatBox from "@/components/home/Chatbot";
+import AiSuggestion from "@/components/home/AiSuggestion";
+import Chatbot from "@/components/home/Chatbot";
+
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
 import PreLoading from "@/components/home/PreLoading";
@@ -17,9 +19,9 @@ const CommonLayout = ({ children }: { children: React.ReactNode }) => {
 
       <div className=" relative">
         {children}
-        {/* <div className="fixed top-[70vh] right-4 z-50">
-          <ChatBox userId="user123" receiverId="admin123" />
-        </div> */}
+        <div className="fixed top-[85vh] sm:top-[75vh] z-50">
+          <Chatbot />
+        </div>
       </div>
       <div className="xl:max-w-[1300px] xl:mx-auto">
         <Footer />

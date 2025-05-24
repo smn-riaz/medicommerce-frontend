@@ -156,12 +156,16 @@ const AdminManageOrders: React.FC<ManageOrdersProps> = ({ data }) => {
     },
   ];
 
-  return (
-    <div className="p-4">
-      <h2 className="text-2xl font-semibold mb-4">Manage Orders</h2>
+
+ return (
+  <div className="">
+    <h2 className="text-2xl font-semibold mb-4">Manage Orders</h2>
+    <div className="w-full flex items-center justify-between">
       <MMTable data={data} columns={columns} />
     </div>
-  );
+  </div>
+);
+
 };
 
 export default AdminManageOrders;

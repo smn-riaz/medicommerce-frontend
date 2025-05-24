@@ -32,7 +32,7 @@ export const categories = [
   },
   {
     image: skincare,
-    name: "Skin Care",
+    name: "Skin",
   },
   {
     image: playtime,

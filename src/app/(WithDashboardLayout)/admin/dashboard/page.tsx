@@ -10,10 +10,12 @@ const AdminDashboardPage
  = async () => {
 
     const [orders, users ] = await Promise.all([getAllOrder(), getAllUser()])
-    const {data} = await getAllMedicine()
+    const {data, meta} = await getAllMedicine()
+  
+
     return (
         <div>
-            <AdminDashboard orders={orders.data} users={users.data} products={data}/>
+            <AdminDashboard totalProducts={meta.total} orders={orders.data} users={users.data} products={data}/>
         </div>
     );
 };

@@ -56,7 +56,7 @@ const CategoryProductsPage = async ({
                       <Image alt={cat.name} src={cat.image} height={60} width={60} />
                     </div>
                   
-                    <p className={`absolute ${cat.name === category ?"opacity-100" :"opacity-0"}  group-hover:opacity-100 top-0 right-10 -translate-x-1/8 bg-[#d7e9e9] p-1 rounded-lg text-center text-sm whitespace-nowrap`}>
+                    <p className={`absolute ${cat.name === category ?"opacity-100" :"opacity-0"}  group-hover:opacity-100 top-0 right-10 -translate-x-1/8 bg-[#d7e9e9] dark:text-black p-1 rounded-lg text-center text-sm whitespace-nowrap`}>
                       {cat.name}
                     </p>
                   </Link>

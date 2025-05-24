@@ -5,6 +5,7 @@ import { IMedicine, IMedicineWithId } from "@/types"
 import { revalidateTag } from "next/cache"
 import { cookies } from "next/headers"
 
+
 export const createMedicine = async(medicineData:IMedicine) => {
   
     try {
@@ -126,4 +127,24 @@ export const getSingleMedicine = async (medicineId: string) => {
       return Error(error)
     }
   
+  }
+
+
+
+  export const aiSuggestion = async(info:string) => {
+
+ try {
+       const res = await fetch(`${process.env.BASE_API}/product/aisuggestion`, {
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json"
+      },
+        body:JSON.stringify({info})
+       })
+
+       return res.json()
+        
+    } catch (error:any) {
+        return Error(error)
+    }
   }

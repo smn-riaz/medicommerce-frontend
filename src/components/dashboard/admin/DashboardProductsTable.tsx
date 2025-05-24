@@ -40,7 +40,7 @@ export function DashboardProductsTable({ products }: { products: TMedicineRespon
           ))}
         </TableBody>
       </Table>
-      <div className="flex justify-center"><Button className="w-1/2 my-2 mt-4"><Link href="/admin/medicines">See More</Link></Button></div>
+      <div className="flex justify-center w-1/2"><Link href="/admin/medicines"><Button className="w-full cursor-pointer my-2 mt-4">See More</Button></Link></div>
     </div>
   );
 }

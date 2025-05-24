@@ -43,7 +43,7 @@ export default function MedicineDetail({
   const { user } = useUser();
   const dispatch = useAppDispatch();
 
-const userHasReview = reviews?.some(
+const userHasReview =  reviews?.some(
   (review) => review.userId && review.userId._id === user?.id
 );
 
@@ -215,13 +215,13 @@ const userHasReview = reviews?.some(
       </div>
 
       {/* Related Products */}
-      {relatedMedicines.length > 0 && (
+      {Array.isArray(relatedMedicines) && relatedMedicines.length > 0 && (
         <div>
           <h1 className="text-center text-2xl font-semibold pt-10">
             Related Medicines
           </h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 p-6">
-            {relatedMedicines.map((med, index) => (
+            {relatedMedicines?.map((med, index) => (
               <MedicineCard key={index} medicine={med} />
             ))}
           </div>
@@ -230,7 +230,7 @@ const userHasReview = reviews?.some(
 
       {/* Reviews + Form */}
       <div className="grid grid-cols-5 gap-6 mt-16">
-        {reviews.length > 0 && (
+        {Array.isArray(reviews) && reviews.length > 0 && (
           <div className={`py-10 ${userHasReview ? "col-span-5" : "col-span-5"}`}>
             <h3 className="text-3xl font-semibold text-center">
               Customer Reviews

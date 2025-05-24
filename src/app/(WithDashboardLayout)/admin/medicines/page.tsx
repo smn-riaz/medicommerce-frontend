@@ -25,7 +25,7 @@ const MedicinesPage = async ({
      const { data: medicines, meta } = await getAllMedicine(searchParamsWithLimit);
 
   return (
-    <div className='overflow-x-auto w-full'>
+    <div className=' w-full'>
       <ManageMedicine data={medicines} meta={meta}/>
     </div>
   );
