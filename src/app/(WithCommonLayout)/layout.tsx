@@ -5,9 +5,9 @@ import Chatbot from "@/components/home/Chatbot";
 
 import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
-import PreLoading from "@/components/home/PreLoading";
+
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname()

@@ -3,7 +3,7 @@ import { categories } from "@/components/home/DynamicCategories";
 import SectionHeadline from "@/components/shared/home/sectionHeadline";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getAllMedicine } from "@/services/medicine";
-import { AlignRight, MoveRightIcon, PanelRightDashed, SquareChevronRight } from "lucide-react";
+import { SquareChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { Suspense } from "react";

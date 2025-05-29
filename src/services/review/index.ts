@@ -29,7 +29,14 @@ export const createReview= async(reviewData:TReview) => {
 export const getAllReviews = async () => {
     try {
 
-      const res = await fetch(`${process.env.BASE_API}/review`);
+      const res = await fetch(`${process.env.BASE_API}/review`,   {
+        cache: "force-cache",
+        next: {
+          revalidate: 30,
+          tags: ['REVIEW'],
+        },
+        
+      });
   
 
       if (!res.ok) {

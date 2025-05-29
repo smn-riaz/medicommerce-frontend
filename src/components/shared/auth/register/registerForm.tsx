@@ -23,7 +23,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { getCurrentUser, registerUser } from "@/services/auth";
 import { useUser } from "@/context/UserContext";
 
-
+import {motion} from 'framer-motion'
 
 
 
@@ -79,7 +79,10 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
+    <motion.div 
+    initial={{y:30, opacity:.5}}
+    animate={{y:0, opacity:1}}
+    className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
       <div className="flex items-center justify-between space-x-4 ">
         <div>
           <h1 className="text-xl font-semibold">Register Now</h1>
@@ -162,6 +165,6 @@ export default function RegisterForm() {
         Already have an account? <Link href="/login" className="text-primary"> Login
         </Link>
       </p>
-    </div>
+    </motion.div>
   );
 }

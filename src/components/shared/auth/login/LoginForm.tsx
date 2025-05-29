@@ -19,7 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 
-import {usePathname, useRouter, useSearchParams } from "next/navigation";
+import {useRouter, useSearchParams } from "next/navigation";
 
 import { loginSchema } from "./loginValidation";
 import Logo from "@/components/home/Logo";
@@ -28,7 +28,7 @@ import { useEffect, useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useUser } from "@/context/UserContext";
 
-
+import {AnimatePresence, motion} from 'framer-motion'
 
 
 export default function LoginForm() {
@@ -40,6 +40,9 @@ const redirect = searchParams.get("redirectPath")
 const router = useRouter()
 
   const [showPassword, setShowPassword] = useState(false)
+
+  const [vanishForm, setVanishForm] = useState(false)
+
   const {setIsLoading, setUser} = useUser()
 
   const [autoFillCredentials, setAutoFillCredentials] = useState(false)
@@ -81,6 +84,8 @@ const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true)
     const user = await getCurrentUser()
 
+    setVanishForm(true)
+
     if (res?.success) {
       setUser(user)
 
@@ -99,14 +104,20 @@ const onSubmit: SubmitHandler<FieldValues> = async (data) => {
   } catch (err: any) {
     console.error(err);
   }
-};
-
-
-
+}
 
 
   return (
-    <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
+   <div><AnimatePresence>
+
+     {!vanishForm &&   <motion.div
+      
+      
+            initial={{ opacity: 1, x: 0 }}
+  animate={{ opacity: 1, x: 0 }}
+  exit={{ opacity: 0, x: 150 }}
+  transition={{ duration: 1, delay: 0.1 }}
+     className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
       <div className="flex items-center justify-between space-x-4 ">
         <div>
           <h1 className="text-xl font-semibold">Login</h1>
@@ -165,6 +176,9 @@ const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         Do not have any account? <Link href="/register" className="text-primary"> Register
         </Link>
       </p>
-    </div>
+    </motion.div>
+    }
+    </AnimatePresence>
+   </div>
   );
 }

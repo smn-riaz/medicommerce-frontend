@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Star } from "lucide-react";
 import { toast } from "sonner";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -113,13 +113,24 @@ const userHasReview =  reviews?.some(
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Left: Images */}
           <div>
-            <Image
+            <AnimatePresence mode="wait">
+            <motion.div 
+            key={selectedImage}
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.4 }}
+           
+            >
+              <Image
               width={400}
               height={300}
               src={selectedImage}
               alt={medicine.name}
               className="max-w-xs w-60 lg:w-150 h-64 object-cover rounded-lg shadow-lg"
             />
+            </motion.div>
+            </AnimatePresence>
             <div className="mt-4 flex space-x-4">
               {medicine.imageUrl.map((image, index) => (
                 <Image

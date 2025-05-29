@@ -7,7 +7,7 @@ import FacnyButton from './FacnyButton';
 
 export default function HomeBanner() {
   return (
-    <section className="relative flex justify-center items-center  lg:min-h-[100vh] bg-gradient-to-r dark:bg-background from-blue-100 via-white to-green-100 dark:from-background dark:via-background dark:to-background overflow-hidden p-6 shadow-lg lg:w-auto">
+    <section className="relative flex flex-col justify-center items-center  xl:min-h-[90vh] bg-gradient-to-r dark:bg-background from-blue-100 via-white to-green-100 dark:from-background dark:via-background dark:to-background overflow-hidden p-6 shadow-lg lg:w-auto">
     <div className="lg:max-w-[1300px] grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-5 md:px-12 items-center justify-center lg:mx-auto">
       
       <motion.div

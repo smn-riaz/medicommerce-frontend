@@ -97,6 +97,30 @@ export const getAllMedicine = async (params?: Record<string, string>) => {
 }
 
 
+export const getHomePageMedicines = async (params?: Record<string, string>) => {
+  try {
+    
+    const res = await fetch(
+      `${process.env.BASE_API}/product`,
+      
+      {
+        cache: "force-cache",
+        next: {
+          revalidate: 30,
+          tags: ['MEDICINE'],
+        },
+        
+      }
+    )
+
+    return await res.json();
+  } catch (error: any) {
+   
+    throw new Error(error.message || 'Something went wrong');
+  }
+}
+
+
 
 export const getSingleMedicine = async (medicineId: string) => {
   try {

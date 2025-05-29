@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { TMedicineResponse } from "@/types";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
@@ -13,6 +13,8 @@ import { useAppDispatch } from "@/redux/hooks";
 import { addItemToCart } from "@/redux/features/cartSlice";
 import { toast } from "sonner";
 import { useUser } from "@/context/UserContext";
+import { useState } from "react";
+
 
 export default function MedicineCard({
   medicine,
@@ -42,6 +44,16 @@ export default function MedicineCard({
     }
 
     const {user} = useUser()
+
+    const [showCartIcon, setShowCartIcon] = useState(true)
+
+const handleClick = () => {
+  handleAddToCart();
+  setShowCartIcon(false)
+setTimeout(() => {
+setShowCartIcon(true)
+},1000)
+}
 
   return (
     <motion.div
@@ -87,14 +99,28 @@ export default function MedicineCard({
               )}
               <span>৳{(price * (1 - discount / 100)).toFixed(2)}</span>
             </span>
-{
- user?.role!=='admin' && 
- <span onClick={handleAddToCart} className="absolute hover:border-[1px] dark:border-[white] border-[green]  top-[-30px] left-1/2 -translate-x-1/2 cursor-pointer bg-gradient-to-br from-blue-500 to-indigo-600 p-[8px] rounded-full shadow-md hover:shadow-xl transition-all duration-300 ease-in-out">
-              <span className="transition-transform duration-500">
-                <ShoppingCart color="white" size={15} />
-              </span>
-            </span>
-}
+            
+{user?.role !== 'admin' && (
+  <AnimatePresence mode="wait">
+    {showCartIcon && <motion.span
+      key="cart-icon"
+      onClick={
+        handleClick
+        
+      }
+
+            initial={{ opacity: 1, x: -500, y: 500 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{ opacity: 0, x: 500, y: -500 }}
+            transition={{ duration: 0.8 }}
+      className="absolute hover:border-[1px] dark:border-[white] border-[green] top-[-30px] left-1/2 -translate-x-1/2 cursor-pointer bg-gradient-to-br from-blue-500 to-indigo-600 p-[8px] rounded-full shadow-md hover:shadow-xl transition-all duration-300 ease-in-out"
+    >
+      <span className="transition-transform duration-500">
+        <ShoppingCart color="white" size={18} />
+      </span>
+    </motion.span>}
+  </AnimatePresence>
+)}
             
 
             <Link href={`/medicine/${_id}`}>

@@ -8,9 +8,9 @@ import "swiper/css/pagination";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { TMedicineResponse } from "@/types";
-import SectionHeadline from "../shared/home/sectionHeadline";
 import Image from "next/image";
 import Link from "next/link";
+import {motion} from 'framer-motion'
 
 export default function Carousel({
   medicines,
@@ -18,7 +18,11 @@ export default function Carousel({
   medicines: TMedicineResponse[];
 }) {
   return (
-    <div className="xl:max-w-[1300px] xl:mx-auto">
+    <motion.div 
+    initial={{ opacity: 0.3, y:10}}
+    transition={{delay:0.2}}
+  whileInView={{ opacity: 1, y:0 }}
+     className="xl:max-w-[1300px] xl:mx-auto">
       <Swiper
         modules={[Pagination, Autoplay]}
         spaceBetween={60}
@@ -81,6 +85,6 @@ export default function Carousel({
       </Swiper>
 
       <div className="custom-pagination flex justify-center mt-4 gap-2"></div>
-    </div>
+    </motion.div>
   );
 }
